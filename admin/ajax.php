@@ -33,8 +33,8 @@ if($_POST){
 			}*/
 
 			$sandiuser = md5(md5(trim($_POST['authsandi'])));
-			$authuser = preg_replace("\sOR\s|\=|\#", "",$_POST['authuser']);
-
+            $authuser = $_POST['authuser'];
+            
 			$sql -> get_row( 'op_user', array( 'username'=>$authuser), array('idu','pwd'));
 
 			if($sql->num_rows==0){

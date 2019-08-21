@@ -9,6 +9,8 @@
 * @category     config
 */
 
+require_once(__DIR__ . "/../../bootstrap.php");
+
 // Semua path menggunakan tanda "/" di akhir
 $BASE_PATH = "";
 $SCRIPTS_PATH =  app_path() . "/pengajuan/";

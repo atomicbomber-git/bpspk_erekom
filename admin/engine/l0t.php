@@ -10,6 +10,8 @@
 */
 // Semua path menggunakan tanda "/" di akhir
 
+require_once(__DIR__ . "/../../bootstrap.php");
+
 $BASE_PATH = "";
 $SCRIPTS_PATH = app_path() . "/admin/";
 $SCRIPTS_PATH_UTAMA = app_path() . "/";

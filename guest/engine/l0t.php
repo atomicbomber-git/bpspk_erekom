@@ -9,6 +9,9 @@
 * @category     config
 */
 // Semua path menggunakan tanda "/" di akhir
+
+require_once(__DIR__ . "/../../bootstrap.php");
+
 $BASE_PATH 				= "";
 $SCRIPTS_PATH 			= "/home/bpspkcom/public_html/e-rekomendasi/guest/";
 $SCRIPTS_PATH_UTAMA 	= "/home/bpspkcom/public_html/e-rekomendasi/";
