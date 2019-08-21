@@ -1,0 +1,2 @@
+[11-Apr-2018 14:52:36 Asia/Jakarta] PHP Fatal error:  Using $this when not in object context in /home/bpspkcom/public_html/e-rekomendasi/assets/mpdf60/config.php on line 6
+[11-Apr-2018 14:52:48 Asia/Jakarta] PHP Fatal error:  Using $this when not in object context in /home/bpspkcom/public_html/e-rekomendasi/assets/mpdf60/config_fonts.php on line 17

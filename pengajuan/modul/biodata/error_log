@@ -1,0 +1,58 @@
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 18 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 122
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 134 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 122
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 23 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 122
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 27 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 122
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 91 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 122
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 13 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 122
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 65 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 122
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 21 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 122
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 117 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 122
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 63
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 81
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  imagejpeg() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 255
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 284
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 18 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 155
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 134 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 155
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 23 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 155
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 27 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 155
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 91 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 155
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 13 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 155
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 65 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 155
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 21 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 155
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 117 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 155
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 161
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 63
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 81
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  imagejpeg() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 255
+[14-Jul-2019 06:13:03 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 284
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 18 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 344
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 134 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 344
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 23 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 344
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 27 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 344
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 91 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 344
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 13 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 344
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 65 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 344
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 21 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 344
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  getimagesize(): corrupt JPEG data: 117 extraneous bytes before marker in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/modul/biodata/ajax.php on line 344
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 161
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 63
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 81
+[14-Jul-2019 06:19:34 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 284
+[14-Jul-2019 07:09:19 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 161
+[14-Jul-2019 07:09:19 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 63
+[14-Jul-2019 07:09:19 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 81
+[14-Jul-2019 07:09:19 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 284
+[14-Jul-2019 07:10:04 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 161
+[14-Jul-2019 07:10:04 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 63
+[14-Jul-2019 07:10:04 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 81
+[14-Jul-2019 07:10:04 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 284
+[14-Jul-2019 07:13:51 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 161
+[14-Jul-2019 07:13:51 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 63
+[14-Jul-2019 07:13:51 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 81
+[14-Jul-2019 07:13:51 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 284
+[14-Jul-2019 07:15:19 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 63
+[14-Jul-2019 07:15:19 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 81
+[14-Jul-2019 07:15:19 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 284
+[14-Jul-2019 07:18:06 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 63
+[14-Jul-2019 07:18:06 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 81
+[14-Jul-2019 07:18:06 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpspkcom/public_html/e-rekomendasi/pengajuan/engine/resize-class.php on line 284

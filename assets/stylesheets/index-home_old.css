@@ -1,0 +1,131 @@
+h3{ line-height: 35px;}
+
+body{
+  position: relative;
+  height: 100%;
+  font-family: open sans;
+}
+
+section{
+  display: table;
+  width: 100%;
+  background: -webkit-linear-gradient(left, rgba(40, 22, 111, 1), rgba(0, 126, 196, 1), rgba(132, 194, 37, 1));
+  background: -moz-linear-gradient(right, rgba(40, 22, 111, 1), rgba(0, 126, 196, 1), rgba(132, 194, 37, 1));
+  background: -o-linear-gradient(right, rgba(40, 22, 111, 1), rgba(0, 126, 196, 1), rgba(132, 194, 37, 1));
+  background: linear-gradient(to right, rgba(40, 22, 111, 1), rgba(0, 126, 196, 1), rgba(132, 194, 37, 1));
+}
+
+section .container{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+section .container img.logo{
+  height: 100px;
+  margin: auto;
+  display: block;
+  margin-top: 50px;
+}
+
+section .container h3.title{
+  text-align: center;
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+ul.menu{
+  list-style: none;
+  display: block;
+  margin: auto;
+  text-align: center;
+  padding: 30px 0 30px 0;
+}
+
+ul.menu li{
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+ul.menu li a{
+  /*border: 1px solid #ddd;*/
+  border-radius: 5px;
+  background: rgba(255, 255, 255, .5);
+  display: block;
+  width: 120px;
+  height: 120px;
+  display: table;
+  color: #fff;
+  -webkit-transition: ease .75s;
+  -moz-transition: ease .75s;
+  -o-transtion: ease .75s;
+  transition: ease .75s;
+}
+
+ul.menu li a:hover{
+  text-decoration: none;
+  background: rgba(255, 255, 255, .9);
+  color: #555;
+}
+
+ul.menu li a .body-icon{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+ul.menu li a .body-icon span{
+  display: block;
+  text-align: center;
+}
+
+ul.menu li a .body-icon .fa{
+  margin-bottom: 10px;
+}
+
+ul.menu li a .body-icon .title{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.download{
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.download h5{
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: block;
+  color: #fff;
+}
+
+.download .button{
+  background: #000;
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 3px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.download .button:hover{
+  text-decoration: none;
+}
+
+.download .button img{
+  height: 18px;
+  margin-right: 5px;
+}
+
+.download .button .fa{
+  font-size: 18px;
+  color: #fff;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.download .button span{
+  color: #fff;
+}

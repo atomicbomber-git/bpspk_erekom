@@ -1,0 +1,6 @@
+
+</html>
+<?php
+ITEM_FOOT($ITEM_FOOT);
+SCRIPT_FOOT($SCRIPT_FOOT);
+?>

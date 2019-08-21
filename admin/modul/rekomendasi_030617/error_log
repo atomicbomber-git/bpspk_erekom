@@ -1,0 +1,25 @@
+[08-Aug-2016 11:16:24 Asia/Jakarta] PHP Fatal error:  Call to a member function fetch() on boolean in /home/ridwanmy/public_html/e-rekomendasi/admin/modul/rekomendasi/ajax.php on line 598
+[08-Aug-2016 11:17:02 Asia/Jakarta] PHP Fatal error:  Call to a member function fetch() on boolean in /home/ridwanmy/public_html/e-rekomendasi/admin/modul/rekomendasi/ajax.php on line 598
+[11-Aug-2016 08:35:29 Asia/Jakarta] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/ridwanmy/public_html/e-rekomendasi/admin/modul/rekomendasi/ajax.php on line 173
+[08-Feb-2017 12:17:10 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 161
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 63
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 81
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 284
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 209
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 210
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 63
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 81
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 2 to be resource, boolean given in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 242
+[22-Dec-2018 19:00:22 Asia/Jakarta] PHP Fatal error:  Call to a member function run() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/fh-add.php on line 2
+[22-Dec-2018 19:00:42 Asia/Jakarta] PHP Fatal error:  Call to a member function run() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/rek-add.php on line 2
+[24-Jan-2019 22:30:50 Asia/Jakarta] PHP Fatal error:  Call to a member function get_row() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/rek-edit.php on line 2
+[24-Jan-2019 22:31:20 Asia/Jakarta] PHP Fatal error:  Call to a member function run() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/rek-add.php on line 2
+[24-Jan-2019 22:31:40 Asia/Jakarta] PHP Fatal error:  Call to a member function get_row() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/bap-edit.php on line 2
+[24-Jan-2019 22:31:50 Asia/Jakarta] PHP Fatal error:  Call to a member function run() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/fh-add.php on line 2
+[24-Jan-2019 22:32:00 Asia/Jakarta] PHP Fatal error:  Call to a member function run() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/bap-add.php on line 2
+[11-Mar-2019 05:38:43 Asia/Jakarta] PHP Fatal error:  Call to a member function run() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/rek-add.php on line 2
+[11-Mar-2019 05:39:03 Asia/Jakarta] PHP Fatal error:  Call to a member function get_row() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/rek-edit.php on line 2
+[11-Mar-2019 05:39:03 Asia/Jakarta] PHP Fatal error:  Call to a member function get_row() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/bap-edit.php on line 2
+[11-Mar-2019 05:39:13 Asia/Jakarta] PHP Fatal error:  Call to a member function run() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/fh-add.php on line 2
+[11-Mar-2019 05:39:23 Asia/Jakarta] PHP Fatal error:  Call to a member function run() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/bap-add.php on line 2
+[15-Jun-2019 05:53:00 Asia/Jakarta] PHP Fatal error:  Call to a member function run() on null in /home/bpspkcom/public_html/e-rekomendasi/admin/modul/rekomendasi_030617/fh-add.php on line 2

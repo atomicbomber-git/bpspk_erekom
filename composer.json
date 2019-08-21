@@ -1,0 +1,22 @@
+{
+    "name": "bpspk/erekomendasi",
+    "description": "Sistem E-Rekomendasi BPSPK",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Patrick Keegan",
+            "email": "atomicbomber.email@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^3.4"
+    }
+}

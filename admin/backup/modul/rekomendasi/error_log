@@ -1,0 +1,12 @@
+[08-Aug-2016 11:16:24 Asia/Jakarta] PHP Fatal error:  Call to a member function fetch() on boolean in /home/ridwanmy/public_html/e-rekomendasi/admin/modul/rekomendasi/ajax.php on line 598
+[08-Aug-2016 11:17:02 Asia/Jakarta] PHP Fatal error:  Call to a member function fetch() on boolean in /home/ridwanmy/public_html/e-rekomendasi/admin/modul/rekomendasi/ajax.php on line 598
+[11-Aug-2016 08:35:29 Asia/Jakarta] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/ridwanmy/public_html/e-rekomendasi/admin/modul/rekomendasi/ajax.php on line 173
+[08-Feb-2017 12:17:10 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 161
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 63
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 81
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagedestroy() expects parameter 1 to be resource, boolean given in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 284
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 209
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  Division by zero in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 210
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 63
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 81
+[08-Feb-2017 12:17:11 Asia/Jakarta] PHP Warning:  imagecopyresampled() expects parameter 2 to be resource, boolean given in /home/bpsplpon/public_html/e-rekomendasi/admin/engine/resize-class.php on line 242
