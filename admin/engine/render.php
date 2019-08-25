@@ -36,7 +36,6 @@ if(strstr(c_ACTION, "debug")){
 	die("Mode debug");
 } //kalo lg cek eror
 
-$_SERVER['QUERY_STRING'] = c_QUERY;
 
 include ("l0t.php");
 include ("define.php");
