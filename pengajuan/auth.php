@@ -11,9 +11,11 @@
 
 require_once(c_THEMES."conf.php");
 
-if(USER){
+// var_dump(USER);
+// exit;
 
-	switch (c_QUERY) {
+if(USER){
+	switch ($_SERVER["QUERY_STRING"]) {
 		case 'keluar':
 			$sql -> update( 'web_meta', array( 'meta_value'=>time() ), array( 'ref_id'=>U_ID,'meta_key'=>'U_LASTLOG','meta_group'=>1 ) );
 			$sql -> update( 'web_meta', array( 'meta_value'=>getIP() ), array( 'ref_id'=>U_ID,'meta_key'=>'U_IP','meta_group'=>1 ) );
@@ -88,7 +90,7 @@ if(USER){
 
 }else{
 
-	switch(c_QUERY){
+	switch($_SERVER["QUERY_STRING"]){
 		case 'daftar':
 			include ("modul/user/form_registrasi.php");
 			exit;

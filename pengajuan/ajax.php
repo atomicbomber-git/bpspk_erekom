@@ -3,6 +3,8 @@ if($_SERVER['HTTP_X_REQUESTED_WITH']!='XMLHttpRequest'){
 	die();
 }
 
+include_once("../bootstrap.php");
+
 if($_POST){
 	include ("engine/render.php");
 	switch (trim($_POST['a'])) {
@@ -35,7 +37,8 @@ if($_POST){
 			//if ($response != null && $response->success) {
 
 				$sandiuser = md5(md5(trim($_POST['authsandi'])));
-				$authemail = preg_replace("\sOR\s|\=|\#", "",$_POST['authemail']);
+                $authemail = $_POST['authemail'];
+                
 
 				$sql -> get_row( 'tb_userpublic', array( 'email'=>$authemail), array('iduser','pwd'));
 
