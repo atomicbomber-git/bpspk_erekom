@@ -1,8 +1,13 @@
 <?php
+
+require_once("../../../assets/phpmailer/PHPMailerAutoload.php");
+require_once("../../engine/render.php");
+
+
 if($_SERVER['HTTP_X_REQUESTED_WITH']!='XMLHttpRequest'){
 	die();
 }
-include ("../../engine/render.php");
+
 if($_POST){
 	switch (trim(strip_tags($_POST['a']))) {
 		case 'dtlist-masuk':
@@ -281,7 +286,64 @@ if($_POST){
 				'ref_satker'=>$satker
 				);
 
-			$sql->update('tb_permohonan',$arr_update,array('idp'=>$id));
+            $sql->update('tb_permohonan',$arr_update,array('idp'=>$id));
+
+
+            $errors = [];
+
+
+            /* Loads idp`s and nip`s from op_pegawai to create a map of them */
+            $id_petugas_valid = array_filter($_POST["petugas"], function ($id_petugas) {
+                return !empty($id_petugas);
+            });
+            $id_petugas_valid = join(", ", $id_petugas_valid);
+            $statement = $sql->query("SELECT idp, nip FROM op_pegawai WHERE idp IN({$id_petugas_valid})");
+            $idp_to_nip_map = [];
+            while ($row = $statement->fetch()) {
+                $idp_to_nip_map[$row["idp"]] = $row["nip"]; 
+            }
+
+
+            for ($x=0;$x<$jlh_petugas;$x++) {
+                if ($_POST['petugas'][$x]!="") {
+                    $in=array(
+                        'ref_idp'=>$id,
+                        'ref_idpeg'=>$_POST['petugas'][$x],
+                        'nip' => $idp_to_nip_map[$_POST['petugas'][$x]] ?? null,
+                        'date_insert'=>date('Y-m-d H:i:s')
+                    );
+
+                    $sql->insert('tb_petugas_lap', $in);
+
+                    //----------email--------------------------
+                    $sql->get_row('op_pegawai', array('idp'=>$_POST['petugas'][$x]), array('nm_lengkap','nip','email'));
+                    $rp=$sql->result;
+                    $nama_petugas=$rp['nm_lengkap'];
+                    $email_petugas=$rp['email'];
+
+                    $up=$sql->run("SELECT p.alamat_gudang, u.nama_lengkap FROM tb_permohonan p JOIN tb_userpublic u ON(u.iduser=p.ref_iduser) WHERE p.idp='$id' LIMIT 1");
+                    $ru=$up->fetch();
+                    $nama_pemohon=$ru['nama_lengkap'];
+                    $alamat_gudang=$ru['alamat_gudang'];
+
+                    
+                    $isi="<p>".$nama_petugas.", Anda telah ditunjuk untuk melakukan pemeriksaan sampel Ikan Pari/Hiu Milik: ".$nama_pemohon." yang berlokasi di ".$alamat_gudang." </p>
+                    <p>Untuk Pengisian Hasil Pemeriksaan Anda dapat mengunjungi <a href='".c_DOMAIN_UTAMA."pemeriksaan'>".c_DOMAIN_UTAMA."pemeriksaan</a> :<br>
+                    username : ".$log_u."<br>
+                    password : ".$log_p."<br/>
+                    email : ".$email_petugas."</p>
+                    <p>Untuk Keterangan Lebih Lanjut dapat menghubungi Admin BPSPL Pontianak, atas perhatiannya diucapkan terima kasih.</p>
+                    ";
+                    $arr=array(
+                        "send_to"=>$email_petugas,
+                        "send_to_name"=>$nama_petugas,
+                        "subject_email"=>"Penunjukan Petugas Pemeriksaan - BPSPL Pontianak",
+                        "isi_email"=>$isi);
+                    sendMail($arr);
+                    //-----------------------------------------
+                }
+            }
+
 			if($sql->error==null){
 				echo json_encode(array("stat"=>true,"msg"=>"Aksi Berhasil."));
 				$tgl_=date('Y-m-d H:i:s');
@@ -309,7 +371,6 @@ if($_POST){
 				}
 				$sql->insert('tb_log_tahapan',array('ref_idp'=>$id,'tahapan'=>1,'tanggal'=>$tgl_ver_admin));
 
-				require '../../../assets/phpmailer/PHPMailerAutoload.php';
 				for($x=0;$x<$jlh_petugas;$x++){
 					if($_POST['petugas'][$x]!=""){
 						$in=array(

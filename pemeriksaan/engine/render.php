@@ -9,11 +9,11 @@
 * @category     init_render
 */
 
-while (list($global) = each($GLOBALS)){
-    if (!preg_match('/^(_POST|_GET|_COOKIE|_SERVER|_FILES|GLOBALS|HTTP.*|_REQUEST)$/', $global)){
-        unset($$global);
-    }
-}
+// while (list($global) = each($GLOBALS)){
+//     if (!preg_match('/^(_POST|_GET|_COOKIE|_SERVER|_FILES|GLOBALS|HTTP.*|_REQUEST)$/', $global)){
+//         unset($$global);
+//     }
+// }
 
 //ob_start ("ob_gzhandler") //khusus type gzip
 ob_start ();
@@ -28,13 +28,8 @@ if(preg_match("/\[(.*?)\].*?/i", $_SERVER['QUERY_STRING'], $comelizer)){
 	define("c_ACTION", $comelizer[0]);
     define("c_QUERY", str_replace($comelizer[0], "", preg_replace("&|/?PHPSESSID.*", "", $_SERVER['QUERY_STRING'])));
 }else{
-    define("c_QUERY", preg_replace("&|/?PHPSESSID.*", "", $_SERVER['QUERY_STRING']));
+    define("c_QUERY", $_SERVER['QUERY_STRING']);
 }
-
-if(strstr(c_ACTION, "debug")){ 
-	error_reporting(E_ALL); 
-	die("Mode debug");
-} //kalo lg cek eror
 
 $_SERVER['QUERY_STRING'] = c_QUERY;
 
