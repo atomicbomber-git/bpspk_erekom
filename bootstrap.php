@@ -4,7 +4,7 @@ use Dotenv\Dotenv;
 use Whoops\Handler\PrettyPageHandler;
 
 require_once(__DIR__ . "/vendor/autoload.php");
-// Tests
+
 $whoops = new \Whoops\Run;
 $pretty_page_handler = new \Whoops\Handler\PrettyPageHandler;
 $whoops->prependHandler($pretty_page_handler);
