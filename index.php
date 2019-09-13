@@ -24,7 +24,7 @@ include ("pemeriksaan/engine/render.php");
     <section>
       <div class="container">
         <img src="assets/images/logo-bpspl.png" alt="" class="logo"/>
-        <h3 class="title">E-REKSI KAPUAS <br/>(E-Rekomendasi Surat Izin Kirim Angkut Pari dan Hiu Asli Simpel)<br /> BPSPL Pontianak</h3>
+        <h3 class="title">Si Jawara! <br/></h3> <h4 class="title"> (Sistem Aplikasi Surat Pemanfaatan Jenis Ikan antar Wilayah dan antar Negara) </h4>
         <ul class="menu">
           <li>
             <a href="<?= getenv("APP_URL") ?>/pengajuan/index.php?daftar">
@@ -124,9 +124,9 @@ include ("pemeriksaan/engine/render.php");
         		</div>
         	</div>
         </div> -->
-        <h4 class="title">BPSPL PONTIANAK MELAYANI <span class="text-danger">TANPA PUNGLI & GRATIFIKASI</span></h4>
+        <h4 class="title">Loka Pengelolaan Sumberdaya Pesisisr dan Laut Serang</h4>
         <!-- <h4 class="title">SETIAP DATA YANG DIINPUTKAN <span class="text-danger">DIJAMIN KERAHASIAANNYA </span></h4> -->
-        <p style="color:#fff;text-align:center">Pengaduan dapat disampaikan melalui email : pengaduan.bpsplpontianak@gmail.com</p>
+        <p style="color:#fff;text-align:center">Pengaduan dapat disampaikan melalui email : admin@email.com</p>
       </div>
     </section>
     <div id="prosedurpelayanan" class="modal fade" role="dialog">
@@ -168,11 +168,11 @@ include ("pemeriksaan/engine/render.php");
 
             <p style="text-align:center"><strong>&quot;DENGAN INI KAMI MENYATAKAN SANGGUP MENYELENGGARAKAN PELAYANAN SESUAI DENGAN STANDAR PELAYANAN,&nbsp;MEMBERIKAN PELAYANAN SESUAI KEWAJIBAN DAN MELAKUKAN PERBAIKAN SECARA TERUS MENERUS, SERTA BERSEDIA MENERIMA SANKSI DAN/ATAU MEMBERIKAN KOMPENSASI APABILA PELAYANAN YANG DIBERIKAN TIDAK SESUAI STANDAR&quot;</strong></p><p></p>
 
-            <p style="text-align:center">Pontianak, 20 MARET 2017<br />
-            KEPALA BPSPL PONTIANAK</p>
+            <p style="text-align:center">Serang, 1 Agustus 2019<br />
+            KEPALA LPSPL SERANG</p>
 
-            <p style="text-align:center"><strong>Getreda M Hehanussa, S.Pi., M.Si.</strong><br />
-            NIP. 19750303 200212 2 003</p>
+            <p style="text-align:center"><strong>Sy. Iwan Taruna Alkadrie, S.T., M.Si.</strong><br />
+            NIP. 19740513 200901 1 004</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
