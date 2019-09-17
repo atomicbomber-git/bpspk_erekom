@@ -138,7 +138,7 @@ if (USER) {
             <hr class="separator" />
             <div class="sidebar-widget widget-stats">
                 <div class="sidebar-copyright">
-                    <p>&copy;2016 <?php echo c_APP;?></p>
+                    <p>&copy;2019 <?php echo c_APP;?></p>
                 </div>
             </div>
         </div>
