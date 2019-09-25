@@ -430,15 +430,17 @@ $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
 $fontData = $defaultFontConfig['fontdata'];
 
 $mpdf = new \Mpdf\Mpdf([
-    'fontDir' => array_merge($fontDirs, [
-        __DIR__ . '/assets/fonts',
-    ]),
-    'fontdata' => $fontData + [
-        'Arial' => [
-            'R' => 'arial.ttf',
-        ]
-    ],
-    'default_font' => 'Arial'
+	'fontDir' => array_merge($fontDirs, [
+		__DIR__ . '/assets/fonts',
+	]),
+	'fontdata' => $fontData + [
+		'Arial' => [
+			'R' => 'arial.ttf',
+		]
+	],
+	'default_font' => 'Arial',
+
+	'tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf',
 ]);
 
 $mpdf->WriteHTML(file_get_contents(__DIR__ . "/assets/mpdf.css"), HTMLParserMode::HEADER_CSS);

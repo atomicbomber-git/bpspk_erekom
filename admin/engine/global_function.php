@@ -284,6 +284,8 @@ function sendMail($data){
 
     date_default_timezone_set('Asia/Jakarta');
     
+    require_once(__DIR__ . "../../assets/phpmailer/class.phpmailer.php");
+    
     $mail = new PHPMailer;
    // $mail->isSMTP();
 
