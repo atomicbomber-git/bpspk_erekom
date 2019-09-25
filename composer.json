@@ -20,6 +20,7 @@
         "vlucas/phpdotenv": "^3.4",
         "filp/whoops": "^2.5",
         "symfony/var-dumper": "^4.3",
-        "illuminate/database": "^6.0"
+        "illuminate/database": "^6.0",
+        "mpdf/mpdf": "^8.0"
     }
 }

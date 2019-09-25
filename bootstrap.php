@@ -8,8 +8,13 @@ require_once(__DIR__ . "/vendor/autoload.php");
 
 /* Whoops error page */
 $whoops = new \Whoops\Run;
+
+$jsonHandler = (new \Whoops\Handler\JsonResponseHandler);
+$jsonHandler->setJsonApi(true);
+$jsonHandler->addTraceToOutput();
+
 $whoops->prependHandler(new \Whoops\Handler\PrettyPageHandler);
-$whoops->prependHandler(new \Whoops\Handler\JsonResponseHandler);
+$whoops->prependHandler($jsonHandler);
 $whoops->register();
 
 /*
