@@ -1,9 +1,14 @@
 <?php
+
+use App\Models\Pegawai;
+use App\Models\PetugasLapangan;
+
 if($_SERVER['HTTP_X_REQUESTED_WITH']!='XMLHttpRequest'){
 	die();
 }
 
-include ("../../engine/render.php");;
+include ("../../engine/render.php");
+
 if($_POST){
 	switch (trim(strip_tags($_POST['a']))) {
 		case 'update-dt-periksa':
@@ -19,7 +24,6 @@ if($_POST){
 				'tgl_periksa'=>date('Y-m-d',strtotime($_POST['tgl_pemeriksaan']))
 				);
 			$sql->update('tb_pemeriksaan',$arr_update,array('id_periksa'=>$idperiksa));
-
 			if($sql->error==null){
 				echo json_encode(array("stat"=>true,"msg"=>"Data Berhasil Disimpan."));
 			}else{
@@ -259,7 +263,13 @@ if($_POST){
 				exit();
 			}
 
-			$arr_insert=array(
+			$pegawais = Pegawai::query()
+				->select("idp", "nip")
+				->whereIn("idp", [$_POST["ptg1"], $_POST["ptg2"]])
+				->get()
+				->pluck("nip", "idp");
+
+			$arr_insert = array (
 				'ref_idp'=>$idpengajuan,
 				'no_surat'=>$_POST['no_surat'],
 				'tgl_surat'=>date("Y-m-d", strtotime($_POST['tgl_penetapan'])),
@@ -267,10 +277,13 @@ if($_POST){
 				'redaksi'=>$_POST['redaksi_bap'],
 				'ptgs1'=>$_POST['ptg1'],
 				'ptgs2'=>$_POST['ptg2'],
+				'nipptgs1'=> $pegawais[$_POST['ptg1']] ?? "-",
+				'nipptgs2'=> $pegawais[$_POST['ptg2']] ?? "-",
 				'date_insert'=>date('Y-m-d H:i:s')
-				);
+			);
 
 			$sql->insert('tb_bap',$arr_insert);
+
 			if($sql->error==null){
 				echo json_encode(array("stat"=>true,"msg"=>"Data Berhasil Disimpan."));
 			}else{

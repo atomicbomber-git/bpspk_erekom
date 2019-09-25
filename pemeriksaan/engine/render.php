@@ -15,6 +15,8 @@
 //     }
 // }
 
+// require_once(__DIR__ . "../../bootstrap.php");
+
 //ob_start ("ob_gzhandler") //khusus type gzip
 ob_start ();
 $menghitung_waktu_diaktifkan = explode(' ', microtime());

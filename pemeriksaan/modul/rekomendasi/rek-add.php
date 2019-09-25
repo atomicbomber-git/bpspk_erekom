@@ -31,14 +31,14 @@
 	if(count($produk['ikan_takdilindungi'][1])>0){
 		$list_tidakdilindungi = array_unique($produk['ikan_takdilindungi'][1]);
 	}
-	if(count($produk['ikan_dilindungi'][2])>0){
+	if(count($produk['ikan_dilindungi'][2] ?? [])>0){
 		$list_dilindungi_dilarang_ekspor = array_unique($produk['ikan_dilindungi'][2]);
 	}
-	if(count($produk['ikan_dilindungi'][3])>0){
+	if(count($produk['ikan_dilindungi'][3] ?? [])>0){
 		$list_dilindungi_dilarang_ekspor = array_unique($produk['ikan_dilindungi'][2]);
 	}
 
-	if(isset($list_tidakdilindungi) && count($list_tidakdilindungi > 0)){
+	if(isset($list_tidakdilindungi) && count($list_tidakdilindungi) > 0){
 		$text_hiupari = implode(', ', $list_tidakdilindungi);
 		$text_tidakdilindungi = " ".$text_hiupari." tidak termasuk kedalam jenis hiu/pari yang dilindungi sehingga dapat direkomendasikan peredarannya" ;
 	}else{
