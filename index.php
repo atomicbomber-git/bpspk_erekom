@@ -165,9 +165,9 @@ include ("pemeriksaan/engine/render.php");
           <div class="modal-body">
             <h3 style="text-align:center"><strong>MAKLUMAT PELAYANAN</strong></h3>
 
-            <p style="text-align:center"><strong>&quot;DENGAN INI KAMI MENYATAKAN SANGGUP MENYELENGGARAKAN PELAYANAN SESUAI DENGAN STANDAR PELAYANAN,&nbsp;MEMBERIKAN PELAYANAN SESUAI KEWAJIBAN DAN MELAKUKAN PERBAIKAN SECARA TERUS MENERUS, SERTA BERSEDIA MENERIMA SANKSI DAN/ATAU MEMBERIKAN KOMPENSASI APABILA PELAYANAN YANG DIBERIKAN TIDAK SESUAI STANDAR&quot;</strong></p><p></p>
+            <p style="text-align:center"><strong>&quot;DENGAN INI KAMI MENYATAKAN SANGGUP MENYELENGGARAKAN PELAYANAN LINGKUP LPSPL SERANG SESUAI STANDAR PELAYANAN,&nbsp;MEMBERIKAN PELAYANAN SESUAI DENGAN KEWAJIBAN DAN MELAKUKAN PERBAIKAN SECARA TERUS MENERUS, SERTA BERSEDIA MENERIMA SANKSI DAN/ATAU MEMBERIKAN KOMPENSASI APABILA PELAYANAN YANG DIBERIKAN TIDAK SESUAI STANDAR&quot;</strong></p><p></p>
 
-            <p style="text-align:center">Serang, 1 Agustus 2019<br />
+            <p style="text-align:center">Serang, 27 Agustus 2019<br />
             KEPALA LPSPL SERANG</p>
 
             <p style="text-align:center"><strong>Sy. Iwan Taruna Alkadrie, S.T., M.Si.</strong><br />
