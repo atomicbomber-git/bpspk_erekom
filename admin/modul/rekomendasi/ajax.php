@@ -1,6 +1,5 @@
 <?php
 
-require_once("../../../assets/phpmailer/PHPMailerAutoload.php");
 require_once("../../engine/render.php");
 
 
