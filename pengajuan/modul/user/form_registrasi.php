@@ -131,10 +131,10 @@ $(document).ready(function(){
 						</div>
 					</div>
 
-					<div class="form-group mb-lg">
+					<!-- <div class="form-group mb-lg">
 						<script src="https://www.google.com/recaptcha/api.js?hl=id" async defer></script>
 						<div class="g-recaptcha" data-sitekey="6LdTkiYTAAAAAPAX_45mraZiT4tbnK5mv7V6RMz1"></div>
-					</div>
+					</div> -->
 
 					<div class="row">
 						<div class="col-sm-8">
