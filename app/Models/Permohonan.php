@@ -9,6 +9,7 @@ class Permohonan extends Model
 {
     protected $primaryKey = "idp";
     protected $table = "tb_permohonan";
+    public $timestamps = false;
 
     public function scopePersetujuan($query)
     {

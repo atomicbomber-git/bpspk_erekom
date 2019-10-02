@@ -387,8 +387,14 @@ if ($sql->num_rows > 0) {
 	$nog = 0;
 	$html .= '<tr>';
 	foreach ($sql->result as $gbr) {
+		
+		$imagePath = $berkas_admin_foto . $gbr['nm_file'];
+		if (!file_exists($imagePath)) {
+			continue;
+		} 
+
 		$nog++;
-		$html .= '<td><img style="padding:10px" width="100%" src="' . $berkas_admin_foto . $gbr['nm_file'] . '"><h4>' . $gbr['ket_foto'] . '</h4></td>';
+		$html .= '<td><img style="padding:10px" width="100%" src="' . $imagePath . '"><h4>' . $gbr['ket_foto'] . '</h4></td>';
 		if ($nog > 1) {
 			if ($nog % 2 == 0) {
 				$html .= '</tr><tr>';
