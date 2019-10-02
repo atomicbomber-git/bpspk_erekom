@@ -22,15 +22,15 @@
 		$produk['jns_produk'][]=$prd['jenis_sampel'];
 	}
 
-	$sampel=array_unique($produk['jns_produk']);
+	$sampel=array_unique($produk['jns_produk'] ?? []);
 	$nama_produk = implode(', ', $sampel);
 
-	$list_tidakdilindungi = array_unique($produk['ikan_takdilindungi'][1]);
-	$list_dilindungi_dilarang_ekspor = array_unique($produk['ikan_dilindungi'][2]);
-	$list_dilindungi_penuh = array_unique($produk['ikan_dilindungi'][3]);
+	$list_tidakdilindungi = array_unique($produk['ikan_takdilindungi'][1] ?? []);
+	$list_dilindungi_dilarang_ekspor = array_unique($produk['ikan_dilindungi'][2] ?? []);
+	$list_dilindungi_penuh = array_unique($produk['ikan_dilindungi'][3] ?? []);
 
 
-	if(isset($list_tidakdilindungi) && count($list_tidakdilindungi > 0)){
+	if(isset($list_tidakdilindungi) && count($list_tidakdilindungi ?? []) > 0){
 		$text_hiupari = implode(', ', $list_tidakdilindungi);
 		$text_tidakdilindungi = " ".$text_hiupari." tidak termasuk kedalam jenis hiu/pari yang dilindungi sehingga dapat direkomendasikan peredarannya" ;
 	}else{

@@ -2,7 +2,6 @@
 
 require_once("../../engine/render.php");
 
-
 if($_SERVER['HTTP_X_REQUESTED_WITH']!='XMLHttpRequest'){
 	die();
 }
