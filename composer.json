@@ -24,6 +24,7 @@
         "mpdf/mpdf": "^8.0",
         "phpmailer/phpmailer": "^6.0",
         "psy/psysh": "@stable",
-        "php-di/php-di": "^6.0"
+        "php-di/php-di": "^6.0",
+        "endroid/qr-code": "^3.6"
     }
 }

@@ -1162,6 +1162,14 @@ if($_POST){
 				$nama_pemohon=$ru['nama_lengkap'];
 				$email=$ru['email'];
 
+				//------------------qrcode----------------
+				$tmp_qrocde_dir="../../../assets/images/img_qrcode/";
+				require '../../../assets/phpqrcode/phpqrcode.php';
+				$url_cek=c_DOMAIN_UTAMA."cek.php?nomor=".$ru['kode_surat'];
+				$qrcode_img_name=$ru['kode_surat']."_qr.png";
+				QRcode::png($url_cek, $tmp_qrocde_dir.$qrcode_img_name, 'M', 5, 2);
+				//-----------------------------------
+
 				//email ke pemohon
 				$isi="<p>".$nama_pemohon.", Surat Rekomendasi telah keluar</p>";
 				$isi.="<p>Anda dapat mengakses aplikasi E-Rekomendasi untuk mengunduh berkas surat rekomendasi, atau dapat juga melalui link berikut : <a href='".c_DOMAIN_UTAMA."download.php?surat=".$ru['kode_surat']."&token=".md5('download'.$ru['kode_surat'].'public')."' target='_blank'>Download Surat Rekomendasi </a></p>";
@@ -1249,15 +1257,7 @@ if($_POST){
 					sendMail($arr);
 					}
 				}
-				
-				//------------------qrcode----------------
-				$tmp_qrocde_dir="../../../assets/images/img_qrcode/";
-				require '../../../assets/phpqrcode/phpqrcode.php';
-				$url_cek=c_DOMAIN_UTAMA."cek.php?nomor=".$ru['kode_surat'];
-				$qrcode_img_name=$ru['kode_surat']."_qr.png";
-				QRcode::png($url_cek, $tmp_qrocde_dir.$qrcode_img_name, 'M', 5, 2);
 
-				//-----------------------------------
 				echo json_encode(array("stat"=>true,"msg"=>"Aksi Berhasil."));
 			}else{
 				echo json_encode(array("stat"=>false,"msg"=>"Aksi Gagal"));
