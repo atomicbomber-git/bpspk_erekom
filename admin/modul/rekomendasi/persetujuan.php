@@ -1,4 +1,7 @@
 <?php
+
+use App\Services\Letter;
+
 require_once("config.php");
 $SCRIPT_FOOT = "
 <script>
@@ -194,7 +197,7 @@ $arr_jns_tujuan=array(
 							<td><?php echo $arr_alatangkut[$p['jenis_angkutan']];?></td>
 						</tr>
 						<tr>
-							<td>Alamat Gudang</td>
+							<td>Alamat Pemeriksaan</td>
 							<td><?php echo $p['alamat_gudang'];?></td>
 						</tr>
 						<tr>
@@ -389,17 +392,9 @@ $arr_jns_tujuan=array(
 					//load data petugas pemeriksa
 					$pt=$sql->run("SELECT p.nm_lengkap,p.nip,p.jabatan,p.ttd FROM tb_petugas_lap pl LEFT JOIN op_pegawai p ON(pl.ref_idpeg=p.idp) WHERE pl.ref_idp='".$row['ref_idp']."' AND p.status='2'");
 					?>
-					<table style="width:100%">
-						<tr style="border-bottom:2pt solid black;">
-							<td><img src="<?php echo ADM_IMAGES;?>logo-kkp-kop.png" width="150"></td>
-							<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
-							<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-							<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-							PONTIANAK</strong></h4>
-							<small>JALAN HUSEIN HAMZAH NOMOR 01 PAALLIMA, PONTIANAK 78114 TELP.(0561)766691,
-							FAX(0561)766465, <br>WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
-						</tr>
-					</table>
+
+					<?= container(Letter::class)->getHeaderContentHTML(ADM_IMAGES) ?>
+
 					<table style="width:100%">
 						<tr>
 							<td colspan="3" style="text-align: center;">
@@ -523,17 +518,9 @@ $arr_jns_tujuan=array(
 
 					$row=$rek->fetch();
 					?>
-					<table style="width:100%">
-						<tr style="border-bottom:2pt solid black;">
-							<td><img src="<?php echo ADM_IMAGES;?>logo-kkp-kop.png" width="150"></td>
-							<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
-							<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-							<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-							PONTIANAK</strong></h4>
-							<small>JALAN HUSEIN HAMZAH NOMOR 01 PAALLIMA, PONTIANAK 78114 TELP.(0561)766691,
-							FAX(0561)766465, <br>WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
-						</tr>
-					</table>
+					
+					<?= container(Letter::class)->getHeaderContentHTML(ADM_IMAGES) ?>
+
 					<br/>
 					<table style="width:100%">
 						<tr>

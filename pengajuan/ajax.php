@@ -205,11 +205,7 @@ if ($_POST) {
 				"isi_email" => $isi
 			);
 
-<<<<<<< HEAD
-			if(/* sendMail($arr) */){
-=======
-			if (sendMail($arr)) {
->>>>>>> 6be07fab4a2ba3346341c8bb1093ddfac294a5ad
+			if(TRUE /* sendMail($arr) */){
 				header('Content-Type: application/json');
 				echo json_encode(array("stat" => true, "msg" => "Kode Verifikasi Telah Dikirim ke email anda."));
 				exit();
@@ -259,15 +255,6 @@ if ($_POST) {
 				if ($email != $olde) { //jika ada perubahan email
 					$sql->update('web_meta', array('meta_value' => 0), array('ref_id' => U_ID, 'meta_key' => 'U_VERIFY', 'meta_group' => 1));
 					require '../assets/phpmailer/PHPMailerAutoload.php';
-<<<<<<< HEAD
-					$isi="<p>".$namalengkap.", Berikut Adalah Kode Verifikasi Untuk Perubahan Email yang Anda Lakukan : <br><strong><h3>".$ver_code."</strong></h3></p>";
-					$arr=array(
-						"send_to"=>$email,
-						"send_to_name"=>$nama_lengkap,
-						"subject_email"=>"Verifikasi Akun - LPSPL Serang",
-						"isi_email"=>$isi);
-					/* sendMail($arr) */;
-=======
 					$isi = "<p>" . $namalengkap . ", Berikut Adalah Kode Verifikasi Untuk Perubahan Email yang Anda Lakukan : <br><strong><h3>" . $ver_code . "</strong></h3></p>";
 					$arr = array(
 						"send_to" => $email,
@@ -275,8 +262,7 @@ if ($_POST) {
 						"subject_email" => "Verifikasi Akun - LPSPL Serang",
 						"isi_email" => $isi
 					);
-					sendMail($arr);
->>>>>>> 6be07fab4a2ba3346341c8bb1093ddfac294a5ad
+					/* sendMail($arr) */;
 
 					$sql->update('web_meta', array('meta_value' => time()), array('ref_id' => U_ID, 'meta_key' => 'U_LASTLOG', 'meta_group' => 1));
 					$sql->update('web_meta', array('meta_value' => getIP()), array('ref_id' => U_ID, 'meta_key' => 'U_IP', 'meta_group' => 1));

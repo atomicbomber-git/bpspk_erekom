@@ -1,4 +1,7 @@
 <?php
+
+use App\Services\Auth;
+
 $sql->order_by=" q_answered DESC ";
 $sql->limit=" 1";
 $sql->get_row('tb_kuisioner_s',array('ref_idpemohon'=>U_ID));
@@ -131,7 +134,7 @@ $(document).ready(function(){
 		<input type="hidden" name="a" value="kuisioner">
 		<div class="row">
 			<?php
-			if(U_VERIFY==1){
+			if(container(Auth::class)->isVerified()){
 				$sql->get_row('tb_biodata',array('ref_iduser'=>U_ID),'idbio');
 				if($sql->num_rows>0){
 					$sql->get_row('tb_berkas',array('ref_iduser'=>U_ID,'jenis_berkas'=>1),'idb');
