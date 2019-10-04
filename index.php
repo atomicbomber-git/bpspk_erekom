@@ -66,7 +66,9 @@ include ("pemeriksaan/engine/render.php");
             </a>
           </li>
           <li>
-            <a href="<?= getenv("APP_URL") ?>/guest/">
+            <a 
+                <!-- href="<?= getenv("APP_URL") ?>/guest/" -->
+                >
               <div class="body-icon">
                 <span class="fa fa-user fa-2x"></span>
                 <span class="title">Tamu</span>
