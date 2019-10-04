@@ -57,19 +57,25 @@ if ($rek->rowCount() > 0) {
 		header('location:download_o.php?surat=' . $kdsurat . '&token=' . $token);
 		exit();
 	}
-	$html .= '<table style="width:100%">
-		<tr>
-			<td><img  style="vertical-align: top" src="' . $berkas_admin . 'logo-kkp-kop.png" width="100"></td>
-			<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
-			<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-			<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-			PONTIANAK</strong></h4>
-			<small>JALAN HUSEIN HAMZAH NOMOR 01 PAL LIMA, PONTIANAK 78114 TELP.(0561)766691,
-			FAX(0561)766465, WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
-		</tr>
-		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
-	</table>
-	<br/>';
+
+	$header = '
+		<table style="width:100%">
+			<tr>
+				<td> <img style="vertical-align: top" src="' . $berkas_admin . 'logo-kkp-kop.png" width="100"> </td>
+				<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
+				<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
+				<h4><strong> LOKA PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT SERANG</strong></h4>
+					<small> JALAN RAYA CARITA KM 4.5, DESA CARINGIN KEC. LABUAN KAB. PANDEGLANG PROV. BANTEN </small> <br/>
+					TELEPON (0253) 802626, FAKSIMILI (0253) 802616
+				</td>
+			</tr>
+			<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
+		</table>
+	';
+
+	$html .= $header;
+
+
 	$html .= '<table class="table" style="width:100%">
 		<tr>
 			<td>Nomor</td>
@@ -197,19 +203,7 @@ $pemohon = $u->fetch();
 //load data petugas pemeriksa
 $pt = $sql->run("SELECT p.nm_lengkap,p.nip,p.jabatan,p.ttd FROM tb_petugas_lap pl LEFT JOIN op_pegawai p ON(pl.ref_idpeg=p.idp) WHERE pl.ref_idp='" . $rowbap['ref_idp'] . "' AND p.status='2'");
 
-$html .= '<table style="width:100%">
-		<tr>
-			<td><img  style="vertical-align: top" src="' . $berkas_admin . 'logo-kkp-kop.png" width="100"></td>
-			<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
-			<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-			<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-			PONTIANAK</strong></h4>
-			<small>JALAN HUSEIN HAMZAH NOMOR 01 PAL LIMA, PONTIANAK 78114 TELP.(0561)766691,
-			FAX(0561)766465, WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
-		</tr>
-		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
-	</table>
-	<br/>';
+$html .= $header;
 
 $html .= '<table style="width:100%">
 	<tr>
