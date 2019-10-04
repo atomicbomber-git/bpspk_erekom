@@ -452,7 +452,7 @@ if($_POST){
 					"send_to_name"=>$nama_pemohon,
 					"subject_email"=>"Pengesahan Permohonan Rekomendasi - BPSPL Pontianak",
 					"isi_email"=>$isi);
-				sendMail($arr);
+				/* sendMail($arr) */;
 				//---------------------------------------------
 				echo json_encode(array("stat"=>true,"msg"=>"Data Berhasil Disimpan."));
 			}else{

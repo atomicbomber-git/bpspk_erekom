@@ -244,7 +244,7 @@ function clear_json($txt){
     return $content;
 }
 
-function sendMail($data){
+function /* sendMail($data) */{
     $tujuan=$data['send_to'];
     $tujuan_nama=$data['send_to_name'];
     $subject=$data['subject_email'];

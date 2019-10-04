@@ -101,7 +101,7 @@ if($_POST){
 							"send_to_name"=>$ad['nm_lengkap'],
 							"subject_email"=>"Permohonan Rekomendasi - BPSPL Pontianak",
 							"isi_email"=>$isi);
-						sendMail($arr);
+						/* sendMail($arr) */;
 					}
 				}
 				//---------------------------------------------

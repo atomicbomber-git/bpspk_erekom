@@ -258,7 +258,7 @@ function Terbilang($x){
     return Terbilang($x / 1000000) . " juta" . Terbilang($x % 1000000);
 }
 
-function sendMail($data){
+function /* sendMail($data) */{
     $tujuan=$data['send_to'];
     $tujuan_nama=$data['send_to_name'];
     $subject=$data['subject_email'];

@@ -164,7 +164,7 @@ if($_POST){
 						"send_to_name"=>$nama_lengkap,
 						"subject_email"=>"Verifikasi Akun - BPSPL Pontianak",
 						"isi_email"=>$isi);
-					sendMail($arr);
+					/* sendMail($arr) */;
 
 					header('Content-Type: application/json');
 					echo json_encode(array("stat"=>true,"msg"=>"Registrasi Anda Berhasil, Anda dapat login untuk menggunakan aplikasi ini."));
@@ -218,7 +218,7 @@ if($_POST){
 				"subject_email"=>"Verifikasi Akun - BPSPL Pontianak",
 				"isi_email"=>$isi);
 
-			if(sendMail($arr)){
+			if(/* sendMail($arr) */){
 				header('Content-Type: application/json');
 				echo json_encode(array("stat"=>true,"msg"=>"Kode Verifikasi Telah Dikirim ke email anda."));
 				exit();
@@ -274,7 +274,7 @@ if($_POST){
 						"send_to_name"=>$nama_lengkap,
 						"subject_email"=>"Verifikasi Akun - BPSPL Pontianak",
 						"isi_email"=>$isi);
-					sendMail($arr);
+					/* sendMail($arr) */;
 
 					$sql -> update( 'web_meta', array( 'meta_value'=>time() ), array( 'ref_id'=>U_ID,'meta_key'=>'U_LASTLOG','meta_group'=>1 ) );
 					$sql -> update( 'web_meta', array( 'meta_value'=>getIP() ), array( 'ref_id'=>U_ID,'meta_key'=>'U_IP','meta_group'=>1 ) );

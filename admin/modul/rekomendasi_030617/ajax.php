@@ -220,7 +220,7 @@ if($_POST){
 					"send_to_name"=>$nama_pemohon,
 					"subject_email"=>"Harap Perbaiki Data Permohonan Anda - BPSPL Pontianak",
 					"isi_email"=>$isi);
-				sendMail($arr);
+				/* sendMail($arr) */;
 				//-----------------------------------
 				echo json_encode(array("stat"=>true,"msg"=>"Aksi Berhasil."));
 			}else{
@@ -304,7 +304,7 @@ if($_POST){
 							"send_to_name"=>$nama_petugas,
 							"subject_email"=>"Penunjukan Petugas Pemeriksaan - BPSPL Pontianak",
 							"isi_email"=>$isi);
-						sendMail($arr);
+						/* sendMail($arr) */;
 						//-----------------------------------------
 					}
 				}
@@ -898,7 +898,7 @@ if($_POST){
 					"send_to_name"=>$r['nm_lengkap'],
 					"subject_email"=>"Pengesahan Permohonan Rekomendasi - BPSPL Pontianak",
 					"isi_email"=>$isi);
-				sendMail($arr);
+				/* sendMail($arr) */;
 				//---------------------------------------------
 				echo json_encode(array("stat"=>true,"msg"=>"Data Berhasil Disimpan."));
 			}else{
@@ -1015,7 +1015,7 @@ if($_POST){
 					"send_to_name"=>$nama_pemohon,
 					"subject_email"=>"Rekomendasi - BPSPL Pontianak",
 					"isi_email"=>$isi);
-				sendMail($arr);
+				/* sendMail($arr) */;
 
 				//email arsip ke bpspl
 				$sql->get_row('web_setting',array('ws_key'=>'email_bpspl'),'ws_value');
@@ -1030,7 +1030,7 @@ if($_POST){
 						"send_to_name"=>"BPSPL Pontianak",
 						"subject_email"=>"Arsip : Rekomendasi - BPSPL Pontianak",
 						"isi_email"=>$isi_arsip);
-					sendMail($arr);
+					/* sendMail($arr) */;
 				}
 
 				//email tembusan ke karantina
@@ -1049,7 +1049,7 @@ if($_POST){
 						"send_to_name"=>"Kepala ".$rbk['nama'],
 						"subject_email"=>"Tembusan : Rekomendasi - BPSPL Pontianak",
 						"isi_email"=>$isi_tembusan);
-					sendMail($arr);
+					/* sendMail($arr) */;
 					}
 				}
 				//email tembusan ke psdkp
@@ -1068,7 +1068,7 @@ if($_POST){
 						"send_to_name"=>"Kepala ".$rpsdkp['nama'],
 						"subject_email"=>"Tembusan : Rekomendasi - BPSPL Pontianak",
 						"isi_email"=>$isi_tembusan);
-					sendMail($arr);
+					/* sendMail($arr) */;
 					}
 				}
 				//email ke upt prl tujuan pengiriman
@@ -1087,7 +1087,7 @@ if($_POST){
 						"send_to_name"=>"Kepala ".$ruptprl['nama'],
 						"subject_email"=>"Tembusan : Rekomendasi - BPSPL Pontianak",
 						"isi_email"=>$isi_tembusan);
-					sendMail($arr);
+					/* sendMail($arr) */;
 					}
 				}
 				
@@ -1167,7 +1167,7 @@ if($_POST){
 					"subject_email"=>"Perbaikan Surat/Data- BPSPL Pontianak",
 					"isi_email"=>$isi_pesan);
 
-					sendMail($arr);
+					/* sendMail($arr) */;
 				}
 
 				echo json_encode(array("stat"=>true,"msg"=>"Aksi Berhasil."));
