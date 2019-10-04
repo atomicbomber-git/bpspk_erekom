@@ -65,14 +65,16 @@ include ("pemeriksaan/engine/render.php");
               </div>
             </a>
           </li>
-          <li>
-            <a href="<?= getenv("APP_URL") ?>/guest/">
+          <!-- <li>
+            <a 
+                href="<?= getenv("APP_URL") ?>/guest/"
+                >
               <div class="body-icon">
                 <span class="fa fa-user fa-2x"></span>
                 <span class="title">Tamu</span>
               </div>
             </a>
-          </li>
+          </li> -->
         </ul>
         <ul class="menu">
           <li>
@@ -115,7 +117,7 @@ include ("pemeriksaan/engine/render.php");
         	<div class="row">
         		<div class="col-md-6">
         			<img src="assets/images/logo-bpspl.png" alt="" class="logo"/>
-        			<h4 class="title">BPSPL PONTIANAK MELAYANI <span class="text-danger">TANPA PUNGLI & GRATIFIKASI</span></h4>
+        			<h4 class="title">LPSPL SERANG MELAYANI <span class="text-danger">TANPA PUNGLI & GRATIFIKASI</span></h4>
         		</div>
         		<div class="col-md 6">
         			<img src="assets/images/logo-bpspl.png" alt="" class="logo"/>

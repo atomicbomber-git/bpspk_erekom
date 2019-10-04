@@ -12,6 +12,7 @@ $(document).ready(function(){
 ";
 
 $idpengajuan=base64_decode($_GET['data']);
+
 if(!ctype_digit($idpengajuan)){
 	exit();
 }
@@ -278,6 +279,12 @@ $arr_jns_tujuan=array(
 											?>
 										</select>
 									</div>
+
+									<div class="form-group">
+										<label for="tanggal"> Tanggal: </label>
+										<input class="form-control" name="tanggal" type="date">
+									</div>
+
 									<div class="form-group">
 									Pilih Petugas Pemeriksaan<br>
 									</div>

@@ -303,8 +303,8 @@ function sendMail($data){
 
     $mail->Username = "admin@bpsplpontianak.com";
     $mail->Password = "adm92mail";
-    $mail->setFrom('admin@bpsplpontianak.com', 'BPSPL Pontianak');
-    $mail->AddReplyTo("admin@bpsplpontianak.com","BPSPL Pontianak");
+    $mail->setFrom('admin@bpsplpontianak.com', 'LPSPL Serang');
+    $mail->AddReplyTo("admin@bpsplpontianak.com","LPSPL Serang");
 
     $mail->isHTML(true); 
     $mail->addAddress($tujuan, $tujuan_nama);
@@ -383,15 +383,15 @@ function generate_nosurat($jenis,$no,$kode,$tgl){
         $bulantahun = getRomawi(tanggalIndo($tgl,'n'))."/".tanggalIndo($tgl,'Y');
         switch ($jenis) {
             case 'st':
-                $no_surat="ST.".$no."/BPSPL.03/PRL/KP.444/".$bulantahun;
+                $no_surat="ST.".$no."/LPSPL.03/PRL/KP.444/".$bulantahun;
             break;
 
             case 'bap':
-                $no_surat=$no."/".$kode."/BPSPL.03/PRL/".$bulantahun;
+                $no_surat=$no."/".$kode."/LPSPL.03/PRL/".$bulantahun;
             break;
 
             case 'rek':
-                $no_surat=$no."/".$kode."/BPSPL.03/PK.230/REKOM/".$bulantahun;
+                $no_surat=$no."/".$kode."/LPSPL.03/PK.230/REKOM/".$bulantahun;
             break;
             
             default:

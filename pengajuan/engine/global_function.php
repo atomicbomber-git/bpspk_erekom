@@ -53,21 +53,7 @@ function cek_session(){
             define("U_EMAIL", $email);
             define("U_STATUS", $status);
 
-            $sql -> get_all('web_meta',array('ref_id'=>U_ID,'meta_option'=>'autoload','meta_group'=>1), array('meta_key `KEY`','meta_value VAL') );
-            foreach ($sql->result as $row) {
-                $key=$row['KEY'];
-                $val=$row['VAL'];
-                define("$key",$val);
-            }
 
-            $NOWLOG = U_NOWLOG;
-
-            if((U_NOWLOG + 7200) < time()){
-                define("U_LASTLOG", U_NOWLOG);
-                $NOWLOG = time();
-                $sql -> update('web_meta',array('meta_value'=>$NOWLOG),array('ref_id'=>U_ID, 'meta_key'=>'U_NOWLOG','meta_group'=>1) );
-                $sql -> update('web_meta',array('meta_value'=>$NOWLOG),array('ref_id'=>U_ID, 'meta_key'=>'U_LASTLOG','meta_group'=>1) );
-            }
             
             if((isset($_SESSION['lockscreen']) AND $_SESSION['lockscreen']!="") OR (isset($_COOKIE['lockscreen']) AND $_COOKIE['lockscreen']!="")){
                 define("U_LOCK", TRUE);
@@ -269,8 +255,8 @@ function sendMail($data){
 
     $mail->Username = "admin@bpsplpontianak.com";
     $mail->Password = "adm92mail";
-    $mail->setFrom('admin@bpsplpontianak.com', 'BPSPL Pontianak');
-    $mail->AddReplyTo("admin@bpsplpontianak.com","BPSPL Pontianak");
+    $mail->setFrom('admin@bpsplpontianak.com', 'LPSPL Serang');
+    $mail->AddReplyTo("admin@bpsplpontianak.com","LPSPL Serang");
 
     $mail->isHTML(true); 
     $mail->addAddress($tujuan, $tujuan_nama);

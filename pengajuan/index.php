@@ -1,5 +1,7 @@
 <?php
 
+use App\Services\Auth;
+
 include_once("../bootstrap.php");
 include_once ("engine/render.php");
 
@@ -7,6 +9,12 @@ include_once ("engine/render.php");
 $ITEM_HEAD = "bootstrap.css, font-awesome.css, magnific-popup.css, datepicker3.css, bootstrap-multiselect.css,pnotify.custom.css, datatables.css, fileinput.min.css, theme.css, default.css, theme-custom.css,  modernizr.js";
 $ITEM_FOOT = "jquery.js, jquery.browser.mobile.js, bootstrap.js, nanoscroller.js, bootstrap-datepicker.js, magnific-popup.js, jquery.placeholder.js, bootstrap-multiselect.js, jquery.dataTables.js,ckeditor.js, datatables.js, fileinput.min.js, jquery.flot.js, jquery.flot.tooltip.js, jquery.flot.categories.js,pnotify.custom.js,jquery.validate.js,jquery.validate.msg.id.js snap.svg.js, liquid.meter.js, theme.js, theme.init.js";
 
+
+// dump(
+// 	($_COOKIE[$SITE_CONF_AUTOLOAD['cookie']] ? explode(".", $_COOKIE[$SITE_CONF_AUTOLOAD['cookie']]) : explode(".", $_SESSION[$SITE_CONF_AUTOLOAD['cookie']]))
+// );
+
+// exit;
 
 require_once(c_THEMES."auth.php");
 
@@ -65,7 +73,8 @@ $arr_status=array(
 				<div class="panel-body">
 					<?php 
 					$pesan="Tidak Ada Pemberitahuan.";
-					if(U_VERIFY==0){  ?>
+					if(!container(App\Services\Auth::class)->isVerified()) {  ?>
+
 					<div class="alert alert-warning fade in nomargin">
 						<h4>Hi <?php echo U_NAME;?></h4>
 						<p>Untuk dapat <strong>mengajukan permohonan rekomendasi</strong>, Anda harus melakukan verifikasi akun dengan memasukkan kode khusus yang telah dikirim ke email anda.</p>
@@ -73,6 +82,7 @@ $arr_status=array(
 							<a href="?verifikasi" class="btn btn-info mt-xs mb-xs" >Verifikasi Sekarang.</a>
 						</p>
 					</div>
+
 					<?php 
 					$pesan="";
 					}

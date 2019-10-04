@@ -14,7 +14,7 @@ $r=$sql->result;
 ?>
 <section role="main" class="content-body">
 	<header class="page-header">
-		<h2>Prosedur Pelayanan BPSPL Pontianak</h2>
+		<h2>Prosedur Pelayanan LPSPL Serang</h2>
 	
 		<div class="right-wrapper pull-right">
 			<ol class="breadcrumbs">
@@ -23,7 +23,7 @@ $r=$sql->result;
 						<i class="fa fa-home"></i>
 					</a>
 				</li>
-				<li><span>Prosedur Pelayanan BPSPL Pontianak</span></li>
+				<li><span>Prosedur Pelayanan LPSPL Serang</span></li>
 			</ol>
 			<a class="sidebar-right-toggle" ><i class="fa fa-chevron-left"></i></a>
 		</div>
@@ -37,7 +37,7 @@ $r=$sql->result;
 						<div class="panel-actions">
 							<a href="#" class="fa fa-caret-down"></a>
 						</div>
-						<h2 class="panel-title">Prosedur Pelayanan BPSPL Pontianak</h2>
+						<h2 class="panel-title">Prosedur Pelayanan LPSPL Serang</h2>
 					</header>
 					<div class="panel-body">
 						<textarea name="isi" class="form-control editor"><?php echo $r['isi_maklumat'];?></textarea>

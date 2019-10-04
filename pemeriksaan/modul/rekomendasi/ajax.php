@@ -507,15 +507,15 @@ if($_POST){
 				$arr=array(
 					"send_to"=>$email,
 					"send_to_name"=>$nama_pemohon,
-					"subject_email"=>"Pengesahan Permohonan Rekomendasi - BPSPL Pontianak",
+					"subject_email"=>"Pengesahan Permohonan Rekomendasi - LPSPL Serang",
 					"isi_email"=>$isi);
-				sendMail($arr);
+				/* sendMail($arr) */;
 				//---------------------------------------------
-				echo json_encode(array("stat"=>true,"msg"=>"Data Berhasil Disimpan."));
-			}else{
-				echo json_encode(array("stat"=>false,"msg"=>"Aksi Gagal"));
-			} 
-		break;*/
+			// 	echo json_encode(array("stat"=>true,"msg"=>"Data Berhasil Disimpan."));
+			// }else{
+			// 	echo json_encode(array("stat"=>false,"msg"=>"Aksi Gagal"));
+			// } 
+		break;
 
 		default:
 			echo json_encode(array("stat"=>false,"msg"=>"Invalid Request"));

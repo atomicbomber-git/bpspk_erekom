@@ -3,8 +3,9 @@ if($_SERVER['HTTP_X_REQUESTED_WITH']!='XMLHttpRequest'){
 	die();
 }
 
+include ("../../engine/render.php");
+
 if($_POST){
-	include ("../../engine/render.php");
 	switch (trim(strip_tags($_POST['a']))) {
 		case 'adbio':
 			$sql->get_row('tb_biodata',array('ref_iduser'=>U_ID),'idbio');
@@ -198,14 +199,14 @@ if($_POST){
 			$sql->get_row('tb_biodata',array('ref_iduser'=>U_ID),'idbio');
 			if($sql->num_rows>0){
 
-				$sql->get_row('tb_berkas',array('ref_iduser'=>U_ID,'jenis_berkas'=>1),'idb');
-				if($sql->num_rows<1){
-					if(!isset($_FILES['ttd']['name']) OR !is_uploaded_file($_FILES['ttd']['tmp_name'])){
-						header('Content-Type: application/json');
-						echo json_encode(array("stat"=>false,"msg"=>"Silakan Upload Tandatangan anda."));
-						exit();
-					}
-				}
+				// $sql->get_row('tb_berkas',array('ref_iduser'=>U_ID,'jenis_berkas'=>1),'idb');
+				// if($sql->num_rows<1){
+				// 	if(!isset($_FILES['ttd']['name']) OR !is_uploaded_file($_FILES['ttd']['tmp_name'])){
+				// 		header('Content-Type: application/json');
+				// 		echo json_encode(array("stat"=>false,"msg"=>"Silakan Upload Tandatangan anda."));
+				// 		exit();
+				// 	}
+				// }
 
 				$row=$sql->result;
 				$id=$row['idbio'];

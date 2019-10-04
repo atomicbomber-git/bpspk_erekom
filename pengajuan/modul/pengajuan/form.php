@@ -162,7 +162,7 @@ $(document).ready(function(){
 		<input type="hidden" name="a" value="pr">
 		<div class="row">
 			<?php
-			if(U_VERIFY==1){
+			if(container(App\Services\Auth::class)->isVerified()){
 				$sql->get_row('tb_biodata',array('ref_iduser'=>U_ID),array('idbio','alamat'));
 				if($sql->num_rows>0){
 					$bio=$sql->result;
@@ -218,9 +218,9 @@ $(document).ready(function(){
 											<select class="form-control" name="alamat_gudang">
 												<option value="">-- Pilih Lokasi Pemeriksan --</option>
 												<option value="<?php echo $bio['alamat'];?>"><?php echo $bio['alamat'];?></option>
-												<option value="Kantor BPSPL Pontianak">Kantor BPSPL Pontianak</option>
-												<option value="Kantor BPSPL Pontianak">Kantor Satker Balikpapan, BPSPL Pontianak</option>
-												<option value="Kantor BPSPL Pontianak">Kantor Satker Banjarmasin, BPSPL Pontianak</option>
+												<option value="Kantor LPSPL Serang">Kantor LPSPL Serang</option>
+												<option value="Kantor LPSPL Serang">Kantor Satker Balikpapan, LPSPL Serang</option>
+												<option value="Kantor LPSPL Serang">Kantor Satker Banjarmasin, LPSPL Serang</option>
 											</select>
 										</div>
 									</div>
@@ -235,7 +235,7 @@ $(document).ready(function(){
 										<div class="checkbox col-md-5">
 											<label>
 												<input type="checkbox" name="sop" value="yes">
-												Saya Menyetujui <a href="#prosedur" data-toggle="modal" data-target="#prosedurpelayanan">Standar Prosedur Pelayanan BPSPL Pontianak</a>
+												Saya Menyetujui <a href="#prosedur" data-toggle="modal" data-target="#prosedurpelayanan">Standar Prosedur Pelayanan LPSPL Serang</a>
 											</label>
 										</div>
 									</div>

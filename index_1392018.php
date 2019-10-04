@@ -21,7 +21,7 @@ include ("pemeriksaan/engine/render.php");
     <section>
       <div class="container">
         <img src="assets/images/logo-bpspl.png" alt="" class="logo"/>
-        <h3 class="title">Aplikasi E-Rekomendasi Pelayanan Penerbitan Rekomendasi Perdagangan Hiu dan Pari <br /> BPSPL Pontianak</h3>
+        <h3 class="title">Aplikasi E-Rekomendasi Pelayanan Penerbitan Rekomendasi Perdagangan Hiu dan Pari <br /> LPSPL Serang</h3>
         <ul class="menu">
           <li>
             <a href="http://e-rekomendasi.bpsplpontianak.com/pengajuan/index.php?daftar">
@@ -109,7 +109,7 @@ include ("pemeriksaan/engine/render.php");
             <span>apps store</span>
           </a>
         </div> -->
-        <h4 class="title">BPSPL PONTIANAK MELAYANI <span class="text-danger">TANPA PUNGLI & GRATIFIKASI</span></h4>
+        <h4 class="title">LPSPL SERANG MELAYANI <span class="text-danger">TANPA PUNGLI & GRATIFIKASI</span></h4>
         <p style="color:#fff;text-align:center">Pengaduan dapat disampaikan melalui email : pengaduan.bpsplpontianak@gmail.com</p>
       </div>
     </section>
@@ -153,7 +153,7 @@ include ("pemeriksaan/engine/render.php");
             <p style="text-align:center"><strong>&quot;DENGAN INI KAMI MENYATAKAN SANGGUP MENYELENGGARAKAN PELAYANAN SESUAI DENGAN STANDAR PELAYANAN,&nbsp;MEMBERIKAN PELAYANAN SESUAI KEWAJIBAN DAN MELAKUKAN PERBAIKAN SECARA TERUS MENERUS, SERTA BERSEDIA MENERIMA SANKSI DAN/ATAU MEMBERIKAN KOMPENSASI APABILA PELAYANAN YANG DIBERIKAN TIDAK SESUAI STANDAR&quot;</strong></p><p></p>
 
             <p style="text-align:center">Pontianak, 20 MARET 2017<br />
-            KEPALA BPSPL PONTIANAK</p>
+            KEPALA LPSPL SERANG</p>
 
             <p style="text-align:center"><strong>Getreda M Hehanussa, S.Pi., M.Si.</strong><br />
             NIP. 19750303 200212 2 003</p>

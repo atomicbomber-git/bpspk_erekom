@@ -80,7 +80,7 @@ if (USER) {
                     <li class="nav-sop">
                         <a href="<?php echo c_URL.$ModuleDir;?>sop/index.php">
                             <i class="fa fa-file-text" aria-hidden="true"></i>
-                            <span>Prosedur Pelayanan BPSPL</span>
+                            <span>Prosedur Pelayanan LPSPL</span>
                         </a>
                     </li>
                     <li class="nav-peg">

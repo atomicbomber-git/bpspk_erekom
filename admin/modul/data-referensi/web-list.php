@@ -114,14 +114,14 @@ if($result1->rowCount()>0){
 			</tr>";
 		$tabel.="<tr>
 			<td>Pihak Terkait</td>
-			<td>: BPSPL PONTIANAK dan $nama_pemohon</td>
+			<td>: LPSPL SERANG dan $nama_pemohon</td>
 		</tr>";
 
 		$tabel.="<tr>
 			<td colspan='2'>
-			BPSPL Pontianak terbitkan Rekomendasi Perdagangan Hiu dan Pari<br>
-			".$tempat." - Menindaklanjuti surat dari ".$nama_pemohon." perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke ".$tujuan.", ".$hari_permohonan." ".$tgl_permohonan." telah dilakukan pemeriksaan sampel ".$nama_produk." hiu/pari dengan berat keseluruhan ".$total_berat." Kg sebanyak ".$koli." koli oleh Petugas BPSPL Pontianak, yang tertuang dalam berita acara pemeriksaan No : ".$no_surat_ba."<br/>
-			Berdasarkan hasil pemeriksaan sampel tersebut, diketahui bahwa ".$nama_produk." hiu/pari yang akan dikirim oleh ".$nama_pemohon.", teridentifikasi merupakan ".$redaksi." sehingga dapat direkomendasikan peredarannya berdasarkan surat rekomendasi yang telah diterbitkan BPSPL Pontianak No : ".$no_surat_rekom."
+			LPSPL Serang terbitkan Rekomendasi Perdagangan Hiu dan Pari<br>
+			".$tempat." - Menindaklanjuti surat dari ".$nama_pemohon." perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke ".$tujuan.", ".$hari_permohonan." ".$tgl_permohonan." telah dilakukan pemeriksaan sampel ".$nama_produk." hiu/pari dengan berat keseluruhan ".$total_berat." Kg sebanyak ".$koli." koli oleh Petugas LPSPL Serang, yang tertuang dalam berita acara pemeriksaan No : ".$no_surat_ba."<br/>
+			Berdasarkan hasil pemeriksaan sampel tersebut, diketahui bahwa ".$nama_produk." hiu/pari yang akan dikirim oleh ".$nama_pemohon.", teridentifikasi merupakan ".$redaksi." sehingga dapat direkomendasikan peredarannya berdasarkan surat rekomendasi yang telah diterbitkan LPSPL Serang No : ".$no_surat_rekom."
 			</td>
 		</tr>";
 		$tabel.="</table><br/>";

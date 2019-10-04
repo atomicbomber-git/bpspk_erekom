@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Letter;
 use Mpdf\HTMLParserMode;
 use Mpdf\Mpdf;
 
@@ -57,19 +58,12 @@ if ($rek->rowCount() > 0) {
 		header('location:download_o.php?surat=' . $kdsurat . '&token=' . $token);
 		exit();
 	}
-	$html .= '<table style="width:100%">
-		<tr>
-			<td><img  style="vertical-align: top" src="' . $berkas_admin . 'logo-kkp-kop.png" width="100"></td>
-			<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
-			<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-			<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-			PONTIANAK</strong></h4>
-			<small>JALAN HUSEIN HAMZAH NOMOR 01 PAL LIMA, PONTIANAK 78114 TELP.(0561)766691,
-			FAX(0561)766465, WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
-		</tr>
-		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
-	</table>
-	<br/>';
+
+	$header = container(Letter::class)->getHeaderContentHTML($berkas_admin);
+
+	$html .= $header;
+
+
 	$html .= '<table class="table" style="width:100%">
 		<tr>
 			<td>Nomor</td>
@@ -112,8 +106,10 @@ if ($rek->rowCount() > 0) {
 	$dt = $sql->run("SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin FROM tb_rek_hsl_periksa thp JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='" . $row['idrek'] . "' ORDER BY thp.ref_jns ASC");
 	if ($dt->rowCount() > 0) {
 		$no = 0;
+		$total_berat = 0;
 		foreach ($dt->fetchAll() as $dtrow) {
 			$no++;
+			$total_berat += $dtrow['berat'];
 			$html .= '
 				<tr>
 					<td width="5%">' . $no . '</td>
@@ -124,6 +120,20 @@ if ($rek->rowCount() > 0) {
 					<td>' . $dtrow['keterangan'] . '</td>
 				</tr>';
 		}
+
+
+		$html .= "
+			<tfoot>
+				<tr>
+					<td colspan='4' style='text-align: right'>
+						Total Berat:
+					</td>
+					<td> $total_berat </td>
+					<td> </td>
+				</tr>
+			</tfoot>
+		";
+
 	}
 	$html .= '</table>';
 	$html .= '<table style="width:100%">
@@ -197,19 +207,7 @@ $pemohon = $u->fetch();
 //load data petugas pemeriksa
 $pt = $sql->run("SELECT p.nm_lengkap,p.nip,p.jabatan,p.ttd FROM tb_petugas_lap pl LEFT JOIN op_pegawai p ON(pl.ref_idpeg=p.idp) WHERE pl.ref_idp='" . $rowbap['ref_idp'] . "' AND p.status='2'");
 
-$html .= '<table style="width:100%">
-		<tr>
-			<td><img  style="vertical-align: top" src="' . $berkas_admin . 'logo-kkp-kop.png" width="100"></td>
-			<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
-			<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-			<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-			PONTIANAK</strong></h4>
-			<small>JALAN HUSEIN HAMZAH NOMOR 01 PAL LIMA, PONTIANAK 78114 TELP.(0561)766691,
-			FAX(0561)766465, WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
-		</tr>
-		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
-	</table>
-	<br/>';
+$html .= $header;
 
 $html .= '<table style="width:100%">
 	<tr>
@@ -387,8 +385,14 @@ if ($sql->num_rows > 0) {
 	$nog = 0;
 	$html .= '<tr>';
 	foreach ($sql->result as $gbr) {
+		
+		$imagePath = $berkas_admin_foto . $gbr['nm_file'];
+		if (!file_exists($imagePath)) {
+			continue;
+		} 
+
 		$nog++;
-		$html .= '<td><img style="padding:10px" width="100%" src="' . $berkas_admin_foto . $gbr['nm_file'] . '"><h4>' . $gbr['ket_foto'] . '</h4></td>';
+		$html .= '<td><img style="padding:10px" width="100%" src="' . $imagePath . '"><h4>' . $gbr['ket_foto'] . '</h4></td>';
 		if ($nog > 1) {
 			if ($nog % 2 == 0) {
 				$html .= '</tr><tr>';

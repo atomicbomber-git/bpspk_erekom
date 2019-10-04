@@ -6,7 +6,7 @@
   <header class="main-header">
     <a href="#" class="logo">
       <span class="logo-mini">E-Rekomendasi</span>
-      <span class="logo-lg">E-Rekomendasi BPSPL Pontianak</span>
+      <span class="logo-lg">E-Rekomendasi LPSPL Serang</span>
     </a>
     <nav class="navbar navbar-static-top">
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
