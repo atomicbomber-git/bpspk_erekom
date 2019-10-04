@@ -183,9 +183,9 @@ $(document).ready(function(){
 											<select class="form-control" name="alamat_gudang">
 												<option value="">-- Pilih Lokasi Pemeriksan --</option>
 												<option <?php echo (($phn['alamat_gudang']==$bio['alamat'])?"selected":"");?> value="<?php echo $bio['alamat'];?>"><?php echo $bio['alamat'];?></option>
-												<option <?php echo (($phn['alamat_gudang']=='Kantor BPSPL Pontianak')?"selected":"");?> value="Kantor BPSPL Pontianak">Kantor BPSPL Pontianak</option>
-												<option <?php echo (($phn['alamat_gudang']=='Kantor Satker Balikpapan, BPSPL Pontianak')?"selected":"");?> value="Kantor BPSPL Pontianak">Kantor Satker Balikpapan, BPSPL Pontianak</option>
-												<option <?php echo (($phn['alamat_gudang']=='Kantor Satker Banjarmasin, BPSPL Pontianak')?"selected":"");?> value="Kantor BPSPL Pontianak">Kantor Satker Banjarmasin, BPSPL Pontianak</option>
+												<option <?php echo (($phn['alamat_gudang']=='Kantor LPSPL Serang')?"selected":"");?> value="Kantor LPSPL Serang">Kantor LPSPL Serang</option>
+												<option <?php echo (($phn['alamat_gudang']=='Kantor Satker Balikpapan, LPSPL Serang')?"selected":"");?> value="Kantor LPSPL Serang">Kantor Satker Balikpapan, LPSPL Serang</option>
+												<option <?php echo (($phn['alamat_gudang']=='Kantor Satker Banjarmasin, LPSPL Serang')?"selected":"");?> value="Kantor LPSPL Serang">Kantor Satker Banjarmasin, LPSPL Serang</option>
 											</select>
 										</div>
 									</div>

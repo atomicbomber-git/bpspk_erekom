@@ -153,7 +153,7 @@ if($q->rowCount()>0){
 </head>
 <body>
 	<center class="title"><h3>STATISTIK PRODUK HIU & PARI</h3></center>
-	<center class="title"><h4>BPSPL PONTIANAK</h4></center>
+	<center class="title"><h4>LPSPL SERANG</h4></center>
 	<br/>
 	<br/>
 	<table>

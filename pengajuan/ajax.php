@@ -146,11 +146,11 @@ if ($_POST) {
 				");
 
 				require '../assets/phpmailer/PHPMailerAutoload.php';
-				$isi = "<p>Hi, " . $nama_lengkap . ", Terima Kasih Telah Mendaftar Pada Aplikasi E-Rekomendasi BPSPL Pontianak</p><p>Kode Verifikasi Untuk Akun Anda Adalah : <br><h3><strong>" . $ver_code . "</strong></h3></p>";
+				$isi = "<p>Hi, " . $nama_lengkap . ", Terima Kasih Telah Mendaftar Pada Aplikasi E-Rekomendasi LPSPL Serang</p><p>Kode Verifikasi Untuk Akun Anda Adalah : <br><h3><strong>" . $ver_code . "</strong></h3></p>";
 				$arr = array(
 					"send_to" => $email,
 					"send_to_name" => $nama_lengkap,
-					"subject_email" => "Verifikasi Akun - BPSPL Pontianak",
+					"subject_email" => "Verifikasi Akun - LPSPL Serang",
 					"isi_email" => $isi
 				);
 				/* sendMail($arr) */;
@@ -201,7 +201,7 @@ if ($_POST) {
 			$arr = array(
 				"send_to" => U_EMAIL,
 				"send_to_name" => U_NAME,
-				"subject_email" => "Verifikasi Akun - BPSPL Pontianak",
+				"subject_email" => "Verifikasi Akun - LPSPL Serang",
 				"isi_email" => $isi
 			);
 
@@ -264,7 +264,7 @@ if ($_POST) {
 					$arr=array(
 						"send_to"=>$email,
 						"send_to_name"=>$nama_lengkap,
-						"subject_email"=>"Verifikasi Akun - BPSPL Pontianak",
+						"subject_email"=>"Verifikasi Akun - LPSPL Serang",
 						"isi_email"=>$isi);
 					/* sendMail($arr) */;
 =======
@@ -272,7 +272,7 @@ if ($_POST) {
 					$arr = array(
 						"send_to" => $email,
 						"send_to_name" => $nama_lengkap,
-						"subject_email" => "Verifikasi Akun - BPSPL Pontianak",
+						"subject_email" => "Verifikasi Akun - LPSPL Serang",
 						"isi_email" => $isi
 					);
 					sendMail($arr);

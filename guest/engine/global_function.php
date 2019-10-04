@@ -293,8 +293,8 @@ function sendMail($data){
 
     $mail->Username = "admin@bpsplpontianak.com";
     $mail->Password = "admin2016bpspl";
-    $mail->setFrom('admin@bpsplpontianak.com', 'BPSPL Pontianak');
-    $mail->AddReplyTo("admin@bpsplpontianak.com","BPSPL Pontianak");
+    $mail->setFrom('admin@bpsplpontianak.com', 'LPSPL Serang');
+    $mail->AddReplyTo("admin@bpsplpontianak.com","LPSPL Serang");
 
     $mail->isHTML(true); 
     $mail->addAddress($tujuan, $tujuan_nama);

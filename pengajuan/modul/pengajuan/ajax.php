@@ -99,7 +99,7 @@ if($_POST){
 						$arr=array(
 							"send_to"=>$ad['email'],
 							"send_to_name"=>$ad['nm_lengkap'],
-							"subject_email"=>"Permohonan Rekomendasi - BPSPL Pontianak",
+							"subject_email"=>"Permohonan Rekomendasi - LPSPL Serang",
 							"isi_email"=>$isi);
 						/* sendMail($arr) */;
 					}

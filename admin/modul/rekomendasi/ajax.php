@@ -244,7 +244,7 @@ if($_POST){
 				$arr=array(
 					"send_to"=>$email,
 					"send_to_name"=>$nama_pemohon,
-					"subject_email"=>"Harap Perbaiki Data Permohonan Anda - BPSPL Pontianak",
+					"subject_email"=>"Harap Perbaiki Data Permohonan Anda - LPSPL Serang",
 					"isi_email"=>$isi);
 				/* sendMail($arr) */;
 				//-----------------------------------
@@ -332,12 +332,12 @@ if($_POST){
                     username : ".$log_u."<br>
                     password : ".$log_p."<br/>
                     email : ".$email_petugas."</p>
-                    <p>Untuk Keterangan Lebih Lanjut dapat menghubungi Admin BPSPL Pontianak, atas perhatiannya diucapkan terima kasih.</p>
+                    <p>Untuk Keterangan Lebih Lanjut dapat menghubungi Admin LPSPL Serang, atas perhatiannya diucapkan terima kasih.</p>
                     ";
                     $arr=array(
                         "send_to"=>$email_petugas,
                         "send_to_name"=>$nama_petugas,
-                        "subject_email"=>"Penunjukan Petugas Pemeriksaan - BPSPL Pontianak",
+                        "subject_email"=>"Penunjukan Petugas Pemeriksaan - LPSPL Serang",
                         "isi_email"=>$isi);
                     /* sendMail($arr) */;
                     //-----------------------------------------
@@ -397,12 +397,12 @@ if($_POST){
 						username : ".$log_u."<br>
 						password : ".$log_p."<br/>
 						email : ".$email_petugas."</p>
-						<p>Untuk Keterangan Lebih Lanjut dapat menghubungi Admin BPSPL Pontianak, atas perhatiannya diucapkan terima kasih.</p>
+						<p>Untuk Keterangan Lebih Lanjut dapat menghubungi Admin LPSPL Serang, atas perhatiannya diucapkan terima kasih.</p>
 						";
 						$arr=array(
 							"send_to"=>$email_petugas,
 							"send_to_name"=>$nama_petugas,
-							"subject_email"=>"Penunjukan Petugas Pemeriksaan - BPSPL Pontianak",
+							"subject_email"=>"Penunjukan Petugas Pemeriksaan - LPSPL Serang",
 							"isi_email"=>$isi);
 						/* sendMail($arr) */;
 						//-----------------------------------------
@@ -1045,7 +1045,7 @@ if($_POST){
 				$arr=array(
 					"send_to"=>$r['email'],
 					"send_to_name"=>$r['nm_lengkap'],
-					"subject_email"=>"Pengesahan Permohonan Rekomendasi - BPSPL Pontianak",
+					"subject_email"=>"Pengesahan Permohonan Rekomendasi - LPSPL Serang",
 					"isi_email"=>$isi);
 				/* sendMail($arr) */;
 				//---------------------------------------------
@@ -1182,7 +1182,7 @@ if($_POST){
 				$arr=array(
 					"send_to"=>$email,
 					"send_to_name"=>$nama_pemohon,
-					"subject_email"=>"Rekomendasi - BPSPL Pontianak",
+					"subject_email"=>"Rekomendasi - LPSPL Serang",
 					"isi_email"=>$isi);
 				/* sendMail($arr) */;
 
@@ -1196,8 +1196,8 @@ if($_POST){
 
 					$arr=array(
 						"send_to"=>$rr['ws_value'],
-						"send_to_name"=>"BPSPL Pontianak",
-						"subject_email"=>"Arsip : Rekomendasi - BPSPL Pontianak",
+						"send_to_name"=>"LPSPL Serang",
+						"subject_email"=>"Arsip : Rekomendasi - LPSPL Serang",
 						"isi_email"=>$isi_arsip);
 					/* sendMail($arr) */;
 				}
@@ -1212,11 +1212,11 @@ if($_POST){
 					if($sql->num_rows>0){
 						$rbk=$sql->result;
 
-						$isi_tembusan="<p>Tembusan Surat Rekomendasi BPSPL Pontianak kepada pemohon rekomendasi: ".$nama_pemohon." pada tanggal ".tanggalIndo($rrek['tgl_surat'],'j F Y').". Surat dapat didownload pada link berikut : <a href='".c_DOMAIN_UTAMA."download.php?surat=".$ru['kode_surat']."&token=".md5('download'.$ru['kode_surat'].'public')."' target='_blank'>Download Surat Rekomendasi </a></p>";
+						$isi_tembusan="<p>Tembusan Surat Rekomendasi LPSPL Serang kepada pemohon rekomendasi: ".$nama_pemohon." pada tanggal ".tanggalIndo($rrek['tgl_surat'],'j F Y').". Surat dapat didownload pada link berikut : <a href='".c_DOMAIN_UTAMA."download.php?surat=".$ru['kode_surat']."&token=".md5('download'.$ru['kode_surat'].'public')."' target='_blank'>Download Surat Rekomendasi </a></p>";
 						$arr=array(
 						"send_to"=>$rbk['email'],
 						"send_to_name"=>"Kepala ".$rbk['nama'],
-						"subject_email"=>"Tembusan : Rekomendasi - BPSPL Pontianak",
+						"subject_email"=>"Tembusan : Rekomendasi - LPSPL Serang",
 						"isi_email"=>$isi_tembusan);
 					/* sendMail($arr) */;
 					}
@@ -1231,11 +1231,11 @@ if($_POST){
 					if($sql->num_rows>0){
 						$rpsdkp=$sql->result;
 
-						$isi_tembusan="<p>Tembusan Surat Rekomendasi BPSPL Pontianak kepada pemohon rekomendasi: ".$nama_pemohon." pada tanggal ".tanggalIndo($rrek['tgl_surat'],'j F Y').". Surat dapat didownload pada link berikut : <a href='".c_DOMAIN_UTAMA."download.php?surat=".$ru['kode_surat']."&token=".md5('download'.$ru['kode_surat'].'public')."' target='_blank'>Download Surat Rekomendasi </a></p>";
+						$isi_tembusan="<p>Tembusan Surat Rekomendasi LPSPL Serang kepada pemohon rekomendasi: ".$nama_pemohon." pada tanggal ".tanggalIndo($rrek['tgl_surat'],'j F Y').". Surat dapat didownload pada link berikut : <a href='".c_DOMAIN_UTAMA."download.php?surat=".$ru['kode_surat']."&token=".md5('download'.$ru['kode_surat'].'public')."' target='_blank'>Download Surat Rekomendasi </a></p>";
 						$arr=array(
 						"send_to"=>$rpsdkp['email'],
 						"send_to_name"=>"Kepala ".$rpsdkp['nama'],
-						"subject_email"=>"Tembusan : Rekomendasi - BPSPL Pontianak",
+						"subject_email"=>"Tembusan : Rekomendasi - LPSPL Serang",
 						"isi_email"=>$isi_tembusan);
 					/* sendMail($arr) */;
 					}
@@ -1250,11 +1250,11 @@ if($_POST){
 					if($sql->num_rows>0){
 						$ruptprl=$sql->result;
 
-						$isi_tembusan="<p>Tembusan Surat Rekomendasi BPSPL Pontianak kepada pemohon rekomendasi: ".$nama_pemohon." pada tanggal ".tanggalIndo($rrek['tgl_surat'],'j F Y').". Surat dapat didownload pada link berikut : <a href='".c_DOMAIN_UTAMA."download.php?surat=".$ru['kode_surat']."&token=".md5('download'.$ru['kode_surat'].'public')."' target='_blank'>Download Surat Rekomendasi </a></p>";
+						$isi_tembusan="<p>Tembusan Surat Rekomendasi LPSPL Serang kepada pemohon rekomendasi: ".$nama_pemohon." pada tanggal ".tanggalIndo($rrek['tgl_surat'],'j F Y').". Surat dapat didownload pada link berikut : <a href='".c_DOMAIN_UTAMA."download.php?surat=".$ru['kode_surat']."&token=".md5('download'.$ru['kode_surat'].'public')."' target='_blank'>Download Surat Rekomendasi </a></p>";
 						$arr=array(
 						"send_to"=>$ruptprl['email'],
 						"send_to_name"=>"Kepala ".$ruptprl['nama'],
-						"subject_email"=>"Tembusan : Rekomendasi - BPSPL Pontianak",
+						"subject_email"=>"Tembusan : Rekomendasi - LPSPL Serang",
 						"isi_email"=>$isi_tembusan);
 					/* sendMail($arr) */;
 					}
@@ -1325,7 +1325,7 @@ if($_POST){
 					$arr=array(
 					"send_to"=>$email_verifikator,
 					"send_to_name"=>$nama_verifikator,
-					"subject_email"=>"Perbaikan Surat/Data- BPSPL Pontianak",
+					"subject_email"=>"Perbaikan Surat/Data- LPSPL Serang",
 					"isi_email"=>$isi_pesan);
 
 					/* sendMail($arr) */;

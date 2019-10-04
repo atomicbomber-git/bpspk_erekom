@@ -450,7 +450,7 @@ if($_POST){
 				$arr=array(
 					"send_to"=>$email,
 					"send_to_name"=>$nama_pemohon,
-					"subject_email"=>"Pengesahan Permohonan Rekomendasi - BPSPL Pontianak",
+					"subject_email"=>"Pengesahan Permohonan Rekomendasi - LPSPL Serang",
 					"isi_email"=>$isi);
 				/* sendMail($arr) */;
 				//---------------------------------------------

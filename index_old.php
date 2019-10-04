@@ -18,7 +18,7 @@
     <section>
       <div class="container">
         <img src="assets/images/logo-bpspl.png" alt="" class="logo"/>
-        <h3 class="title">Aplikasi E-Rekomendasi Pelayanan Lalu-lintas Hiu dan Pari <br /> BPSPL Pontianak</h3>
+        <h3 class="title">Aplikasi E-Rekomendasi Pelayanan Lalu-lintas Hiu dan Pari <br /> LPSPL Serang</h3>
         <ul class="menu">
           <li>
             <a href="http://e-rekomendasi.bpsplpontianak.com/pengajuan/">

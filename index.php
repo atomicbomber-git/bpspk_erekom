@@ -117,7 +117,7 @@ include ("pemeriksaan/engine/render.php");
         	<div class="row">
         		<div class="col-md-6">
         			<img src="assets/images/logo-bpspl.png" alt="" class="logo"/>
-        			<h4 class="title">BPSPL PONTIANAK MELAYANI <span class="text-danger">TANPA PUNGLI & GRATIFIKASI</span></h4>
+        			<h4 class="title">LPSPL SERANG MELAYANI <span class="text-danger">TANPA PUNGLI & GRATIFIKASI</span></h4>
         		</div>
         		<div class="col-md 6">
         			<img src="assets/images/logo-bpspl.png" alt="" class="logo"/>
