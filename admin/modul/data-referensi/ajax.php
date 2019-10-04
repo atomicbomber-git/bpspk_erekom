@@ -1,5 +1,6 @@
 <?php
-include ("../../engine/render.php");;
+include ("../../engine/render.php");
+
 if($_POST){
 	switch (trim(strip_tags($_POST['a']))) {
 		case 'adddtikan':
@@ -264,16 +265,19 @@ if($_POST){
 
 
 		case 'adduptprl':
-			$arr_insert=array(
-				'nama'=>$_POST['nama'],
-				'email'=>$_POST['email']);
 
-			$sql->insert('ref_upt_prl',$arr_insert);
-			if($sql->error==null){
+			try {
+				App\Models\UPTPRL::create([
+					"nama" => $_POST["nama"],
+					"email" => $_POST["email"],
+					"isDelete" => false,
+				]);
+
 				echo json_encode(array("stat"=>true,"msg"=>"Penambahan data berhasil dilakukan."));
-			}else{
+			} catch (\Throwable $throwable) {
 				echo json_encode(array("stat"=>false,"msg"=>"Aksi Gagal"));
 			}
+
 		break;
 
 		case 'upuptprl':
