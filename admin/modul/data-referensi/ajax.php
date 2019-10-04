@@ -315,19 +315,19 @@ if($_POST){
 			}
 		break;
 
-
 		case 'addpsdkp':
-			$arr_insert=array(
-				'nama'=>$_POST['nama'],
-				'email'=>$_POST['email']);
+			try {
+				App\Models\PSDKP::create([
+					"nama" => $_POST["nama"],
+					"email" => $_POST["email"],
+					"isDelete" => false,
+				]);
 
-			$sql->insert('ref_psdkp',$arr_insert);
-			if($sql->error==null){
 				echo json_encode(array("stat"=>true,"msg"=>"Penambahan data berhasil dilakukan."));
-			}else{
+			} catch (\Throwable $throwable) {
 				echo json_encode(array("stat"=>false,"msg"=>"Aksi Gagal"));
 			}
-		break;
+			break;
 
 		case 'uppsdkp':
 			$id=base64_decode($_POST['iddt']);
@@ -370,4 +370,3 @@ if($_POST){
 		break;
 	}
 }
-?>
