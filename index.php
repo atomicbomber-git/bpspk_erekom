@@ -65,16 +65,16 @@ include ("pemeriksaan/engine/render.php");
               </div>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a 
-                <!-- href="<?= getenv("APP_URL") ?>/guest/" -->
+                href="<?= getenv("APP_URL") ?>/guest/"
                 >
               <div class="body-icon">
                 <span class="fa fa-user fa-2x"></span>
                 <span class="title">Tamu</span>
               </div>
             </a>
-          </li>
+          </li> -->
         </ul>
         <ul class="menu">
           <li>
