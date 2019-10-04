@@ -16,8 +16,8 @@ if($_POST){
 
 			//table
 			$Table = "tb_userpublic u ";
-			$Table .= " JOIN tb_biodata b ON(b.ref_iduser=u.iduser) ";
-			$Table .= " JOIN web_meta reg ON(reg.meta_key='U_REGISTERED' AND reg.meta_group='1' AND reg.ref_id=u.iduser) ";
+			$Table .= "LEFT JOIN tb_biodata b ON(b.ref_iduser=u.iduser) ";
+			$Table .= "LEFT JOIN web_meta reg ON(reg.meta_key='U_REGISTERED' AND reg.meta_group='1' AND reg.ref_id=u.iduser) ";
 
 			//limit
 			$Limit = "";
@@ -52,7 +52,7 @@ if($_POST){
 			$filtertotal=$dbfiltot['total'];
 
 			//data
-			$q=$sql->run("SELECT u.iduser,u.nama_lengkap,u.email,b.*,reg.meta_value as tgl_daftar FROM $Table ".$Where.$sSearch.$sCustomFilter.$Orders.$Limit);
+			$q=$sql->run("SELECT u.verifikasi, u.iduser,u.nama_lengkap,u.email,b.*,reg.meta_value as tgl_daftar FROM $Table ".$Where.$sSearch.$sCustomFilter.$Orders.$Limit);
 			    
 			$output = array(
 			    "draw" => intval($_POST['draw']),
@@ -77,7 +77,7 @@ if($_POST){
 				//$pengajuanterakhir="Belum Pernah Mengajukan Permohonan";
 				$users=array(
 					$no,
-					$data['nama_lengkap'],
+					$data['nama_lengkap'] . " ({$data["verifikasi"]})",
 					tanggalIndo($tglregistrasi,'j F Y H:i'),
 					$pengajuanterakhir,
 					$aksi

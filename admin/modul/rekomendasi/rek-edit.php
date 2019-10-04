@@ -54,7 +54,7 @@
 										<td>Jenis Produk</td>
 										<td width="7%">Kemasan</td>
 										<td width="12%">Satuan<br>Kemasan</td>
-										<td width="12%">No.Segel</td>
+										<td width="12%">No.BAP</td>
 										<td width="10%">Berat(Kg)</td>
 										<td>Keterangan</td>
 									</tr>

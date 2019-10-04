@@ -53,7 +53,7 @@ $container = (new DI\ContainerBuilder())
         "default_module" => ModuleNames::ADMIN,
 
         "module" => function (ContainerInterface $c) {
-            return explode("/", $_SERVER["REQUEST_URI"])
+            return explode("/", $_SERVER["SCRIPT_NAME"])
                 [1] ?? $c->get("default_module");
         },
 

@@ -106,8 +106,10 @@ if ($rek->rowCount() > 0) {
 	$dt = $sql->run("SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin FROM tb_rek_hsl_periksa thp JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='" . $row['idrek'] . "' ORDER BY thp.ref_jns ASC");
 	if ($dt->rowCount() > 0) {
 		$no = 0;
+		$total_berat = 0;
 		foreach ($dt->fetchAll() as $dtrow) {
 			$no++;
+			$total_berat += $dtrow['berat'];
 			$html .= '
 				<tr>
 					<td width="5%">' . $no . '</td>
@@ -118,6 +120,20 @@ if ($rek->rowCount() > 0) {
 					<td>' . $dtrow['keterangan'] . '</td>
 				</tr>';
 		}
+
+
+		$html .= "
+			<tfoot>
+				<tr>
+					<td colspan='4' style='text-align: right'>
+						Total Berat:
+					</td>
+					<td> $total_berat </td>
+					<td> </td>
+				</tr>
+			</tfoot>
+		";
+
 	}
 	$html .= '</table>';
 	$html .= '<table style="width:100%">

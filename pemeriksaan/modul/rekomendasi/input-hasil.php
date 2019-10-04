@@ -86,7 +86,7 @@ if (ctype_digit($idpengajuan)) {
               <div class="form-group">
                 <label class="control-label col-md-3">Tanggal Pemeriksaan</label>
                 <div class="col-md-3">
-                  <input type="text" name="tgl_pemeriksaan" class="datepicker form-control" value="<?php echo $tanggal_pemeriksaan; ?>">
+                  <input type="text" name="tgl_pemeriksaan" class="datepicker form-control" disabled value="<?php echo $tanggal_pemeriksaan; ?>">
                   <small class="text-alert alert-danger">Format : Bulan/Hari/Tahun (mm/dd/yyyy)</small>
                 </div>
               </div>
