@@ -162,7 +162,7 @@ $(document).ready(function(){
 		<input type="hidden" name="a" value="pr">
 		<div class="row">
 			<?php
-			if(U_VERIFY==1){
+			if(container(App\Services\Auth::class)->isVerified()){
 				$sql->get_row('tb_biodata',array('ref_iduser'=>U_ID),array('idbio','alamat'));
 				if($sql->num_rows>0){
 					$bio=$sql->result;

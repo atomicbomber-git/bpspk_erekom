@@ -107,7 +107,7 @@ $(document).ready(function(){
 				<section class="panel">
 					<div class="panel-body">
 						<?php
-						if(U_VERIFY==0){
+						if(!container(App\Services\Auth::class)->isVerified()){
 						?>
 						<div class="row">
 							<div class="col-md-12">

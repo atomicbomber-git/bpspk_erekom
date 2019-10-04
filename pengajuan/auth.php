@@ -12,7 +12,6 @@
 require_once(c_THEMES."conf.php");
 
 // var_dump(USER);
-// exit;
 
 if(USER){
 	switch ($_SERVER["QUERY_STRING"]) {
