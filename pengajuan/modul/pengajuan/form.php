@@ -10,6 +10,9 @@
 6. cari jumlah pengajuan dalam rentang waktu kuisioner terakhir smpi sekarang.. + 1 
 7. klo jumlahny udah sampai 6.. tampilkan kuisioner
 */
+
+use App\Models\SatuanKerja;
+
 $sql->get_row('web_setting',array('sid'=>2,'ws_key'=>'kuisioner_stat','ws_value'=>'yes'));
 if($sql->num_rows>0){
 	$jlh_permohonan=$sql->get_count('tb_permohonan',array('ref_iduser'=>U_ID));
@@ -47,12 +50,6 @@ if($sql->num_rows>0){
 		}
 	}
 }
-
-
-//$ITEM_HEAD = "bootstrap.css, font-awesome.css, magnific-popup.css, datepicker3.css, theme.css, default.css, theme-custom.css, modernizr.js";
-//$ITEM_FOOT = "jquery.js, jquery.browser.mobile.js, bootstrap.js, nanoscroller.js, bootstrap-datepicker.js, magnific-popup.js, jquery.placeholder.js, pnotify.custom.js, theme.js, theme.custom.js, theme.init.js, jquery.validate.js, jquery.validate.msg.id.js";
-
-//@include(c_THEMES."meta.php");
 
 $SCRIPT_FOOT="
 <script>
@@ -212,15 +209,25 @@ $(document).ready(function(){
 											</select>
 										</div>
 									</div>
+
+                                    <?php
+                                        $satuan_kerjas = SatuanKerja::query()
+                                            ->select("id_satker", "nm_satker", "kode")
+                                            ->get(); 
+                                    ?>
+
 									<div class="form-group">
 										<label class="control-label col-md-3">Lokasi Pemeriksaan Sampel</label>
 										<div class="col-md-5">
 											<select class="form-control" name="alamat_gudang">
 												<option value="">-- Pilih Lokasi Pemeriksan --</option>
 												<option value="<?php echo $bio['alamat'];?>"><?php echo $bio['alamat'];?></option>
-												<option value="Kantor LPSPL Serang">Kantor LPSPL Serang</option>
-												<option value="Kantor LPSPL Serang">Kantor Satker Balikpapan, LPSPL Serang</option>
-												<option value="Kantor LPSPL Serang">Kantor Satker Banjarmasin, LPSPL Serang</option>
+
+                                                <?php foreach($satuan_kerjas as $satuan_kerja): ?>
+                                                <option value="<?= $satuan_kerja->nm_satker ?>">
+                                                    <?= $satuan_kerja->nm_satker ?>
+                                                </option>
+                                                <?php endforeach ?>
 											</select>
 										</div>
 									</div>
