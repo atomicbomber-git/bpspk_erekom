@@ -11,8 +11,10 @@ if($sql->num_rows>0){
 	$nm_perusahaan=$row['nm_perusahaan'];
 	$siup=$row['siup'];
 	$izin_lainnya=$row['izin_lain'];
+	$nib=$row['nib'];
+	$sipji=$row['sipji'];
 }else{
-	$tmp_lahir="";$tgl_lahir="";$no_ktp="";$no_telp="";$alamat_rmh="";$npwp="";$nm_perusahaan="";$siup="";$izin_lainnya="";
+	$tmp_lahir="";$tgl_lahir="";$no_ktp="";$no_telp="";$alamat_rmh="";$npwp="";$nm_perusahaan="";$siup="";$izin_lainnya="";$nib="";$sipji="";
 }
 ?>
 <form id="form_biodata" method="post" enctype="multipart/form-data">
@@ -140,6 +142,61 @@ if($sql->num_rows>0){
 							?>
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-3">Nomor NIB</label>
+						<div class="col-md-4">
+							<input type="text" name="nib" class="form-control" value="<?php echo $nib;?>">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-3">Berkas NIB</label>
+						<div class="col-md-5">
+							<input type="file" accept="image/*" name="nib" class="form-control" value="">
+							<p class="text-alert alert-info">Upload Hasil Scan NIB Anda. (Hanya Gambar:png,jpg,jpeg)</p>
+						</div>
+						<div class="col-md-4">
+							<p>NIB</p>
+							<?php
+							$s=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".U_ID."' AND jenis_berkas='5' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+							if($s->rowCount()>0){
+								$img_nib=$s->fetch();
+								echo '<img width="100%" href="'.BERKAS.$img_nib['nama_file'].'" src="'.BERKAS.$img_nib['nama_file'].'" class="img-prev">';
+							}else{
+								echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
+							}
+							?>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-3">Nomor SIPJI</label>
+						<div class="col-md-4">
+							<input type="text" name="sipji" class="form-control" value="<?php echo $sipji;?>">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-3">Berkas SIPJI</label>
+						<div class="col-md-5">
+							<input type="file" accept="image/*" name="sipji" class="form-control" value="">
+							<p class="text-alert alert-info">Upload Hasil Scan SIPJI Anda. (Hanya Gambar:png,jpg,jpeg)</p>
+						</div>
+						<div class="col-md-4">
+							<p>SIPJI</p>
+							<?php
+							$s=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".U_ID."' AND jenis_berkas='6' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+							if($s->rowCount()>0){
+								$img_sipji=$s->fetch();
+								echo '<img width="100%" href="'.BERKAS.$img_sipji['nama_file'].'" src="'.BERKAS.$img_sipji['nama_file'].'" class="img-prev">';
+							}else{
+								echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
+							}
+							?>
+						</div>
+					</div>
+
 					<div class="form-group">
 						<label class="control-label col-md-3">Izin Usaha Lainnya</label>
 						<div class="col-md-5">

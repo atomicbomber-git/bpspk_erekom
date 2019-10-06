@@ -83,6 +83,14 @@ if(!ctype_digit($iduser)){
 							<td><?php echo $bio['siup'];?></td>
 						</tr>
 						<tr>
+							<td>NIB</td>
+							<td><?php echo $bio['nib'];?></td>
+						</tr>
+						<tr>
+							<td>SIPJI</td>
+							<td><?php echo $bio['sipji'];?></td>
+						</tr>
+						<tr>
 							<td>Izin Usaha Lainnya</td>
 							<td><?php echo $bio['izin_lain'];?></td>
 						</tr>
@@ -138,6 +146,35 @@ if(!ctype_digit($iduser)){
 
 							?></td>
 						</tr>
+
+						<tr>
+							<td>NIB<br/>
+							<?php
+							$s=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$iduser."' AND jenis_berkas='5' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+							if($s->rowCount()>0){
+								$img_nib=$s->fetch();
+								echo '<img width="50%" href="'.BERKAS.$img_nib['nama_file'].'" src="'.BERKAS.$img_nib['nama_file'].'" class="img-prev">';
+							}else{
+								echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
+							}
+
+							?></td>
+						</tr>
+
+						<tr>
+							<td>SIPJI<br/>
+							<?php
+							$s=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$iduser."' AND jenis_berkas='6' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+							if($s->rowCount()>0){
+								$img_sipji=$s->fetch();
+								echo '<img width="50%" href="'.BERKAS.$img_sipji['nama_file'].'" src="'.BERKAS.$img_sipji['nama_file'].'" class="img-prev">';
+							}else{
+								echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
+							}
+
+							?></td>
+						</tr>
+
 						<tr>
 							<td>TTD<br/>
 							<?php
