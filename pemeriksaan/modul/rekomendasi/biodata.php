@@ -151,6 +151,7 @@ $arr_jns_tujuan=array(
 								<td><?php echo $bio['npwp'];?></td>
 							</tr>
 							<tr>
+
 								<td>Nama Perusahaan</td>
 								<td><?php echo $bio['nm_perusahaan'];?></td>
 							</tr>
@@ -159,6 +160,20 @@ $arr_jns_tujuan=array(
 								<td><?php echo $bio['siup'];?></td>
 							</tr>
 							<tr>
+
+							<tr>
+								<td>NIB</td>
+								<td><?php echo $bio['nib'];?></td>
+							</tr>
+							<tr>
+
+
+							<tr>
+								<td>SIPJI</td>
+								<td><?php echo $bio['sipji'];?></td>
+							</tr>
+							<tr>
+
 								<td>Izin Usaha Lainnya</td>
 								<td><?php echo $bio['izin_lain'];?></td>
 							</tr>
@@ -210,6 +225,35 @@ $arr_jns_tujuan=array(
 								}
 								?></td>
 							</tr>
+
+							<tr>
+								<td>NIB<br/>
+								<?php
+								$sql->get_row('tb_berkas',array('ref_iduser'=>$p['ref_iduser'],'jenis_berkas'=>3),array('nama_file'));
+								$sql->order_by="revisi DESC, date_upload DESC, idb DESC";
+								$img_nib=$sql->result;
+								if($img_nib['nama_file']==''){
+									echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
+								}else{
+									echo '<img width="50%" href="'.BERKAS.$img_nib['nama_file'].'" src="'.BERKAS.$img_nib['nama_file'].'" class="img-prev">';
+								}
+								?></td>
+							</tr>
+
+							<tr>
+								<td>SIPJI<br/>
+								<?php
+								$sql->get_row('tb_berkas',array('ref_iduser'=>$p['ref_iduser'],'jenis_berkas'=>3),array('nama_file'));
+								$sql->order_by="revisi DESC, date_upload DESC, idb DESC";
+								$img_sipji=$sql->result;
+								if($img_sipji['nama_file']==''){
+									echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
+								}else{
+									echo '<img width="50%" href="'.BERKAS.$img_sipji['nama_file'].'" src="'.BERKAS.$img_sipji['nama_file'].'" class="img-prev">';
+								}
+								?></td>
+							</tr>
+
 							<tr>
 								<td>TTD<br/>
 								<?php

@@ -208,7 +208,7 @@ include ("pemeriksaan/engine/render.php");
   <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript">
   	$(document).ready(function(){
-  		$('body').css('background-image','url(http://siap-mantau.bpsplpontianak.com/assets/images/background.jpg)');
+  		$('body').css('background-image','url(assets/images/background.jpg)');
   		$('body').css('background-size','cover');
   		$('body').css('background-position','center');
 
