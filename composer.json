@@ -26,6 +26,7 @@
         "psy/psysh": "@stable",
         "php-di/php-di": "^6.0",
         "endroid/qr-code": "^3.6",
-        "nesbot/carbon": "^2.25"
+        "nesbot/carbon": "^2.25",
+        "league/plates": "^3.3"
     }
 }

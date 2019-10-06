@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Contracts\Template;
 use App\Services\Letter;
 use Mpdf\HTMLParserMode;
 use Mpdf\Mpdf;
@@ -86,55 +87,42 @@ if ($rek->rowCount() > 0) {
 			<td class="barcodecell">' . $qrcode . '
 			<p>' . $row['kode_surat'] . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p></td>
 		</tr>
-	</table>';
-	$html .= '<table style="width:100%">
-		<tr>
-			<td style="text-align:justify;"><br>
-			<p>Menindaklanjuti Surat Saudara tanggal ' . tanggalIndo($row['tgl_pengajuan'], 'j F Y') . ' perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke ' . $row['tujuan'] . ' melalui jalur ' . ucwords($row['jenis_angkutan']) . ', dengan ini disampaikan bahwa Petugas Balai Pengelolaan Sumberdaya Pesisir dan Laut Pontianak telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : ' . $row['nobap'] . ' tanggal ' . tanggalIndo($row['tglbap'], 'j F Y') . ' dengan hasil:</p>
-			</td>
-		</tr>
-	</table>';
-	$html .= '<table style="width:100%" class="table table-bordered table-hasil" >
-		<tr>
-			<td width="5%">No</td>
-			<td>Jenis Ikan</td>
-			<td width="12%">Kemasan</td>
-			<td width="12%">No.Segel</td>
-			<td width="12%">Berat Ikan(Kg)</td>
-			<td>Keterangan</td>
-		</tr>';
-	$dt = $sql->run("SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin FROM tb_rek_hsl_periksa thp JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='" . $row['idrek'] . "' ORDER BY thp.ref_jns ASC");
-	if ($dt->rowCount() > 0) {
-		$no = 0;
-		$total_berat = 0;
-		foreach ($dt->fetchAll() as $dtrow) {
-			$no++;
-			$total_berat += $dtrow['berat'];
-			$html .= '
-				<tr>
-					<td width="5%">' . $no . '</td>
-					<td><em>' . $dtrow['nama_latin'] . '</em></td>
-					<td>' . $dtrow['kemasan'] . ' ' . $dtrow['satuan'] . '</td>
-					<td>' . $dtrow['no_segel'] . '</td>
-					<td>' . (($dtrow['berat'] == '0.00') ? "" : $dtrow['berat']) . '</td>
-					<td>' . $dtrow['keterangan'] . '</td>
-				</tr>';
-		}
+    </table>';
+    
 
+    $opening_text = container(Letter::class)
+        ->getOpeningText(
+            tanggalIndo($row['tgl_pengajuan'], 'j F Y'),
+            $row['tujuan'],
+            $row['jenis_angkutan'],
+            $row['nobap'],
+            tanggalIndo($row['tglbap'], 'j F Y'),
+        );
 
-		$html .= "
-			<tfoot>
-				<tr>
-					<td colspan='4' style='text-align: right'>
-						Total Berat:
-					</td>
-					<td> $total_berat </td>
-					<td> </td>
-				</tr>
-			</tfoot>
-		";
+    $html .= 
+        '<table style="width:100%">
+		    <tr>
+			    <td style="text-align:justify;"><br>
+                    <p>
+                        '. $opening_text . '
+                    </p>
+			    </td>
+		    </tr>
+        </table>'
+    ;
+    
+ 
+    $dt = $sql->run("
+        SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin, rdi.dilindungi FROM
+            tb_rek_hsl_periksa thp 
+                JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
+                LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
+            WHERE thp.ref_idrek='". $row['idrek'] . "' ORDER BY thp.ref_jns ASC"
+        );
 
-	}
+    $html .= container(Template::class)
+        ->render("letter/table", ["records" => $dt->fetchAll()]);
+
 	$html .= '</table>';
 	$html .= '<table style="width:100%">
 		<tr>
