@@ -603,11 +603,11 @@ if ($sql->num_rows>0) {
                                 <td style="text-align: center"><?php echo $dtrow['no_segel']; ?></td>
                                 <td style="text-align: center">
                                     <?php switch($dtrow['dilindungi']): case DataIkan::STATUS_DILINDUNGI: ?>
-                                    Dilindungi
+                                    Dilindungi <?php break; ?>
                                     <?php case DataIkan::STATUS_TIDAK_DILINDUNGI: ?>
-                                    Tidak Dilindungi
+                                    Tidak Dilindungi <?php break; ?>
 									<?php case DataIkan::STATUS_APPENDIKS_2_CITES: ?>
-									Appendiks II CITES
+									Appendiks II CITES 
                                     <?php endswitch ?>
                                 </td>
                             </tr>
