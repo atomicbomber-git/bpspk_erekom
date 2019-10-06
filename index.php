@@ -127,7 +127,7 @@ include ("pemeriksaan/engine/render.php");
         </div> -->
         <h4 class="title">Loka Pengelolaan Sumberdaya Pesisisr dan Laut Serang</h4>
         <!-- <h4 class="title">SETIAP DATA YANG DIINPUTKAN <span class="text-danger">DIJAMIN KERAHASIAANNYA </span></h4> -->
-        <p style="color:#fff;text-align:center">Pengaduan dapat disampaikan melalui email : admin@email.com</p>
+        <p style="color:#fff;text-align:center">Pengaduan dapat disampaikan melalui email : pelayananpsplserang@gmail.com</p>
       </div>
     </section>
     <div id="prosedurpelayanan" class="modal fade" role="dialog">

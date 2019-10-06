@@ -102,9 +102,9 @@ $(document).ready(function(){
 								<th width="17%">Tanggal Pengajuan</th>
 								<th>Tujuan</th>
 								<th width="7%" style="text-align: center">Verifikasi Admin</th>
-								<th width="7%" style="text-align: center">Pemeriksaan Sampel</th>
-								<th width="7%" style="text-align: center">BAP & Verifikator</th>
-								<th width="7%" style="text-align: center">Kepala Balai</th>
+								<th width="7%" style="text-align: center">Pemeriksaan</th>
+								<th width="7%" style="text-align: center">Kepala Sub Seksi PP</th>
+								<th width="7%" style="text-align: center">Kepala Loka</th>
 								<th width="7%" style="text-align: center">Selesai</th>
 								<th width="15%" style="text-align: center">Aksi</th>
 							</tr>

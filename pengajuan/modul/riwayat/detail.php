@@ -90,7 +90,7 @@ $arr_status=array(
 							<td><?php echo $arr_alatangkut[$p['jenis_angkutan']];?></td>
 						</tr>
 						<tr>
-							<td>Alamat Gudang</td>
+							<td>Alamat Pemeriksaan</td>
 							<td><?php echo $p['alamat_gudang'];?></td>
 						</tr>
 						<tr>

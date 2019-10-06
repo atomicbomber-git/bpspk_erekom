@@ -90,7 +90,7 @@ if ($rek->rowCount() > 0) {
 	$html .= '<table style="width:100%">
 		<tr>
 			<td style="text-align:justify;"><br>
-			<p>Menindaklanjuti Surat Saudara tanggal ' . tanggalIndo($row['tgl_pengajuan'], 'j F Y') . ' perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke ' . $row['tujuan'] . ' melalui jalur ' . ucwords($row['jenis_angkutan']) . ', dengan ini disampaikan bahwa Petugas Balai Pengelolaan Sumberdaya Pesisir dan Laut Pontianak telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : ' . $row['nobap'] . ' tanggal ' . tanggalIndo($row['tglbap'], 'j F Y') . ' dengan hasil:</p>
+			<p>Menindaklanjuti Surat Saudara tanggal ' . tanggalIndo($row['tgl_pengajuan'], 'j F Y') . ' perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke ' . $row['tujuan'] . ' melalui jalur ' . ucwords($row['jenis_angkutan']) . ', dengan ini disampaikan bahwa Petugas Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : ' . $row['nobap'] . ' tanggal ' . tanggalIndo($row['tglbap'], 'j F Y') . ' dengan hasil:</p>
 			</td>
 		</tr>
 	</table>';
@@ -150,7 +150,7 @@ if ($rek->rowCount() > 0) {
 		<tr>
 			<td width="60%"></td>
 			<td width="40%" style="text-align:center"><br>
-				' . (($row['lvl'] == 90) ? "Kepala Balai" : "Plh. Kepala Balai") . '
+				' . (($row['lvl'] == 90) ? "Kepala Loka" : "Plh. Kepala Loka") . '
 				<p><img height="150px" style="z-index:-1;" src="' . $berkas_admin . $row['ttd'] . '"></p>
 				' . $row['penandatgn'] . '
 			</td>

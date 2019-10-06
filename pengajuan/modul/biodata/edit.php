@@ -142,7 +142,7 @@ if($sql->num_rows>0){
 							?>
 						</div>
 					</div>
-
+					
 					<div class="form-group">
 						<label class="control-label col-md-3">Nomor NIB</label>
 						<div class="col-md-4">
