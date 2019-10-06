@@ -88,7 +88,7 @@ $found=$sql->num_rows;
 									<option <?php echo (($ikan['dilindungi']=='0')?"selected":""); ?>value=""> Pilih </option>
 									
                                     <?php foreach(DataIkan::STATUSES as $key => $label): ?>
-                                    <option value="<?= $key ?>  <?= $ikan['dilindungi'] == $key ? "selected" : "" ?> ">
+                                    <option value="<?= $key ?>" <?= $ikan['dilindungi'] == $key ? "selected" : "" ?>>
                                         <?= $label ?>
                                     </option>
                                     <?php endforeach ?>
