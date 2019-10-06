@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\DataIkan;
 use App\Services\Letter;
 
 require_once("config.php");
@@ -583,31 +584,39 @@ if ($sql->num_rows>0) {
                         </thead>
                         
                         
-
-
-						<?php
+                        <?php 
                             $dt= $sql->run("
-                                SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin FROM tb_rek_hsl_periksa thp JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC"
+                                SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin, rdi.dilindungi FROM
+                                    tb_rek_hsl_periksa thp 
+                                        JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
+                                        LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
+                                    WHERE thp.ref_idrek='". $row['idrek'] . "' ORDER BY thp.ref_jns ASC"
                             );
+                        ?>
 
+                        <tbody>
+                            <?php foreach($dt->fetchAll() as $key => $dtrow): ?>
 
-    if ($dt->rowCount()>0) {
-        $no=0;
-        foreach ($dt->fetchAll() as $dtrow) {
-            $no++; ?>
-								<tr>
-									<td style="text-align: center" width="5%"><?php echo $no; ?></td>
-									<td style="text-align: center"><?php echo  $dtrow['nama_latin']; ?></td>
-                                    <td style="text-align: center"><?php echo $dtrow['keterangan']; ?></td>
-                                    <td style="text-align: center"><?php echo(($dtrow['berat']=='0.000')?"":$dtrow['berat']); ?></td>
-									<td style="text-align: center"><?php echo $dtrow['kemasan']." ".$dtrow['satuan']; ?></td>
-                                    <td style="text-align: center"><?php echo $dtrow['no_segel']; ?></td>
-    								<td style="text-align: center"> </td>
-								</tr>
-						    <?php
-        }
-    } ?>
+                            <tr>
+                                <td style="text-align: center" width="5%"><?php echo $key + 1; ?></td>
+                                <td style="text-align: center"><?php echo  $dtrow['nama_latin']; ?></td>
+                                <td style="text-align: center"><?php echo $dtrow['keterangan']; ?></td>
+                                <td style="text-align: center"><?php echo(($dtrow['berat']=='0.000')?"":$dtrow['berat']); ?></td>
+                                <td style="text-align: center"><?php echo $dtrow['kemasan']." ".$dtrow['satuan']; ?></td>
+                                <td style="text-align: center"><?php echo $dtrow['no_segel']; ?></td>
+                                <td style="text-align: center">
+                                    <?php switch($dtrow['dilindungi']): case DataIkan::STATUS_DILINDUNGI: ?>
+                                    Dilindungi
+                                    <?php case DataIkan::STATUS_TIDAK_DILINDUNGI: ?>
+                                    Tidak Dilindungi
+                                    <?php endswitch ?>
+                                </td>
+                            </tr>
+                            <?php endforeach ?>
+                        </tbody>
 					</table>
+
+
 					<table style="width:100%">
 						<tr>
 							<td><br><p><?php echo $row['redaksi']; ?></p></td>
