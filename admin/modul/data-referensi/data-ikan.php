@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\DataIkan;
+
 include ("../../engine/render.php");
 $ITEM_HEAD = "bootstrap.css, font-awesome.css, magnific-popup.css, datepicker3.css, 
 				pnotify.custom.css, jquery.appear.js, select2.css, datatables.css,
@@ -70,9 +73,13 @@ $SCRIPT_FOOT = "
 						</thead>
 						<tbody id="isi_table">
 						<?php
-						$array_dilindungi = array(
-							"1"=>"Dilindungi",
-							"2"=>"Tidak Dilindungi");
+                        
+                        $array_dilindungi = array(
+							"1"=> DataIkan::STATUS_DILINDUNGI,
+							"2"=> DataIkan::STATUS_TIDAK_DILINDUNGI,
+                            "3"=> DataIkan::STATUS_APPENDIKS_2_CITES,
+                        );
+                        
 						$array_peredaran = array(
 							"1"=>"Dalam dan Luar Negeri",
 							"2"=>"Hanya Dalam Negeri",
@@ -163,9 +170,15 @@ $SCRIPT_FOOT = "
 							<div class="col-md-12">							
 								<label class="control-label" for="dilindungi">Dilindungi</label>
 								<select class="form-control" name="dilindungi">
-									<option value=""> Pilih </option>
-									<option value="1"> Dilindungi</option>
-									<option value="2"> Tidak Dilindungi</option>
+                                    
+                                    <option value=""> Pilih </option>
+
+									<?php foreach(DataIkan::STATUSES as $key => $label): ?>
+                                    <option value="<?= $key ?>">
+                                        <?= $label ?>
+                                    </option>
+                                    <?php endforeach ?>
+
 								</select>
 							</div>
 						</div>

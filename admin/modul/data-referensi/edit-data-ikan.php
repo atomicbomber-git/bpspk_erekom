@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\DataIkan;
+
 include ("../../engine/render.php");
 $ITEM_HEAD = "bootstrap.css, font-awesome.css, magnific-popup.css, datepicker3.css, 
 				pnotify.custom.css, jquery.appear.js, select2.css, datatables.css,
@@ -83,8 +86,13 @@ $found=$sql->num_rows;
 								<label class="control-label" for="dilindungi">Dilindungi</label>
 								<select class="form-control" name="dilindungi">
 									<option <?php echo (($ikan['dilindungi']=='0')?"selected":""); ?>value=""> Pilih </option>
-									<option <?php echo (($ikan['dilindungi']=='1')?"selected":""); ?> value="1"> Dilindungi</option>
-									<option <?php echo (($ikan['dilindungi']=='2')?"selected":""); ?> value="2"> Tidak Dilindungi</option>
+									
+                                    <?php foreach(DataIkan::STATUSES as $key => $label): ?>
+                                    <option value="<?= $key ?>  <?= $ikan['dilindungi'] == $key ? "selected" : "" ?> ">
+                                        <?= $label ?>
+                                    </option>
+                                    <?php endforeach ?>
+
 								</select>
 							</div>
 						</div>
