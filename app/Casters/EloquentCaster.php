@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class EloquentCaster 
 {
-    public function castCollection(Collection $collection)
+    public static function castCollection(Collection $collection)
     {
         return $collection->toArray();
     }
 
-    public function castModel(Model $model)
+    public static function castModel(Model $model)
     {
         return $model->toArray();
     }

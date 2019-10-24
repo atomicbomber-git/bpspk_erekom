@@ -61,7 +61,7 @@ $arr_jns_tujuan=array(
 				<div class="panel-body">
 					<table class="table table-hover">
 						<tr>
-							<td width="20%">Nama Lengkap</td>
+							<td width="20%">Nama Perusahaan/Perseorangan</td>
 							<td><?php echo $bio['nama_lengkap'];?></td>
 						</tr>
 						<tr>

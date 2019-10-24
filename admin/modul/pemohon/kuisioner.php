@@ -42,7 +42,7 @@ if($q->rowCount()>0){
 				<div class="panel-body">
 					<table class="table table-hover">
 						<tr>
-							<td width="15%">Nama Pemohon</td>
+							<td width="15%">Nama Perusahaan/Perseorangan</td>
 							<td>: <?php echo $qr['nama_lengkap']; ?></td>
 						</tr>
 						<tr>

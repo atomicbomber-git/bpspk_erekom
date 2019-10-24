@@ -51,7 +51,7 @@ $(document).ready(function(){
 						<thead>
 							<tr>
 								<th width="5%">No</th>
-								<th>Nama Pemohon</th>
+								<th>Nama Perusahaan/Perseorangan</th>
 								<th width="20%">Tanggal Registrasi</th>
 								<th width="20%">Pengajuan Terakhir</th>
 								<th width="15%">Aksi</th>

@@ -11,6 +11,7 @@
 7. klo jumlahny udah sampai 6.. tampilkan kuisioner
 */
 
+use App\Models\SatuanBarang;
 use App\Models\SatuanKerja;
 
 $sql->get_row('web_setting',array('sid'=>2,'ws_key'=>'kuisioner_stat','ws_value'=>'yes'));
@@ -55,12 +56,18 @@ $SCRIPT_FOOT="
 <script>
 $(document).ready(function(){
 	$('nav li.nav1').addClass('nav-active');
-	$('#btn_add_brg').click(function(){
-		var tr    = $('tr.row_clone:first');
+
+	var tr = $('tr.row_clone:first').clone()
+	$('tr.row_clone:first').remove()
+
+
+	$('#btn_add_brg').click(function() {
 	    var clone = tr.clone();
 	    clone.find(':text').val('');
 	    clone.find('input').prop('disabled', false);
-	    clone.show();
+		clone.show();
+		
+
 	    $('tr.row_clone:last').after(clone);
 
 	    clone.find('.del_thisrow').on('click', function(e) {
@@ -160,7 +167,7 @@ $(document).ready(function(){
 		<div class="row">
 			<?php
 			if(container(App\Services\Auth::class)->isVerified()){
-				$sql->get_row('tb_biodata',array('ref_iduser'=>U_ID),array('idbio','alamat'));
+				$sql->get_row('tb_biodata',array('ref_iduser'=>U_ID),array('idbio','gudang_1', 'gudang_2', 'gudang_3'));
 				if($sql->num_rows>0){
 					$bio=$sql->result;
 					$sql->get_row('tb_berkas',array('ref_iduser'=>U_ID,'jenis_berkas'=>1),'idb');
@@ -221,7 +228,26 @@ $(document).ready(function(){
 										<div class="col-md-5">
 											<select class="form-control" name="alamat_gudang">
 												<option value="">-- Pilih Lokasi Pemeriksan --</option>
-												<option value="<?php echo $bio['alamat'];?>"><?php echo $bio['alamat'];?></option>
+												
+												<option value="<?= $bio['gudang_1'] ?>">
+													<?= $bio['gudang_1'] ?>
+												</option>
+
+												<?php if(!empty($bio['gudang_2'])): ?>
+
+												<option value="<?= $bio['gudang_2'] ?>">
+													<?= $bio['gudang_2'] ?>
+												</option>
+													
+												<?php endif ?>
+
+												<?php if(!empty($bio['gudang_3'])): ?>
+
+												<option value="<?= $bio['gudang_3'] ?>">
+													<?= $bio['gudang_3'] ?>
+												</option>
+													
+												<?php endif ?>
 
                                                 <?php foreach($satuan_kerjas as $satuan_kerja): ?>
                                                 <option value="<?= $satuan_kerja->nm_satker ?>">
@@ -261,8 +287,9 @@ $(document).ready(function(){
 										<thead>
 											<tr>
 												<th class="text-center" >Nama Barang</th>
-												<th class="text-center" width="15%">Kemasan<br>(Colly)</th>
-												<th class="text-center" width="15%">Jumlah/<br>Berat (Kg)</th>
+												<th class="text-center" width="15%"> Jumlah </th>
+												<th class="text-center" width="15%"> Satuan </th>
+												<th class="text-center" width="15%"> Berat (Kg)</th>
 												<th class="text-center" width="20%">Asal Komoditas</th>
 												<th class="text-center" width="5%">Aksi</th>
 											</tr>
@@ -271,17 +298,49 @@ $(document).ready(function(){
 											<tr>
 												<td><input type="text" name="nm_brg[]" class="form-control"></td>
 												<td><input type="text" name="kuantitas[]" class="form-control"></td>
+												<td>
+													<select 
+														class="form-control"
+														name="id_satuan_kuantitas[]"
+														id="id_satuan_kuantitas"
+														>
+
+														<?php foreach(SatuanBarang::all() as $satuan_barang): ?>
+														<option value="<?= $satuan_barang->id ?>">
+															<?= $satuan_barang->nama ?>
+														</option>
+														<?php endforeach ?>
+													</select>
+												</td>
+
 												<td><input type="text" name="jlh[]" class="form-control"></td>
 												<td><input type="text" name="asal_komoditas[]" class="form-control"></td>
 												<td></td>
 											</tr>
+
 											<tr class="row_clone" style="display:none">
-												<td><input type="text" disabled name="nm_brg[]" class="form-control"></td>
-												<td><input type="text" disabled name="kuantitas[]" class="form-control"></td>
-												<td><input type="text" disabled name="jlh[]" class="form-control"></td>
-												<td><input type="text" disabled name="asal_komoditas[]" class="form-control"></td>
+											<td><input type="text" name="nm_brg[]" class="form-control"></td>
+												<td><input type="text" name="kuantitas[]" class="form-control"></td>
+												<td>
+													<select 
+														class="form-control"
+														name="id_satuan_kuantitas[]"
+														id="id_satuan_kuantitas"
+														>
+
+														<?php foreach(SatuanBarang::all() as $satuan_barang): ?>
+														<option value="<?= $satuan_barang->id ?>">
+															<?= $satuan_barang->nama ?>
+														</option>
+														<?php endforeach ?>
+													</select>
+												</td>
+
+												<td><input type="text" name="jlh[]" class="form-control"></td>
+												<td><input type="text" name="asal_komoditas[]" class="form-control"></td>
 												<td><a href="#" class="btn btn-sm btn-danger del_thisrow" title="Hapus Baris Ini">X</a></td>
 											</tr>
+											
 										</tbody>
 										<tfoot>
 											<tr id="addrow">
