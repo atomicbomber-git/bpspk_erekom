@@ -1,7 +1,5 @@
 <?php
 
-use App\Services\Auth;
-
 include_once("../bootstrap.php");
 include_once("engine/render.php");
 

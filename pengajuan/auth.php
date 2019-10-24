@@ -11,8 +11,6 @@
 
 require_once(c_THEMES."conf.php");
 
-// var_dump(USER);
-
 if(USER){
 	switch ($_SERVER["QUERY_STRING"]) {
 		case 'keluar':

@@ -19,9 +19,10 @@ $(document).ready(function(){
 			tmp_lahir:{required:true},
 			tgl_lahir:{required:true},
 			no_ktp:{required:true,digits:true},
+			nib:{required:true,digits:true},
 			no_telp:{required:true},
 			//ttd:{required:true},
-			alamat_rmh:{required:true}
+			gudang_1:{required:true}
 		},
 		messages:{
 			nm_lengkap:{required:'Nama Lengkap Harap Diisi.'},
@@ -30,7 +31,7 @@ $(document).ready(function(){
 			no_ktp:{required:'No Identitas Harap Diisi.'},
 			no_telp:{required:'No Telepon Harap Diisi'},
 			//ttd:{required:'Silakan Uplaod Tandatangan Anda'},
-			alamat_rmh:{required:'Alamat Harap Diisi'}
+			gudang_1:{required:'Alamat Gudang Harap Diisi'}
 		},
 		errorPlacement: function (error, element) {
 	        error.insertAfter(element);
@@ -106,6 +107,7 @@ $(document).ready(function(){
 	</header>
 	<?php
 	$found=$sql->get_count('tb_biodata',array('ref_iduser'=>U_ID));
+
 	if($found>0){
 		include("edit.php");
 	}else{
