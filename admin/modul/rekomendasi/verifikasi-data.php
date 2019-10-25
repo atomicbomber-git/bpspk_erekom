@@ -328,7 +328,7 @@ $arr_jns_tujuan=array(
 										<?php
 										$jlhpegawai=$sql->get_count('op_pegawai',array('status'=>2));
 										if($jlhpegawai>0){
-											$count=(($jlhpegawai>6)?7:$jlhpegawai);
+											$count = 8;
 											for($x=0;$x<$count;$x++){
 												$sql->get_all('op_pegawai',array('status'=>2),array('idp','nip','nm_lengkap'));
 												if($sql->num_rows>0){
