@@ -56,25 +56,6 @@ $SCRIPT_FOOT="
 <script>
 $(document).ready(function(){
 	$('nav li.nav1').addClass('nav-active');
-
-	var tr = $('tr.row_clone:first').clone()
-	$('tr.row_clone:first').remove()
-
-
-	$('#btn_add_brg').click(function() {
-	    var clone = tr.clone();
-	    clone.find(':text').val('');
-	    clone.find('input').prop('disabled', false);
-		clone.show();
-		
-
-	    $('tr.row_clone:last').after(clone);
-
-	    clone.find('.del_thisrow').on('click', function(e) {
-			e.preventDefault();
-			$(this).closest('tr').remove();
-		});
-	});
 	
 	$('#form_pengajuan').validate({
 		ignore: [],
@@ -294,7 +275,7 @@ $(document).ready(function(){
 												<th class="text-center" width="5%">Aksi</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody class="barang-list">
 											<tr>
 												<td><input type="text" name="nm_brg[]" class="form-control"></td>
 												<td><input type="text" name="kuantitas[]" class="form-control"></td>
@@ -318,8 +299,8 @@ $(document).ready(function(){
 												<td></td>
 											</tr>
 
-											<tr class="row_clone" style="display:none">
-											<td><input type="text" name="nm_brg[]" class="form-control"></td>
+											<tr class="template-row">
+											    <td><input type="text" name="nm_brg[]" class="form-control"></td>
 												<td><input type="text" name="kuantitas[]" class="form-control"></td>
 												<td>
 													<select 
@@ -338,7 +319,14 @@ $(document).ready(function(){
 
 												<td><input type="text" name="jlh[]" class="form-control"></td>
 												<td><input type="text" name="asal_komoditas[]" class="form-control"></td>
-												<td><a href="#" class="btn btn-sm btn-danger del_thisrow" title="Hapus Baris Ini">X</a></td>
+												<td>
+                                                    <button 
+                                                        type="button"
+                                                        class="btn btn-sm btn-danger del_thisrow" 
+                                                        title="Hapus Baris Ini">
+                                                        X
+                                                    </button>
+                                                </td>
 											</tr>
 											
 										</tbody>
@@ -351,6 +339,24 @@ $(document).ready(function(){
 											</tr>
 										</tfoot>
 									</table>
+
+                                    <script>
+                                        window.onload = function () {
+                                            let template_row = $(".template-row").clone()
+                                            $(".template-row").remove()
+
+                                            $("#btn_add_brg").click(function() {
+                                                let clone = template_row.clone()
+                                                
+                                                clone.find("button.del_thisrow")
+                                                    .click(function () {
+                                                        $(this).parent().parent().remove()
+                                                    })
+                                                
+                                                $(".barang-list").append(clone)
+                                            })
+                                        }
+                                    </script>
 									
 								</div>
 								<div class="panel-footer">
