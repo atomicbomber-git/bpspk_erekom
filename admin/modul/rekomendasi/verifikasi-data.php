@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\Permohonan;
+
 require_once("config.php");
 $SCRIPT_FOOT = "
 <script>
@@ -198,6 +201,73 @@ $arr_jns_tujuan=array(
 							}
 							?></td>
 						</tr>
+
+						<?php 
+							$permohonanStoragePath = "/pengajuan/berkas/";
+							$permohonan = Permohonan::find(
+								base64_decode($_GET['data'])
+							);
+						
+						?>
+
+						<tr>
+							<td>
+								<div>
+									Invoice
+								</div>
+
+								<a href="<?= $permohonanStoragePath . $permohonan->file_invoice ?>">
+									<img
+										style="
+											width: 200px;
+											height: auto;
+											object-fit: cover;
+										" 
+										src="<?= $permohonanStoragePath . $permohonan->file_invoice ?>"
+										>
+								</a>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div>
+									Packing List
+								</div>
+
+								<a href="<?= $permohonanStoragePath . $permohonan->file_packing_list ?>">
+									<img
+										style="
+											width: 200px;
+											height: auto;
+											object-fit: cover;
+										" 
+										src="<?= $permohonanStoragePath . $permohonan->file_packing_list ?>"
+										>
+								</a>
+							</td>
+						</tr>
+
+						<?php if($permohonan->file_pra_bap): ?>
+						<tr>
+							<td>
+								<div>
+									Pra-BAP
+								</div>
+
+								<a href="<?= $permohonanStoragePath . $permohonan->file_pra_bap ?>">
+									<img
+										style="
+											width: 200px;
+											height: auto;
+											object-fit: cover;
+										" 
+										src="<?= $permohonanStoragePath . $permohonan->file_pra_bap ?>"
+										>
+								</a>
+							</td>
+						</tr>
+						<?php endif ?>
 					</table>
 				</div>
 			</section>
