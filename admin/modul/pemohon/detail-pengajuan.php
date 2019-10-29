@@ -113,23 +113,22 @@ $arr_status=array(
 							</tr>
 						</thead>
 						<tbody>
-							<?php
-							$sql->order_by=""; 
-							$sql->get_all('tb_barang',array('ref_idphn'=>$idpengajuan),'*');
-							if($sql->num_rows>0){
-								$no=0;
-								foreach($sql->result as $b){
-									$no++;
-									echo '<tr>
-										<td>'.$no.'</td>
-										<td>'.$b['nm_barang'].'</td>
-										<td>'.$b['kuantitas'].' <em>Colly</em></td>
-										<td>'.$b['jlh'].' Kg</td>
-										<td>'.$b['asal_komoditas'].'</td>
-									</tr>';
-								}
-							}
+							<?php 
+								$barangs = App\Models\Barang::query()
+									->where("ref_idphn", $idpengajuan)
+									->with("satuan_kuantitas")
+									->get();
 							?>
+
+							<?php foreach($barangs as $index => $barang): ?>
+							<tr>
+								<td>  <?= $index + 1 ?> </td>
+								<td>  <?= $barang->nm_barang ?> </td>
+								<td>  <?= $barang->kuantitas ?> <?= $barang->satuan_kuantitas->nama ?> </td>
+								<td>  <?= $barang->jlh ?> </td>
+								<td>  <?= $barang->asal_komoditas ?> </td>
+							</tr>
+							<?php endforeach ?>
 						</tbody>
 					</table>
 					<hr/>

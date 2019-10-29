@@ -6,8 +6,6 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
 	die();
 }
 
-dump($_POST);
-
 if ($_POST) {
 	include("../../engine/render.php");
 	switch (trim(strip_tags($_POST['a']))) {
