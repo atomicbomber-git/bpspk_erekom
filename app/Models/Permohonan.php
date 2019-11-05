@@ -15,6 +15,11 @@ class Permohonan extends Model
     const STATUS_VERIFIKASI = 1;
     const STATUS_DITERIMA = 2;
 
+    public function petugas()
+    {
+        return $this->hasMany(PetugasLapangan::class, "ref_idp");
+    }
+
     public function scopePersetujuan($query)
     {
         return $query->where(

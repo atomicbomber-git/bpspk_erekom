@@ -1,4 +1,8 @@
 <?php
+
+use App\Models\Permohonan;
+use App\Services\Formatter;
+
 include ("../../engine/render.php");
 
 $ITEM_HEAD = "bootstrap.css, font-awesome.css, magnific-popup.css, datepicker3.css, pnotify.custom.css, select2.css, codemirror.css, monokai.css, bootstrap-tagsinput.css, bootstrap-timepicker.css, theme.css, default.css, datatables.css, modernizr.js";
@@ -18,6 +22,13 @@ $idpengajuan=base64_decode($_GET['permohonan']);
 if(!ctype_digit($idpengajuan)){
 	exit();
 }
+
+/* Controller code */
+$formatter = container(App\Services\Formatter::class);
+$permohonan = Permohonan::find($idpengajuan);
+$tanggal_pemeriksaan = $permohonan->tanggal_pemeriksaan ?
+	$formatter->date($permohonan->tanggal_pemeriksaan) :
+	'-';
 
 $sql->get_row('tb_permohonan',array('idp'=>$idpengajuan),'*');
 if($sql->num_rows>0){
@@ -73,6 +84,22 @@ $arr_status=array(
 							<td width="20%">No Antrian</td>
 							<td><?php echo format_noantrian($p['tgl_pelayanan'],$p['no_antrian']);?></td>
 						</tr>
+
+						<tr>
+							<td width="20%"> Tanggal Pemeriksaan </td>
+							<td> <?= $tanggal_pemeriksaan ?> </td>
+						</tr>
+
+						<tr>
+							<td width="20%"> Lokasi Pemeriksaan </td>
+							<td> <?= $permohonan->alamat_gudang ?> </td>
+						</tr>
+
+						<tr>
+							<td width="20%">No Antrian</td>
+							<td><?php echo format_noantrian($p['tgl_pelayanan'],$p['no_antrian']);?></td>
+						</tr>
+
 						<tr>
 							<td>Dikirim Ke</td>
 							<td><?php echo $p['tujuan'];?></td>

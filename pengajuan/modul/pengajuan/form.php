@@ -298,6 +298,17 @@ $(document).ready(function(){
 											</label>
 										</div>
 									</div>
+
+									<div class="form-group">
+										<label class="control-label col-md-3"></label>
+										<div class="checkbox col-md-5">
+											<label>
+												<input type="checkbox" name="persetujuan3" value="yes">
+												Perusahaan menyetujui Standar Pelayanan untuk menentukan lokasi dan waktu sesuai SOP.
+											</label>
+										</div>
+									</div>
+
 									<hr>
 									<h4>Data Barang</h4>
 									<table class="table table-bordered" id="tblbarang">
