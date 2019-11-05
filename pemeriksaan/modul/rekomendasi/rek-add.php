@@ -70,12 +70,7 @@
 	$redaksi = $text_tidakdilindungi." ".$text_dilindungi_dilarangekspor." ".$text_dilindungi_penuh;
 
 	$c=$sql->run("SELECT DATE(date_insert) as tgl FROM tb_hsl_periksa WHERE ref_idp ='".$idpengajuan."' ORDER BY date_insert ASC LIMIT 1");
-	if($c->rowCount()>0){
-		$rc=$c->fetch();
-		$tgl_berlaku=tanggalIndo(date('Y-m-d',strtotime($rc['tgl'] ."+7 days")),'j F Y');
-	}else{
-		$tgl_berlaku="...";
-	}
+
 	//---------------
 
 	$last=$sql->run("SELECT no_surat_rek  as no_surat FROM tb_nosurat WHERE ref_idp='".$idpengajuan."' LIMIT 1");
@@ -175,10 +170,54 @@
 					</table>
 				</div>
 			</div>
+
+
+			<div class="form-group">
+				<label class="control-label col-md-2"> Masa Berlaku Rekomendasi </label>
+				<div class="col-md-8">
+					<select 
+						class="form-control"
+						name="masa_berlaku_rekomendasi"
+						id="masa_berlaku_rekomendasi"
+						>
+						<option value="<?= $tanggal_dua_hari_kedepan ?>">  Dua Hari Kedepan </option>
+						<option value="<?= $tanggal_dua_minggu_kedepan ?>">  Dua Minggu Kedepan </option>
+					</select>
+				</div>
+			</div>
+
+			<script>
+				window.onload = () => {					
+					var teks_surat_rekomendasi = "Bahwa sebagian sampel <?php echo $nama_produk;?> yang terindikasi <?php echo $redaksi;?>.\n Rekomendasi ini berlaku untuk satu kali pengiriman, berlaku sampai tanggal "
+					var select_masa_berlaku_rekomendasi = document.querySelector("#masa_berlaku_rekomendasi") 
+					var teks_masa_berlaku_rekomendasi = select_masa_berlaku_rekomendasi.value
+
+					CKEDITOR.instances["redaksi_rek"].setData(
+						teks_surat_rekomendasi +
+						" " +
+						teks_masa_berlaku_rekomendasi + 
+						".\n"
+					)
+
+					select_masa_berlaku_rekomendasi.onchange = () => {
+						teks_masa_berlaku_rekomendasi = select_masa_berlaku_rekomendasi.value
+						CKEDITOR.instances["redaksi_rek"].setData(
+							teks_surat_rekomendasi +
+							" " +
+							teks_masa_berlaku_rekomendasi + 
+							".\n"
+						)
+					}
+				}
+			</script>
+
+
 			<div class="form-group">
 				<label class="control-label col-md-2">Redaksi<br>Surat Rekomendasi</label>
 				<div class="col-md-8">
-					<textarea name="redaksi_rek" rows="5" class="form-control editor">Bahwa sebagian sampel <?php echo $nama_produk;?> yang terindikasi <?php echo $redaksi;?>. Rekomendasi ini berlaku untuk satu kali pengiriman, berlaku sampai tanggal <?php echo $tgl_berlaku;?>.</textarea>
+					<textarea name="redaksi_rek" rows="5" class="form-control editor">
+							
+					</textarea>
 				</div>
 			</div>
 			<div class="form-group">

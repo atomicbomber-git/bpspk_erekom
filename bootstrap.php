@@ -7,6 +7,7 @@ use App\Services\PlatesTemplate;
 use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Container\ContainerInterface;
+use Jenssegers\Date\Date;
 
 require_once(__DIR__ . "/vendor/autoload.php");
 
@@ -45,6 +46,10 @@ $capsule->setAsGlobal();
 
 // Setup the Eloquent ORM.
 $capsule->bootEloquent();
+
+/* Set up localized date */
+Date::setLocale("id");
+
 
 $container = (new DI\ContainerBuilder())
     ->addDefinitions([
