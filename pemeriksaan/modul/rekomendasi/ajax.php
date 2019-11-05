@@ -75,7 +75,8 @@ if($_POST){
 				'ket'=>$_POST['ket'],
 				'date_insert'=>$tgl_,
 				'asal_komoditas'=>$asal_komoditas,
-				'kuantitas'=>$_POST['kemasan']
+				'kuantitas'=>$_POST['kemasan'],
+				'id_satuan_barang'=>$_POST['id_satuan_barang'],
 				);
 			$sql->insert('tb_hsl_periksa',$arr_insert2);
 			if($sql->error==null){
@@ -356,7 +357,7 @@ if($_POST){
 			$sql->insert('tb_rekomendasi',$arr_insert);
 			if($sql->error==null){
 				$idrek=$sql->insert_id;
-				for($x=0;$x<count($_POST['jenis_sampel']);$x++){
+				for($x=0;$x<count($_POST['jenis_sampel'] ?? []) ;$x++){
 					$arr_insert2=array(
 						"ref_idrek"=>$idrek,
 						"ref_jns"=>$_POST['jenis_sampel'][$x],
@@ -366,7 +367,8 @@ if($_POST){
 						"no_segel"=>$_POST['nosegel'][$x],
 						"berat"=>$_POST['berat'][$x],
 						"keterangan"=>$_POST['keterangan'][$x],
-						"date_create"=>date('Y-m-d H:i:s')
+						"date_create"=>date('Y-m-d H:i:s'),
+						"id_satuan_barang"=>$_POST['id_satuan_barang'][$x],
 						);
 
 					$sql->insert('tb_rek_hsl_periksa',$arr_insert2);
@@ -393,12 +395,14 @@ if($_POST){
 				"no_surat"=>$_POST['no_surat'],
 				"perihal"=>$_POST['perihal'],
 				"ref_bk"=>$_POST['tembusan_bk'],
+				"ref_bk_2"=>$_POST['tembusan_bk_2'],
 				"ref_psdkp"=>$_POST['tembusan_psdkp'],
 				"ref_uptprl"=>$_POST['upt_prl_penerima'],
 				"tgl_surat"=>date("Y-m-d", strtotime($_POST['tgl_surat'])),
 				"redaksi"=>$_POST['redaksi_rek'],
 				"pnttd"=>$_POST['penandatgn']
 			);
+
 			$sql->update('tb_rekomendasi',$arr_update,array('idrek'=>$idrek));
 			if($sql->error==null){
 				$sql->delete('tb_rek_hsl_periksa',array('ref_idrek'=>$idrek));
@@ -412,7 +416,8 @@ if($_POST){
 						"no_segel"=>$_POST['nosegel'][$x],
 						"berat"=>$_POST['berat'][$x],
 						"keterangan"=>$_POST['keterangan'][$x],
-						"date_create"=>date('Y-m-d H:i:s')
+						"date_create"=>date('Y-m-d H:i:s'),
+						"id_satuan_barang"=>$_POST['id_satuan_barang'][$x],
 						);
 
 					$sql->insert('tb_rek_hsl_periksa',$arr_insert2);

@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\SatuanBarang;
+
 require_once("config.php");
 $SCRIPT_FOOT = "
 <script>
@@ -104,12 +107,36 @@ if(ctype_digit($idpengajuan)){
 							<input type="text" style="display:none" name="asal_komoditas" class="form-control custom_ak">
 						</div>
 					</div>
+					
+					
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Kemasan (Colly)</label>
+						<label class="col-sm-3 control-label"> Jumlah Kemasan </label>
 						<div class="col-md-2">
 							<input type="number" step="any" name="kemasan" class="form-control">
 						</div>
 					</div>
+
+					<?php 
+						$satuan_barangs = SatuanBarang::all();
+					?>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label"> Satuan Kemasan </label>
+						<div class="col-md-2">
+							<select 
+								class="form-control"
+								name="id_satuan_barang"
+								id="id_satuan_barang"
+								>
+								<?php foreach($satuan_barangs as $satuan_barang): ?>
+								<option value="<?= $satuan_barang->id ?>">
+									<?= $satuan_barang->nama ?>
+								</option>
+								<?php endforeach ?>
+							</select>
+						</div>
+					</div>
+
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Jenis Produk</label>
 						<div class="col-md-6">

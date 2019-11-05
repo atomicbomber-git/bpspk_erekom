@@ -23,6 +23,8 @@ if(!ctype_digit($idpengajuan)){
 	exit();
 }
 
+$formatter = container(Formatter::class);
+
 /* Controller code */
 $formatter = container(App\Services\Formatter::class);
 $permohonan = Permohonan::find($idpengajuan);
@@ -86,16 +88,6 @@ $arr_status=array(
 						</tr>
 
 						<tr>
-							<td width="20%"> Tanggal Pemeriksaan </td>
-							<td> <?= $tanggal_pemeriksaan ?> </td>
-						</tr>
-
-						<tr>
-							<td width="20%"> Lokasi Pemeriksaan </td>
-							<td> <?= $permohonan->alamat_gudang ?> </td>
-						</tr>
-
-						<tr>
 							<td width="20%">No Antrian</td>
 							<td><?php echo format_noantrian($p['tgl_pelayanan'],$p['no_antrian']);?></td>
 						</tr>
@@ -156,6 +148,9 @@ $arr_status=array(
 						</tbody>
 					</table>
 					<hr/>
+
+					Dijadwalkan tanggal <?= $formatter->fancyDate($tanggal_pemeriksaan) ?> di <?= $permohonan->alamat_gudang ?> <br/>
+
 					Status : <?php echo $arr_status[$p['status']];?> <br/>
 					<?php
 					if($p['status']=='3'){
