@@ -20,6 +20,16 @@ class Permohonan extends Model
         return $this->hasMany(PetugasLapangan::class, "ref_idp");
     }
 
+    public function nomor_surat()
+    {
+        return $this->hasOne(NomorSurat::class, "ref_idp");
+    }
+
+    public function satuan_kerja()
+    {
+        return $this->belongsTo(SatuanKerja::class, "ref_satker");
+    }
+
     public function scopePersetujuan($query)
     {
         return $query->where(

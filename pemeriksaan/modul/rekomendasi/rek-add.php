@@ -22,13 +22,13 @@
 		$produk['jns_produk'][]=$prd['jenis_sampel'];
 	}
 
-	$sampel=array_unique($produk['jns_produk']);
+	$sampel=array_unique($produk['jns_produk'] ?? []);
 	$nama_produk = implode(', ', $sampel);
 
 	$list_tidakdilindungi = ($produk['ikan_takdilindungi'][1]);
 	$list_dilindungi_dilarang_ekspor = ($produk['ikan_dilindungi'][2]);
 	$list_dilindungi_penuh = ($produk['ikan_dilindungi'][3]);
-	if(count($produk['ikan_takdilindungi'][1])>0){
+	if(count($produk['ikan_takdilindungi'][1] ?? [])>0){
 		$list_tidakdilindungi = array_unique($produk['ikan_takdilindungi'][1]);
 	}
 	if(count($produk['ikan_dilindungi'][2] ?? [])>0){

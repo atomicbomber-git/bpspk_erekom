@@ -107,7 +107,7 @@ if(ctype_digit($idpengajuan)){
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Kemasan (Colly)</label>
 						<div class="col-md-2">
-							<input type="text" name="kemasan" class="form-control">
+							<input type="number" step="any" name="kemasan" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
@@ -133,19 +133,19 @@ if(ctype_digit($idpengajuan)){
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Panjang Sampel (Cm)</label>
 						<div class="col-md-3">
-							<input type="text" name="pjg" class="form-control">
+							<input type="number" step="any" name="pjg" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Lebar Sampel (Cm)</label>
 						<div class="col-md-3">
-							<input type="text" name="lbr" class="form-control">
+							<input type="number" step="any" name="lbr" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Berat Sampel(Kg)</label>
 						<div class="col-md-3">
-							<input type="text" name="berat" class="form-control">
+							<input type="number" step="any" name="berat" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
@@ -154,25 +154,25 @@ if(ctype_digit($idpengajuan)){
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Panjang Sampel (Cm)</label>
 						<div class="col-md-3">
-							<input type="text" name="pjg2" class="form-control">
+							<input type="number" step="any" name="pjg2" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Lebar Sampel (Cm)</label>
 						<div class="col-md-3">
-							<input type="text" name="lbr2" class="form-control">
+							<input type="number" step="any" name="lbr2" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Berat Sampel(Kg)</label>
 						<div class="col-md-3">
-							<input type="text" name="berat2" class="form-control">
+							<input type="number" step="any" name="berat2" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Berat Total (Kg)</label>
 						<div class="col-md-4">
-							<input type="text" name="berat_tot" class="form-control">
+							<input type="number" step="any" name="berat_tot" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">

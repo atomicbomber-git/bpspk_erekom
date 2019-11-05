@@ -254,6 +254,15 @@ if ($_POST) {
 			break;
 
 		case 'dt-terima':
+			$permohonan = App\Models\Permohonan::find(base64_decode($_POST["idp"]));
+
+			if ($permohonan === null) {
+				echo json_encode([
+					"stat" => false,
+					"msg" => "Invalid Request",
+				]);
+				exit;
+			}
 
 			/* Check if the tanggal field is filled */
 			if (!isset($_POST["tanggal"])) {
@@ -265,7 +274,7 @@ if ($_POST) {
 			} else {
 				$tanggal =
 					container(App\Services\Formatter::class)
-						->date($tanggal);
+					->date($tanggal);
 			}
 
 			$id = base64_decode($_POST['idp']);
@@ -294,16 +303,6 @@ if ($_POST) {
 			$log_u = strtoupper(substr(md5(time()), 0, 5));
 			$log_p = strtoupper(substr(md5(time()), 6, 5));
 
-			$permohonan = App\Models\Permohonan::find($id);
-
-			if ($permohonan === null) {
-				echo json_encode([
-					"stat" => false,
-					"msg" => "Invalid Request",
-				]);
-				exit;
-			}
-
 			$permohonan->update([
 				'log_u' => $log_u,
 				'log_p' => $log_p,
@@ -325,6 +324,20 @@ if ($_POST) {
 				$idp_to_nip_map[$row["idp"]] = $row["nip"];
 			}
 
+			$satuan_kerja = App\Models\SatuanKerja::find($satker);
+			$nomor_urut_selanjutnya = App\Models\NomorSurat::getNextNumber();
+			$tanggal_dan_waktu = Carbon\Carbon::now();
+
+			App\Models\NomorSurat::create([
+				"ref_satker" => $satker,
+				"ref_idp" => $permohonan->idp,
+				"no_urut" => $nomor_urut_selanjutnya,
+				"kode_satker" => $satuan_kerja->kode,
+				"no_surat_st" => generate_nosurat('st', $nomor_urut_selanjutnya, $satuan_kerja->kode, $tanggal_dan_waktu),
+				"no_surat_bap" => generate_nosurat('bap', $nomor_urut_selanjutnya, $satuan_kerja->kode, $tanggal_dan_waktu),
+				"no_surat_rek" => generate_nosurat('rek', $nomor_urut_selanjutnya, $satuan_kerja->kode, $tanggal_dan_waktu),
+				"tgl" => $tanggal_dan_waktu,
+			]);
 
 			for ($x = 0; $x < $jlh_petugas; $x++) {
 				if ($_POST['petugas'][$x] != "") {
@@ -609,37 +622,37 @@ if ($_POST) {
 				}
 
 				//input no surat
-				$sql->get_row('tb_nosurat', array('ref_idp' => $idpengajuan), 'id');
-				if ($sql->num_rows == 0) {
-					//get kode surat
-					$ck = $sql->run("SELECT id_satker,kode FROM ref_satuan_kerja rsk JOIN tb_permohonan p ON (p.ref_satker=rsk.id_satker) WHERE p.idp ='" . $idpengajuan . "' ");
-					if ($ck->rowCount() > 0) {
-						$kr = $ck->fetch();
-						$kodesurat = $kr['kode'];
-						$id_satker = $kr['id_satker'];
+				// $sql->get_row('tb_nosurat', array('ref_idp' => $idpengajuan), 'id');
+				// if ($sql->num_rows == 0) {
+				// 	//get kode surat
+				// 	$ck = $sql->run("SELECT id_satker,kode FROM ref_satuan_kerja rsk JOIN tb_permohonan p ON (p.ref_satker=rsk.id_satker) WHERE p.idp ='" . $idpengajuan . "' ");
+				// 	if ($ck->rowCount() > 0) {
+				// 		$kr = $ck->fetch();
+				// 		$kodesurat = $kr['kode'];
+				// 		$id_satker = $kr['id_satker'];
 
-						$ln = $sql->run("SELECT MAX(no_urut)+1 as next_no from tb_nosurat");
-						if ($ln->rowCount() > 0) {
-							$r_ln = $ln->fetch();
-							$no_surat_selanjutnya = $r_ln['next_no'];
-							$kodesurat_satker = $kodesurat;
-							$tgl = date('Y-m-d H:i:s');
+				// 		$ln = $sql->run("SELECT MAX(no_urut)+1 as next_no from tb_nosurat");
+				// 		if ($ln->rowCount() > 0) {
+				// 			$r_ln = $ln->fetch();
+				// 			$no_surat_selanjutnya = $r_ln['next_no'];
+				// 			$satuan_kerja->kode = $kodesurat;
+				// 			$tgl = date('Y-m-d H:i:s');
 
-							$arr_no_surat = array(
-								"ref_satker" => $id_satker,
-								"ref_idp" => $idpengajuan,
-								"no_urut" => $no_surat_selanjutnya,
-								"kode_satker" => $kodesurat_satker,
-								"no_surat_st" => generate_nosurat('st', $no_surat_selanjutnya, $kodesurat_satker, $tgl),
-								"no_surat_bap" => generate_nosurat('bap', $no_surat_selanjutnya, $kodesurat_satker, $tgl),
-								"no_surat_rek" => generate_nosurat('rek', $no_surat_selanjutnya, $kodesurat_satker, $tgl),
-								"tgl" => $tgl
-							);
+				// 			$arr_no_surat = array(
+				// 				"ref_satker" => $id_satker,
+				// 				"ref_idp" => $idpengajuan,
+				// 				"no_urut" => $no_surat_selanjutnya,
+				// 				"kode_satker" => $satuan_kerja->kode,
+				// 				"no_surat_st" => generate_nosurat('st', $no_surat_selanjutnya, $satuan_kerja->kode, $tgl),
+				// 				"no_surat_bap" => generate_nosurat('bap', $no_surat_selanjutnya, $satuan_kerja->kode, $tgl),
+				// 				"no_surat_rek" => generate_nosurat('rek', $no_surat_selanjutnya, $satuan_kerja->kode, $tgl),
+				// 				"tgl" => $tgl
+				// 			);
 
-							$sql->insert('tb_nosurat', $arr_no_surat);
-						}
-					}
-				}
+				// 			$sql->insert('tb_nosurat', $arr_no_surat);
+				// 		}
+				// 	}
+				// }
 			} else {
 				echo json_encode(array("stat" => false, "msg" => "Aksi Gagal."));
 			}

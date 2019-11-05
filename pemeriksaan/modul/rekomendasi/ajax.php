@@ -119,6 +119,7 @@ if($_POST){
 					}
 				}
 			}else{
+				dump($sql->error);
 				echo json_encode(array("stat"=>false,"msg"=>"Aksi Gagal."));
 			}
 		break;
