@@ -55,64 +55,6 @@ $(document).ready(function(){
 
 	$('.img-prev').magnificPopup({type:'image'});
 
-
-	$("#pengesahan").validate({
-		ignore: [],
-		errorClass: "error",
-		errorPlacement: function (error, element) {
-            error.insertAfter(element);
-        },
-        highlight: function (element, validClass) {
-            $(element).parent().addClass('has-error');
-        },
-        unhighlight: function (element, validClass) {
-            $(element).parent().removeClass('has-error');
-        },
-  		submitHandler: function(form) {
-  			var stack_bar_bottom = {"dir1": "up", "dir2": "right", "spacing1": 0, "spacing2": 0};
-  			$.ajax({
-				url:'ajax.php',
-				dataType:'json',
-				type:'post',
-				cache:false,
-				data:$("#pengesahan").serialize(),
-				beforeSend:function(){
-					$('#btn_pengesahan').prop('disabled', true);
-					$('#actloading').show();
-				},
-				success:function(json){	
-					if(json.stat){
-						var notice = new PNotify({
-							title: 'Notification',
-							text: json.msg,
-							type: 'success',
-							addclass: 'stack-bar-bottom',
-							stack: stack_bar_bottom,
-							width: "60%",
-							delay:1000,
-							after_close:function(){
-								location.href="./list-persetujuan.php";
-							}
-						});
-					}else{
-						var notice = new PNotify({
-							title: 'Notification',
-							text: json.msg,
-							type: 'warning',
-							addclass: 'stack-bar-bottom',
-							stack: stack_bar_bottom,
-							width: "60%",
-							delay:2500
-						});
-					}
-					$('#btn_pengesahan').prop('disabled', false);
-					$('#actloading').hide();
-				}
-			});
-    		return false;
-  		}
-	});
-
 	$("#btn_tolak").on('click', function(event) {
 		event.preventDefault();
 		$.magnificPopup.open({
