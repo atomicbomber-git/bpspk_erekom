@@ -91,7 +91,7 @@ $(document).ready(function(){
 						<thead>
 							<tr>
 								<th width="5%">No</th>
-								<th width="25%">Nama Pemohon</th>
+								<th width="25%">Nama Perusahaan/Perseorangan</th>
 								<th width="17%">Tanggal Pengajuan</th>
 								<th>Tujuan</th>
 								<th width="7%" style="text-align: center">Verifikasi Admin</th>

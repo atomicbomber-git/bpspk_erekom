@@ -114,7 +114,7 @@ if($_POST){
 					"send_to_name"=>$nama_pemohon,
 					"subject_email"=>"Harap Perbaiki Data Permohonan Anda - LPSPL Serang",
 					"isi_email"=>$isi);
-				/* sendMail($arr) */;
+				sendMail($arr);
 				//-----------------------------------
 				echo json_encode(array("stat"=>true,"msg"=>"Aksi Berhasil."));
 			}else{

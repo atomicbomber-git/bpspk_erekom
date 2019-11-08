@@ -107,7 +107,7 @@ $q=$sql->run("
 	<table border='1' id="dtlap">
 		<tr>
 			<th width="2%" rowspan="3">No</th>
-			<th rowspan="3">Nama Pemohon</th>
+			<th rowspan="3">Nama Perusahaan/Perseorangan</th>
 			<th rowspan="3">Tanggal Pengisian</th>
 			<th rowspan="" colspan="46">Aspek pelayanan publik(Masyarakat) dan aspek pelaksanaan tugas</th>
 			<th rowspan="" colspan="9">Pelayanan yang bebas dari korupsi</th>

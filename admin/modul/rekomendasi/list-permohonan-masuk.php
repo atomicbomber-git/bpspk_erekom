@@ -37,7 +37,7 @@ $(document).ready(function(){
 						<thead>
 							<tr>
 								<th width="5%">No</th>
-								<th>Nama Pemohon</th>
+								<th>Nama Perusahaan/Perseorangan</th>
 								<th width="20%">Tanggal Pengajuan</th>
 								<th>Tujuan</th>
 								<th width="10%">No Antrian</th>

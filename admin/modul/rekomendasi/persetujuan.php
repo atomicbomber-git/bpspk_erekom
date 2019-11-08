@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\DataIkan;
+use App\Services\Contracts\Template;
 use App\Services\Letter;
 
 require_once("config.php");
@@ -550,7 +551,8 @@ if ($sql->num_rows>0) {
 							<td></td>
 						</tr>
 					</table>
-					<table style="width:100%">
+					
+                    <table style="width:100%">
 						<tr>
 							<td>
 							<br>Kepada
@@ -560,61 +562,34 @@ if ($sql->num_rows>0) {
 							<td style="text-align:right"></td>
 						</tr>
 					</table>
+
 					<table style="width:100%">
 						<tr>
-							<td><br>
-							<p>Menindaklanjuti Surat Saudara tanggal <?php echo tanggalIndo($row['tgl_pengajuan'], 'j F Y'); ?> perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke <?php echo $row['tujuan']; ?> melalui jalur <?php echo ucwords($row['jenis_angkutan']); ?>, dengan ini disampaikan bahwa Petugas Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : <?php echo $row['nobap']; ?> tanggal <?php echo tanggalIndo($row['tglbap'], 'j F Y'); ?> dengan hasil:</p>
+							<td>
+                                <?= 
+                                    container(Letter::class)->getOpeningText(
+                                        tanggalIndo($row['tgl_pengajuan'], 'j F Y'),
+                                        $row['tujuan'],
+                                        $row['jenis_angkutan'],
+                                        $row['nobap'],
+                                        tanggalIndo($row['tglbap'], 'j F Y'),
+                                    )
+                                ?>
 							</td>
 						</tr>
 					</table>
-					<table style="width:100%" class="table table-bordered" >
-						<thead style="background: rgba(0, 0, 0, 0.1)">
-                            <tr>
-                                <td style="text-align:center" width="5%">No</td>
-                                <td style="text-align:center"> Nama Latin </td>
-                                <td style="text-align:center" width="12%"> Jenis Produk </td>
-                                <td style="text-align:center" width="12%"> Jumlah Berat (kg) </td>
-                                <td style="text-align:center" width="12%"> Jumlah Kemasan </td>
-                                <td style="text-align:center"> No. Segel </td>
-                                <td style="text-align:center"> Status </td>
-                            </tr>
-                        </thead>
-                        
-                        
-                        <?php 
-                            $dt= $sql->run("
-                                SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin, rdi.dilindungi FROM
-                                    tb_rek_hsl_periksa thp 
-                                        JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
-                                        LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
-                                    WHERE thp.ref_idrek='". $row['idrek'] . "' ORDER BY thp.ref_jns ASC"
-                            );
-                        ?>
 
-                        <tbody>
-                            <?php foreach($dt->fetchAll() as $key => $dtrow): ?>
+                    <?php 
+                        $dt = $sql->run("
+                            SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin, rdi.dilindungi FROM
+                                tb_rek_hsl_periksa thp 
+                                    JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
+                                    LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
+                                WHERE thp.ref_idrek='". $row['idrek'] . "' ORDER BY thp.ref_jns ASC"
+                        );
+                    ?>
 
-                            <tr>
-                                <td style="text-align: center" width="5%"><?php echo $key + 1; ?></td>
-                                <td style="text-align: center"><?php echo  $dtrow['nama_latin']; ?></td>
-                                <td style="text-align: center"><?php echo $dtrow['keterangan']; ?></td>
-                                <td style="text-align: center"><?php echo(($dtrow['berat']=='0.000')?"":$dtrow['berat']); ?></td>
-                                <td style="text-align: center"><?php echo $dtrow['kemasan']." ".$dtrow['satuan']; ?></td>
-                                <td style="text-align: center"><?php echo $dtrow['no_segel']; ?></td>
-                                <td style="text-align: center">
-                                    <?php switch($dtrow['dilindungi']): case DataIkan::STATUS_DILINDUNGI: ?>
-                                    Dilindungi <?php break; ?>
-                                    <?php case DataIkan::STATUS_TIDAK_DILINDUNGI: ?>
-                                    Tidak Dilindungi <?php break; ?>
-									<?php case DataIkan::STATUS_APPENDIKS_2_CITES: ?>
-									Appendiks II CITES 
-                                    <?php endswitch ?>
-                                </td>
-                            </tr>
-                            <?php endforeach ?>
-                        </tbody>
-					</table>
-
+                    <?= container(Template::class)->render("letter/table", ["records" => $dt->fetchAll()]) ?>
 
 					<table style="width:100%">
 						<tr>
