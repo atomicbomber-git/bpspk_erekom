@@ -354,6 +354,7 @@ if ($_POST) {
 				"ref_idp" => $idpengajuan,
 				"ref_iduser" => $_POST['tujuan'],
 				"ref_bk" => $_POST['tembusan_bk'],
+				"ref_bk_2" => $_POST['tembusan_bk_2'],
 				"ref_psdkp" => $_POST['tembusan_psdkp'],
 				"ref_uptprl" => $_POST['upt_prl_penerima'],
 				"ref_satker" => $ref_satker,
@@ -416,20 +417,26 @@ if ($_POST) {
 			);
 
 			$sql->update('tb_rekomendasi', $arr_update, array('idrek' => $idrek));
+
+
 			if ($sql->error == null) {
 				$sql->delete('tb_rek_hsl_periksa', array('ref_idrek' => $idrek));
-				for ($x = 0; $x < count($_POST['jenis_sampel']); $x++) {
+
+				for ($x = 0; $x < count($_POST['jenis_ikan']); $x++) {
 					$arr_insert2 = array(
 						"ref_idrek" => $idrek,
-						"ref_jns" => $_POST['jenis_sampel'][$x],
 						"ref_idikan" => $_POST['jenis_ikan'][$x],
 						"kemasan" => $_POST['kemasan'][$x],
 						"satuan" => $_POST['satuan'][$x],
 						"no_segel" => $_POST['nosegel'][$x],
+						"no_segel_akhir" => $_POST['nosegel_akhir'][$x],
 						"berat" => $_POST['berat'][$x],
 						"keterangan" => $_POST['keterangan'][$x],
 						"date_create" => date('Y-m-d H:i:s'),
 						"id_satuan_barang" => $_POST['id_satuan_barang'][$x],
+						"produk" => $_POST['produk'][$x],
+						"kondisi_produk" => $_POST['kondisi_produk'][$x],
+						"jenis_produk" => $_POST['jenis_produk'][$x],
 					);
 
 					$sql->insert('tb_rek_hsl_periksa', $arr_insert2);

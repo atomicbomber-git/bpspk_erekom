@@ -242,8 +242,7 @@ $r = $last->fetch();
 			</div>
 
 			<?php
-			$sql->get_all('ref_balai_karantina', array(), array('idbk', 'nama'));
-
+				$sql->get_all('ref_balai_karantina', array(), array('idbk', 'nama'));
 			?>
 
 			<div class="form-group">
@@ -266,7 +265,6 @@ $r = $last->fetch();
 				<div class="col-md-4">
 					<select name="tembusan_bk_2" class="form-control sl2">
 						<option value="">-Pilih-</option>
-
 						<?php foreach ($sql->result as $balai_karantina) : ?>
 							<option value="<?= $balai_karantina['idbk'] ?> ">
 								<?= $balai_karantina['nama'] ?>
@@ -315,7 +313,6 @@ $r = $last->fetch();
 				<div class="col-md-5">
 					<button class="btn btn-sm btn-primary btn-flat" id="btn_simpan" type="submit">Simpan</button>
 					<span id="actloading" style="display:none"><i class="fa fa-spin fa-spinner"></i> Menyimpan....</span>
-
 				</div>
 			</div>
 		</div>

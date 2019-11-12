@@ -43,6 +43,7 @@ function ITEM_FOOT ($ITEM_FOOT) {
 
     $FOOT_base = array (
         "vue.js"                 => "\n<script src=\"".PLUGINS."vue.js\"></script>",
+        "cleave.js"                 => "\n<script src=\"".PLUGINS."cleave.min.js\"></script>",
         "jquery.js"                 => "\n<script src=\"".PLUGINS."jquery/jquery-2.2.3.min.js\"></script>",
         "bootstrap.js"              => "\n<script src=\"".PLUGINS."bootstrap/js/bootstrap.js\"></script>",
         "bootstrap-datepicker.js"   => "\n<script src=\"".PLUGINS."datepicker/bootstrap-datepicker.js\"></script>",

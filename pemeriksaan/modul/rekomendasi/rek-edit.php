@@ -1,12 +1,16 @@
 <?php
 
+use App\Models\Permohonan;
 use App\Models\SatuanBarang;
 
 $sql->get_row('tb_rekomendasi', array('ref_idp' => $idpengajuan));
 $dtrek = $sql->result;
 
-$satuan_barangs = SatuanBarang::all()->pluck("name", "id");
+$permohonan = Permohonan::where("idp", $idpengajuan)
+	->with("rekomendasi")
+	->get();
 
+$satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 
 ?>
 <form method="post" class="form-horizontal" id="rek_update" action="">
@@ -49,7 +53,7 @@ $satuan_barangs = SatuanBarang::all()->pluck("name", "id");
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-2">Tabel Hasil Permeriksaan</label>
+				<label class="control-label col-md-2">Tabel Hasil Pemeriksaan</label>
 				<div class="col-md-10 table-responsive">
 					<table class="table table-bordered">
 						<thead>
@@ -62,28 +66,85 @@ $satuan_barangs = SatuanBarang::all()->pluck("name", "id");
 								<td>Keterangan</td>
 							</tr>
 						<tbody>
-
-
 							<?php
-								$dt = $sql->run("SELECT thp.* FROM tb_rek_hsl_periksa thp JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) WHERE thp.ref_idrek='" . $dtrek['idrek'] . "'");
-							$tombol = 0;
+								$dt = $sql->run("SELECT thp.* FROM tb_rek_hsl_periksa thp WHERE thp.ref_idrek=$dtrek[idrek]");
+								
 							if ($dt->rowCount() > 0) {
 								$tombol = 1;
 								foreach ($dt->fetchAll() as $row) {
 									?>
 									<tr class="dt">
 										<td>
-											<input type="hidden" name="jenis_ikan[]" value="<?php echo $row['ref_idikan']; ?>">
-											<input type="hidden" name="jenis_sampel[]" value="<?php echo $row['ref_jns']; ?>">
+											<input
+												type="hidden"
+												name="jenis_ikan[]"
+												value="<?= $row['ref_idikan']; ?>">
+											
+											<input 
+												type="hidden"
+												name="jenis_sampel[]"
+												value="<?= $row['id_ref']; ?>">
+
+											<input 
+												type="hidden"
+												name="produk[]"
+												value="<?= $row['produk']; ?>">
+
+											<input 
+												type="hidden"
+												name="kondisi_produk[]"
+												value="<?= $row['kondisi_produk']; ?>">
+
+											<input 
+												type="hidden"
+												name="jenis_produk[]"
+												value="<?= $row['jenis_produk']; ?>">
+
 											<p><?php echo $arr_produk[$row['ref_jns']]['nama']; ?><br />
 												<?php echo $arr_ikan[$row['ref_idikan']]['nama'] . " <br><strong>" . $arr_ikan[$row['ref_idikan']]['latin'] . "</strong>"; ?></p>
 										</td>
-										<td><input type="text" name="kemasan[]" class="form-control" value="<?php echo $row['kemasan']; ?>"></td>
 										<td>
+											<input 
+												type="hidden"
+												name="kemasan[]"
+												value="<?= $row['kemasan'] ?>">
+
+											<?= $row['kemasan'] ?? '-' ?>
+										<td>
+											<input 
+												type="hidden"
+												name="id_satuan_barang[]"
+												value="<?= $row['id_satuan_barang'] ?>">
+
 											<?= $satuan_barangs[$row['id_satuan_barang']] ?? '-' ?>
-											
 										</td>
-										<td><input type="text" name="nosegel[]" class="form-control" value="<?php echo $row['no_segel']; ?>"></td>
+										<td>
+											<input
+												style="display: inline-block;"
+												class="nosegel form-control"
+												type="text"
+												name="nosegel[]"
+												class="form-control"
+												value="<?= $row["no_segel"] ?? "" ?>"
+												>
+
+											<div
+												style="
+													display: inline-block;
+													text-align: center;
+												"
+												>
+												s/d
+											</div>
+
+											<input
+												style="display: inline-block;"
+												class="nosegel form-control"
+												type="text"
+												name="nosegel_akhir[]"
+												class="form-control"`
+												value="<?= $row["no_segel_akhir"] ?? "" ?>"
+												>
 										<td>
 											<?php echo floatval($row['berat']); ?> Kg
 											<input type="hidden" name="berat[]" value="<?php echo floatval($row['berat']); ?>">
@@ -99,35 +160,92 @@ $satuan_barangs = SatuanBarang::all()->pluck("name", "id");
 											thp.kuantitas as kemasan, 
 											thp.id_satuan_barang, 
 											thp.ref_idikan,
-											rjs.id_ref,
-											rjs.jenis_sampel,
+											thp.produk,
+											thp.kondisi_produk,
+											thp.jenis_produk,
 											rdi.nama_ikan,
 											rdi.nama_latin
 												FROM tb_hsl_periksa thp
-											JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel)
-											JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
+											LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
 												WHERE thp.ref_idp='$idpengajuan' 
 												ORDER BY ref_jns_sampel ASC"
 										
 										);
+										
+
 										if ($dt->rowCount() > 0) {
 											foreach ($dt->fetchAll() as $row) {
 												?>
 										<tr class="dt">
 											<td>
-												<input type="hidden" name="jenis_ikan[]" value="<?php echo $row['ref_idikan']; ?>">
-												<input type="hidden" name="jenis_sampel[]" value="<?php echo $row['id_ref']; ?>">
+												<input
+													type="hidden"
+													name="jenis_ikan[]"
+													value="<?= $row['ref_idikan']; ?>">
+												
+												<input 
+													type="hidden"
+													name="jenis_sampel[]"
+													value="<?= $row['id_ref']; ?>">
+
+												<input 
+													type="hidden"
+													name="produk[]"
+													value="<?= $row['produk']; ?>">
+
+												<input 
+													type="hidden"
+													name="kondisi_produk[]"
+													value="<?= $row['kondisi_produk']; ?>">
+
+												<input 
+													type="hidden"
+													name="jenis_produk[]"
+													value="<?= $row['jenis_produk']; ?>">
+
 												<p><?php echo $arr_produk[$row['id_ref']]['nama']; ?><br />
 													<?php echo $arr_ikan[$row['ref_idikan']]['nama'] . " <br><strong>" . $arr_ikan[$row['ref_idikan']]['latin'] . "</strong>"; ?></p>
 											</td>
-											<td><input type="text" name="kemasan[]" class="form-control" value="<?php echo $row['kemasan']; ?>"></td>
 											<td>
-												
-												<?= $satuan_barangs[$row['id_satuan_barang']] ?? '-' ?>
+												<input 
+													type="hidden"
+													name="kemasan[]"
+													value="<?= $row['kemasan'] ?>">
 
-																				
+												<?= $row['kemasan'] ?? '-' ?>
 											</td>
-											<td><input type="text" name="nosegel[]" class="form-control"></td>
+											<td>
+												<input 
+													type="hidden"
+													name="id_satuan_barang[]"
+													value="<?= $row['id_satuan_barang'] ?>">
+
+												<?= $satuan_barangs[$row['id_satuan_barang']] ?? '-' ?>
+											</td>
+											<td>
+												<input
+													style="display: inline-block;"
+													class="nosegel form-control"
+													type="text"
+													name="nosegel[]"
+													class="form-control">
+
+												<div
+													style="
+														display: inline-block;
+														text-align: center;
+													"
+													>
+													s/d
+												</div>
+
+												<input
+													style="display: inline-block;"
+													class="nosegel form-control"
+													type="text"
+													name="nosegel_akhir[]"
+													class="form-control">
+											</td>
 											<td>
 												<?php echo floatval($row['berat']); ?> Kg
 												<input type="hidden" name="berat[]" value="<?php echo floatval($row['berat']); ?>">
@@ -143,7 +261,18 @@ $satuan_barangs = SatuanBarang::all()->pluck("name", "id");
 						<tfoot>
 							<tr id="addrow">
 								<td colspan="7">
-									<p>catatan : <span class="text-alert alert-danger">Angka Desimal Menggunakan . <strong>(titik) cth: 90.2Kg</strong></span></p>
+									<p> Catatan: </p>
+									
+									<p>
+										<span class="text-alert alert-danger"> Angka Desimal Menggunakan . <strong>(titik) cth: 90.2Kg</strong></span>	
+									</p>
+
+									<p>
+										<span class="text-alert alert-danger">
+											Nomor segel harus diisi 4 digit. Cth: 0001
+										</span>
+									</p>
+
 									<?php if ($tombol == 1) { ?>
 										<p>Penting : <span class="text-alert alert-danger">Jika terdapat <strong>ketidaksesuaian</strong> pada tabel hasil pemeriksaan dengan hasil pemeriksaan lapangan dapat menekan tombol "Reload Ulang" untuk mengambil ulang data dari hasil pemeriksaan lapangan.</p>
 										<a href="#" id="btn_reload_data" data-idrek="<?php echo base64_encode($dtrek['idrek']); ?>" class="btn btn-sm btn-default btn-danger btn-flat">Reload Ulang</a>
@@ -153,6 +282,24 @@ $satuan_barangs = SatuanBarang::all()->pluck("name", "id");
 						</tfoot>
 						</thead>
 					</table>
+					
+					<script>
+					 	window.onload = function() {
+							document.querySelectorAll('input.nosegel')
+								.forEach(nosegel_input => {
+									new Cleave(nosegel_input, {
+										numeral: true,
+										stripLeadingZeroes: false,
+										numeralDecimalMark: '',
+										delimiter: '',
+										numeralIntegerScale: 4,
+										numeralDecimalScale: 0
+									});
+								})
+						}
+					</script>
+
+
 				</div>
 			</div>
 			<div class="form-group">
@@ -181,26 +328,45 @@ $satuan_barangs = SatuanBarang::all()->pluck("name", "id");
 					</select>
 				</div>
 			</div>
+
+			<?php
+				$sql->get_all('ref_balai_karantina', array(), array('idbk', 'nama'));
+			?>
+			
 			<div class="form-group">
-				<label class="control-label col-md-2">Tembusan Balai Karantina</label>
-				<div class="col-md-6">
+				<label class="control-label col-md-2">Tembusan Balai Karantina I</label>
+				<div class="col-md-4">
 					<select name="tembusan_bk" class="form-control sl2">
 						<option value="">-Pilih-</option>
-						<?php
-						$sql->get_all('ref_balai_karantina', array(), array('idbk', 'nama'));
-						if ($sql->num_rows > 0) {
-							foreach ($sql->result as $b) {
-								if ($b['idbk'] == $dtrek['ref_bk']) {
-									echo '<option selected value="' . $b['idbk'] . '">' . $b['nama'] . '</option>';
-								} else {
-									echo '<option value="' . $b['idbk'] . '">' . $b['nama'] . '</option>';
-								}
-							}
-						}
-						?>
+
+						<?php foreach ($sql->result as $balai_karantina) : ?>
+							<option 
+								value="<?= $balai_karantina['idbk'] ?> "
+								<?= $dtrek["ref_bk"] == $balai_karantina['idbk'] ? "selected" : "" ?>
+								>
+								<?= $balai_karantina['nama'] ?>
+							</option>
+						<?php endforeach ?>
 					</select>
 				</div>
 			</div>
+
+			<div class="form-group">
+				<label class="control-label col-md-2">Tembusan Balai Karantina II</label>
+				<div class="col-md-4">
+					<select name="tembusan_bk_2" class="form-control sl2">
+						<option value="">-Pilih-</option>
+						<?php foreach ($sql->result as $balai_karantina) : ?>
+							<option 
+								<?= $dtrek["ref_bk_2"] == $balai_karantina['idbk'] ? "selected" : "" ?>
+								value="<?= $balai_karantina['idbk'] ?> ">
+								<?= $balai_karantina['nama'] ?>
+							</option>
+						<?php endforeach ?>
+					</select>
+				</div>
+			</div>
+
 			<div class="form-group">
 				<label class="control-label col-md-2">Tembusan PSDKP</label>
 				<div class="col-md-4">

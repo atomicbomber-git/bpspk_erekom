@@ -30,6 +30,11 @@ class Permohonan extends Model
         return $this->belongsTo(SatuanKerja::class, "ref_satker");
     }
 
+    public function rekomendasi()
+    {
+        return $this->hasOne(Rekomendasi::class, "ref_idp");
+    }
+
     public function scopePersetujuan($query)
     {
         return $query->where(
