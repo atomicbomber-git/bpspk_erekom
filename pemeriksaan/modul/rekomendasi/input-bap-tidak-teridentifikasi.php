@@ -1,18 +1,19 @@
 <?php
+
+use App\Models\Permohonan;
+
 require_once("config.php");
 $SCRIPT_FOOT = "
 <script>
 $(document).ready(function(){
-	$('ul li.nav-ba').addClass('active');
+	$('ul li.nav-ba-tidak-teridentifikasi').addClass('active');
 });
 </script>
 <script src=\"bap.js\"></script>
 ";
 
-$idpengajuan=U_IDP;
+$idpengajuan = U_IDP;
 $permohonan = Permohonan::find($idpengajuan);
-
-dump($permohonan->hasil_periksa()->count());
 
 if (ctype_digit($idpengajuan)) {
     ?>
@@ -41,7 +42,7 @@ if (ctype_digit($idpengajuan)) {
             <?php else: ?>
                 <div class="alert alert-danger">
                     <i class="fa fa-warning"></i>
-                    BAP Tidak Teridentifikasi hanya dapat diisi jika hasil pemeriksaan masih kosong.
+                    Berita Acara Pemeriksaan Tidak Teridentifikasi hanya dapat diisi jika hasil pemeriksaan masih kosong.
                 </div>
             <?php endif ?>
             </section>

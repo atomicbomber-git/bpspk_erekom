@@ -35,6 +35,11 @@ class Permohonan extends Model
         return $this->hasOne(Rekomendasi::class, "ref_idp");
     }
 
+    public function hasil_periksa()
+    {
+        return $this->hasMany(HasilPeriksa::class, "ref_idp");
+    }
+
     public function scopePersetujuan($query)
     {
         return $query->where(
