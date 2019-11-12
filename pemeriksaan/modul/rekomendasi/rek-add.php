@@ -1,5 +1,8 @@
 <?php
 //redaksi isi surat
+
+use App\Models\SatuanBarang;
+
 $l = $sql->run("SELECT thp.ref_idp, thp.ref_idikan, thp.ref_jns_sampel, rdi.nama_ikan,rdi.nama_latin,rdi.dilindungi,rdi.peredaran,rdi.ket_dasarhukum, rjs.jenis_sampel
 		FROM tb_hsl_periksa thp
 		LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan = thp.ref_idikan)
@@ -130,11 +133,14 @@ $r = $last->fetch();
 							</tr>
 						<tbody>
 							<?php
-							$dt = $sql->run("SELECT thp.tot_berat as berat, thp.kuantitas as kemasan, thp.ref_idikan, rjs.id_ref,rjs.jenis_sampel,rdi.nama_ikan,rdi.nama_latin FROM tb_hsl_periksa thp
-									JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel)
+							$dt = $sql->run("SELECT thp.id_satuan_barang, thp.tot_berat as berat, thp.kuantitas as kemasan, thp.ref_idikan, rjs.id_ref,rjs.jenis_sampel,rdi.nama_ikan,rdi.nama_latin FROM tb_hsl_periksa thp
+									LEFT JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel)
 									JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
 									WHERE thp.ref_idp='$idpengajuan' 
 									ORDER BY ref_jns_sampel ASC");
+
+							$satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
+
 							if ($dt->rowCount() > 0) {
 								foreach ($dt->fetchAll() as $row) {
 									?>
@@ -146,7 +152,9 @@ $r = $last->fetch();
 												<?php echo $arr_ikan[$row['ref_idikan']]['nama'] . " <br><strong>" . $arr_ikan[$row['ref_idikan']]['latin'] . "</strong>"; ?></p>
 										</td>
 										<td><input type="text" name="kemasan[]" class="form-control" value="<?php echo (($row['kemasan'] == '0' ? "" : $row['kemasan'])); ?>"></td>
-										<td><?php echo pilihan("satuan[]", $arr_satuan, "", "class='form-control' id='satuan'"); ?></td>
+										<td>
+											<?= $satuan_barangs[$row['id_satuan_barang']] ?>
+										</td>
 										<td><input type="text" name="nosegel[]" class="form-control"></td>
 										<td>
 											<?php echo floatval($row['berat']); ?> Kg
@@ -234,7 +242,7 @@ $r = $last->fetch();
 			</div>
 
 			<?php
-				$sql->get_all('ref_balai_karantina', array(), array('idbk', 'nama'));
+			$sql->get_all('ref_balai_karantina', array(), array('idbk', 'nama'));
 
 			?>
 
@@ -244,10 +252,10 @@ $r = $last->fetch();
 					<select name="tembusan_bk" class="form-control sl2">
 						<option value="">-Pilih-</option>
 
-						<?php foreach($sql->result as $balai_karantina): ?>
-						<option value="<?= $balai_karantina['idbk'] ?> ">
-							<?= $balai_karantina['nama'] ?>
-						</option>
+						<?php foreach ($sql->result as $balai_karantina) : ?>
+							<option value="<?= $balai_karantina['idbk'] ?> ">
+								<?= $balai_karantina['nama'] ?>
+							</option>
 						<?php endforeach ?>
 					</select>
 				</div>
@@ -259,10 +267,10 @@ $r = $last->fetch();
 					<select name="tembusan_bk_2" class="form-control sl2">
 						<option value="">-Pilih-</option>
 
-						<?php foreach($sql->result as $balai_karantina): ?>
-						<option value="<?= $balai_karantina['idbk'] ?> ">
-							<?= $balai_karantina['nama'] ?>
-						</option>
+						<?php foreach ($sql->result as $balai_karantina) : ?>
+							<option value="<?= $balai_karantina['idbk'] ?> ">
+								<?= $balai_karantina['nama'] ?>
+							</option>
 						<?php endforeach ?>
 					</select>
 				</div>

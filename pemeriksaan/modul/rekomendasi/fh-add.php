@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\ProductClassification;
 use App\Models\SatuanBarang;
 
 require_once("config.php");
@@ -137,23 +138,135 @@ if(ctype_digit($idpengajuan)){
 						</div>
 					</div>
 
-					<div class="form-group">
-						<label class="col-sm-3 control-label">Jenis Produk</label>
-						<div class="col-md-6">
-							<select class="form-control jns_produk" name="jenis_sampel">
-								<option value="">-Pilih-</option>
-								<?php
-								$sql->get_all('ref_jns_sampel');
-								echo $sql->sql;
-								if($sql->num_rows>0){
-									foreach($sql->result as $r){
-										echo '<option value="'.$r['id_ref'].'">'.$r['jenis_sampel'].'</option>';
+					<script>
+						window.onload = function() {
+							
+
+							new Vue({
+								el: "#app",
+
+								props: {
+								},
+
+								data: {
+
+									product_classification: JSON.parse('<?= json_encode(ProductClassification::get()) ?>'),
+								
+									product_type: null,
+									product_condition: null,
+									product_category: null,
+								},
+
+								watch: {
+									product_type: function() {
+										this.product_condition = null
+										this.product_category = null
+									},
+									
+									product_condition: function() {
+										this.product_category = null
+									},
+								},
+
+								computed: {
+									product_condition_options() {
+										if (!this.product_type) {
+											return []
+										}
+
+										return this.product_classification[this.product_type].items
+									},
+
+									product_category_options() {
+										if (!this.product_condition) {
+											return []
+										}
+
+										return this.product_classification[this.product_type].items
+											[this.product_condition].items
 									}
+
 								}
-								?>
-							</select>
+							})
+
+
+						}
+					</script>
+
+					<div id="app">
+						<div class="form-group">
+							<label 
+								class="control-label col-sm-3"
+								for="product_type">
+								Produk:
+							</label>
+
+							<div class="col-md-6">
+								<select 
+									class="form-control"
+									name="product_type"
+									id="product_type"
+									v-model="product_type"
+									>
+
+									<option 
+										v-for="(product_type_data, product_type_name) in product_classification"
+										>
+										{{ product_type_name }}
+									</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label 
+								class="control-label col-sm-3"
+								for="product_condition">
+								Kondisi:
+							</label>
+
+							<div class="col-md-6">
+								<select 
+									class="form-control"
+									name="product_condition"
+									id="product_condition"
+									v-model="product_condition"
+									>
+
+									<option 
+										v-for="(product_condition_data, product_condition_name) in product_condition_options"
+										>
+										{{ product_condition_name }}
+									</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label 
+								class="control-label col-sm-3"
+								for="product_category">
+								Jenis Produk:
+							</label>
+
+							<div class="col-md-6">
+								<select 
+									class="form-control"
+									name="product_category"
+									id="product_category"
+									v-model="product_category"
+									>
+
+									<option 
+										v-for="(product_category_data, product_category_name) in product_category_options"
+										>
+										{{ product_category_name }}
+									</option>
+								</select>
+							</div>
 						</div>
 					</div>
+
 					<div class="form-group">
 						<label class="control-label col-md-4">-- Sampel Terkecil --</label>
 					</div>

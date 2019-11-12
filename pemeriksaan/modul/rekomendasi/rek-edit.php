@@ -5,7 +5,7 @@ use App\Models\SatuanBarang;
 $sql->get_row('tb_rekomendasi', array('ref_idp' => $idpengajuan));
 $dtrek = $sql->result;
 
-$satuan_barangs = SatuanBarang::all();
+$satuan_barangs = SatuanBarang::all()->pluck("name", "id");
 
 
 ?>
@@ -80,27 +80,7 @@ $satuan_barangs = SatuanBarang::all();
 										</td>
 										<td><input type="text" name="kemasan[]" class="form-control" value="<?php echo $row['kemasan']; ?>"></td>
 										<td>
-												<select 
-													class="form-control"
-													name="id_satuan_barang[]"
-													id="id_satuan_barang"
-													>
-
-													<?php foreach($satuan_barangs as $satuan_barang): ?>
-
-												
-													<option 
-														<?= 
-															$row["id_satuan_barang"] == $satuan_barang->id  ?
-																"selected" :
-																""
-														?>
-														value="<?= $satuan_barang->id ?>">
-													<?= $satuan_barang->nama ?>
-													</option>
-														
-													<?php endforeach ?>
-												</select>
+											<?= $satuan_barangs[$row['id_satuan_barang']] ?? '-' ?>
 											
 										</td>
 										<td><input type="text" name="nosegel[]" class="form-control" value="<?php echo $row['no_segel']; ?>"></td>
@@ -142,29 +122,10 @@ $satuan_barangs = SatuanBarang::all();
 											</td>
 											<td><input type="text" name="kemasan[]" class="form-control" value="<?php echo $row['kemasan']; ?>"></td>
 											<td>
-												<select 
-													class="form-control"
-													name="id_satuan_barang[]"
-													id="id_satuan_barang"
-													>
-
-													<?php foreach($satuan_barangs as $satuan_barang): ?>
-
 												
-													<option 
-														<?= 
-															$row["id_satuan_barang"] == $satuan_barang->id  ?
-																"selected" :
-																""
-														?>
-														value="<?= $satuan_barang->id ?>">
-													<?= $satuan_barang->nama ?>
-													</option>
-														
-													<?php endforeach ?>
-												</select>
+												<?= $satuan_barangs[$row['id_satuan_barang']] ?? '-' ?>
 
-																							
+																				
 											</td>
 											<td><input type="text" name="nosegel[]" class="form-control"></td>
 											<td>
