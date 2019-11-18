@@ -56,25 +56,6 @@ $SCRIPT_FOOT="
 <script>
 $(document).ready(function(){
 	$('nav li.nav1').addClass('nav-active');
-
-	var tr = $('tr.row_clone:first').clone()
-	$('tr.row_clone:first').remove()
-
-
-	$('#btn_add_brg').click(function() {
-	    var clone = tr.clone();
-	    clone.find(':text').val('');
-	    clone.find('input').prop('disabled', false);
-		clone.show();
-		
-
-	    $('tr.row_clone:last').after(clone);
-
-	    clone.find('.del_thisrow').on('click', function(e) {
-			e.preventDefault();
-			$(this).closest('tr').remove();
-		});
-	});
 	
 	$('#form_pengajuan').validate({
 		ignore: [],
@@ -106,12 +87,17 @@ $(document).ready(function(){
 	    },
 		submitHandler: function(form) {
 			var stack_bar_bottom = {'dir1': 'up', 'dir2': 'right', 'spacing1': 0, 'spacing2': 0};
+			var formData = new FormData(document.getElementById('form_pengajuan'));
+
 			$.ajax({
 				url:'".c_STATIC."pengajuan/modul/pengajuan/ajax.php',
 				dataType:'json',
 				type:'post',
 				cache:false,
-				data:$('#form_pengajuan').serialize(),
+				data:formData,
+				mimeType:'multipart/form-data',
+				contentType: false,
+				processData:false,
 				beforeSend:function(){
 					$('#btn_submit').prop('disabled', true);
 					$('#actloading').show();	
@@ -162,7 +148,7 @@ $(document).ready(function(){
 			<a class="sidebar-right-toggle"><i class="fa fa-chevron-left"></i></a>
 		</div>
 	</header>
-	<form id="form_pengajuan" method="post">
+	<form id="form_pengajuan" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="a" value="pr">
 		<div class="row">
 			<?php
@@ -263,6 +249,37 @@ $(document).ready(function(){
 											<textarea class="form-control" name="ket"></textarea>
 										</div>
 									</div>
+
+									<div class="form-group">
+										<label class="control-label col-md-3"> Invoice </label>
+										<div class="col-md-5">
+											<input type="file" name="invoice" accept="image/*" class="form-control" value="">
+											<p class="text-alert alert-info">
+												Upload Hasil Scan / Foto Invoice. (Hanya Gambar:png,jpg,jpeg, Size Maksimal 2Mb)
+											</p>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-md-3"> Packing List </label>
+										<div class="col-md-5">
+											<input type="file" name="packing_list" accept="image/*" class="form-control" value="">
+											<p class="text-alert alert-info">
+												Upload Hasil Scan / Foto Packing List. (Hanya Gambar:png,jpg,jpeg, Size Maksimal 2Mb)
+											</p>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-md-3"> Pra-BAP </label>
+										<div class="col-md-5">
+											<input type="file" name="pra_bap" accept="image/*" class="form-control" value="">
+											<p class="text-alert alert-info">
+												Upload Hasil Scan / Foto Pra-BAP. (Hanya Gambar:png,jpg,jpeg, Size Maksimal 2Mb)
+											</p>
+										</div>
+									</div>
+
 									<div class="form-group">
 										<label class="control-label col-md-3">Persetujuan</label>
 										<div class="checkbox col-md-5">
@@ -281,6 +298,17 @@ $(document).ready(function(){
 											</label>
 										</div>
 									</div>
+
+									<div class="form-group">
+										<label class="control-label col-md-3"></label>
+										<div class="checkbox col-md-5">
+											<label>
+												<input type="checkbox" name="persetujuan3" value="yes">
+												Perusahaan menyetujui Standar Pelayanan untuk menentukan lokasi dan waktu sesuai SOP.
+											</label>
+										</div>
+									</div>
+
 									<hr>
 									<h4>Data Barang</h4>
 									<table class="table table-bordered" id="tblbarang">
@@ -294,10 +322,10 @@ $(document).ready(function(){
 												<th class="text-center" width="5%">Aksi</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody class="barang-list">
 											<tr>
 												<td><input type="text" name="nm_brg[]" class="form-control"></td>
-												<td><input type="text" name="kuantitas[]" class="form-control"></td>
+												<td><input type="number" name="kuantitas[]" class="form-control"></td>
 												<td>
 													<select 
 														class="form-control"
@@ -313,13 +341,13 @@ $(document).ready(function(){
 													</select>
 												</td>
 
-												<td><input type="text" name="jlh[]" class="form-control"></td>
+												<td><input type="number" step="any" name="jlh[]" class="form-control"></td>
 												<td><input type="text" name="asal_komoditas[]" class="form-control"></td>
 												<td></td>
 											</tr>
 
-											<tr class="row_clone" style="display:none">
-											<td><input type="text" name="nm_brg[]" class="form-control"></td>
+											<tr class="template-row">
+											    <td><input type="text" name="nm_brg[]" class="form-control"></td>
 												<td><input type="text" name="kuantitas[]" class="form-control"></td>
 												<td>
 													<select 
@@ -338,7 +366,14 @@ $(document).ready(function(){
 
 												<td><input type="text" name="jlh[]" class="form-control"></td>
 												<td><input type="text" name="asal_komoditas[]" class="form-control"></td>
-												<td><a href="#" class="btn btn-sm btn-danger del_thisrow" title="Hapus Baris Ini">X</a></td>
+												<td>
+                                                    <button 
+                                                        type="button"
+                                                        class="btn btn-sm btn-danger del_thisrow" 
+                                                        title="Hapus Baris Ini">
+                                                        X
+                                                    </button>
+                                                </td>
 											</tr>
 											
 										</tbody>
@@ -351,6 +386,24 @@ $(document).ready(function(){
 											</tr>
 										</tfoot>
 									</table>
+
+                                    <script>
+                                        window.onload = function () {
+                                            let template_row = $(".template-row").clone()
+                                            $(".template-row").remove()
+
+                                            $("#btn_add_brg").click(function() {
+                                                let clone = template_row.clone()
+                                                
+                                                clone.find("button.del_thisrow")
+                                                    .click(function () {
+                                                        $(this).parent().parent().remove()
+                                                    })
+                                                
+                                                $(".barang-list").append(clone)
+                                            })
+                                        }
+                                    </script>
 									
 								</div>
 								<div class="panel-footer">

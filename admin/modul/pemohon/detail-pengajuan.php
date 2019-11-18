@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\Permohonan;
+
 include ("../../engine/render.php");
 
 $ITEM_HEAD = "bootstrap.css, font-awesome.css, magnific-popup.css, datepicker3.css, pnotify.custom.css, select2.css, codemirror.css, monokai.css, bootstrap-tagsinput.css, bootstrap-timepicker.css, theme.css, default.css, datatables.css, modernizr.js";
@@ -40,6 +43,12 @@ $arr_status=array(
 	4=>"Pemeriksaan Sampel Telah Dilakukan.",
 	5=>"Surat Rekomendasi Sudah Diterbitkan."
 );
+
+
+/* Controller */
+$permohonan = Permohonan::find($idpengajuan);
+$permohonan->load("nomor_surat");
+
 ?>
 <section role="main" class="content-body">
 	<header class="page-header">
@@ -100,6 +109,12 @@ $arr_status=array(
 							<td>Keterangan Tambahan</td>
 							<td><?php echo $p['ket_tambahan'];?></td>
 						</tr>
+
+						<tr>
+							<td>  Nomor BAP </td>
+							<td><?php echo $p['nomor_bap'];?></td>
+						</tr>
+
 					</table>
 					<hr/>
 					<table class="table table-hover table-bordered">
@@ -113,23 +128,22 @@ $arr_status=array(
 							</tr>
 						</thead>
 						<tbody>
-							<?php
-							$sql->order_by=""; 
-							$sql->get_all('tb_barang',array('ref_idphn'=>$idpengajuan),'*');
-							if($sql->num_rows>0){
-								$no=0;
-								foreach($sql->result as $b){
-									$no++;
-									echo '<tr>
-										<td>'.$no.'</td>
-										<td>'.$b['nm_barang'].'</td>
-										<td>'.$b['kuantitas'].' <em>Colly</em></td>
-										<td>'.$b['jlh'].' Kg</td>
-										<td>'.$b['asal_komoditas'].'</td>
-									</tr>';
-								}
-							}
+							<?php 
+								$barangs = App\Models\Barang::query()
+									->where("ref_idphn", $idpengajuan)
+									->with("satuan_kuantitas")
+									->get();
 							?>
+
+							<?php foreach($barangs as $index => $barang): ?>
+							<tr>
+								<td>  <?= $index + 1 ?> </td>
+								<td>  <?= $barang->nm_barang ?> </td>
+								<td>  <?= $barang->kuantitas ?> <?= $barang->satuan_kuantitas->nama ?> </td>
+								<td>  <?= $barang->jlh ?> </td>
+								<td>  <?= $barang->asal_komoditas ?> </td>
+							</tr>
+							<?php endforeach ?>
 						</tbody>
 					</table>
 					<hr/>
@@ -150,6 +164,16 @@ $arr_status=array(
 						}
 						?>
 					</ol>
+
+					<div>
+						<strong> Nomor BAP </strong>
+					</div>
+
+					<div>
+						<?= $permohonan->nomor_surat->no_surat_bap ?? '-' ?>
+					</div>
+
+
 					<?php
 					if($p['status']>1 AND $p['status']<5){
 						echo '<strong>Detail Login</strong>: <br/>';

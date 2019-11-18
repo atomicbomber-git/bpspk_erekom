@@ -1,4 +1,8 @@
 <?php
+
+use App\Services\Formatter;
+use Jenssegers\Date\Date;
+
 require_once("config.php");
 $SCRIPT_FOOT = "
 <script>
@@ -10,6 +14,8 @@ $('.sl2').select2();
 <script src=\"js-rekomendasi.js\"></script>
 ";
 
+$formatter = container(Formatter::class);
+
 $idpengajuan=U_IDP;
 if(ctype_digit($idpengajuan)){
 	include "function.php";
@@ -20,8 +26,18 @@ if(ctype_digit($idpengajuan)){
 		"Truk"=>"Truk",
 		"Ekor"=>"Ekor"
 		);
+
+
+$tanggal_dua_hari_kedepan = $formatter->fancyDate(Date::today()->addDay(2));
+$tanggal_dua_minggu_kedepan = $formatter->fancyDate(Date::today()->addWeek(2));
+
 ?>
 <body class="hold-transition skin-blue sidebar-mini">
+
+<script>
+	var tanggal_dua_hari_kedepan =  "<?= $tanggal_dua_hari_kedepan; ?>"
+	var tanggal_dua_minggu_kedepan =  "<?= $tanggal_dua_minggu_kedepan; ?>"
+</script>
 
 <div class="content-wrapper">
 	<section class="content-header">

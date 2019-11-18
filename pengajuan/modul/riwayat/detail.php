@@ -1,4 +1,8 @@
 <?php
+
+use App\Models\Permohonan;
+use App\Services\Formatter;
+
 include ("../../engine/render.php");
 
 $ITEM_HEAD = "bootstrap.css, font-awesome.css, magnific-popup.css, datepicker3.css, pnotify.custom.css, select2.css, codemirror.css, monokai.css, bootstrap-tagsinput.css, bootstrap-timepicker.css, theme.css, default.css, datatables.css, modernizr.js";
@@ -18,6 +22,15 @@ $idpengajuan=base64_decode($_GET['permohonan']);
 if(!ctype_digit($idpengajuan)){
 	exit();
 }
+
+$formatter = container(Formatter::class);
+
+/* Controller code */
+$formatter = container(App\Services\Formatter::class);
+$permohonan = Permohonan::find($idpengajuan);
+$tanggal_pemeriksaan = $permohonan->tanggal_pemeriksaan ?
+	$formatter->date($permohonan->tanggal_pemeriksaan) :
+	'-';
 
 $sql->get_row('tb_permohonan',array('idp'=>$idpengajuan),'*');
 if($sql->num_rows>0){
@@ -73,6 +86,12 @@ $arr_status=array(
 							<td width="20%">No Antrian</td>
 							<td><?php echo format_noantrian($p['tgl_pelayanan'],$p['no_antrian']);?></td>
 						</tr>
+
+						<tr>
+							<td width="20%">No Antrian</td>
+							<td><?php echo format_noantrian($p['tgl_pelayanan'],$p['no_antrian']);?></td>
+						</tr>
+
 						<tr>
 							<td>Dikirim Ke</td>
 							<td><?php echo $p['tujuan'];?></td>
@@ -110,26 +129,28 @@ $arr_status=array(
 							</tr>
 						</thead>
 						<tbody>
-							<?php
-							$sql->order_by=""; 
-							$sql->get_all('tb_barang',array('ref_idphn'=>$idpengajuan),'*');
-							if($sql->num_rows>0){
-								$no=0;
-								foreach($sql->result as $b){
-									$no++;
-									echo '<tr>
-										<td>'.$no.'</td>
-										<td>'.$b['nm_barang'].'</td>
-										<td>'.$b['kuantitas'].' <em>Colly</em></td>
-										<td>'.$b['jlh'].' Kg</td>
-										<td>'.$b['asal_komoditas'].'</td>
-									</tr>';
-								}
-							}
+							<?php 
+								$barangs = App\Models\Barang::query()
+									->where("ref_idphn", $idpengajuan)
+									->with("satuan_kuantitas")
+									->get();
 							?>
+
+							<?php foreach($barangs as $index => $barang): ?>
+							<tr>
+								<td>  <?= $index + 1 ?> </td>
+								<td>  <?= $barang->nm_barang ?> </td>
+								<td>  <?= $barang->kuantitas ?> <?= $barang->satuan_kuantitas->nama ?> </td>
+								<td>  <?= $barang->jlh ?> </td>
+								<td>  <?= $barang->asal_komoditas ?> </td>
+							</tr>
+							<?php endforeach ?>
 						</tbody>
 					</table>
 					<hr/>
+
+					Dijadwalkan tanggal <?= $formatter->fancyDate($tanggal_pemeriksaan) ?> di <?= $permohonan->alamat_gudang ?> <br/>
+
 					Status : <?php echo $arr_status[$p['status']];?> <br/>
 					<?php
 					if($p['status']=='3'){
