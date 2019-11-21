@@ -1,7 +1,8 @@
 <?php
 
+use App\Models\BeritaAcaraPemeriksaanTidakTeridentifikasi;
 use App\Models\Pegawai;
-use App\Models\PetugasLapangan;
+use App\Models\Permohonan;
 
 if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
 	die();
@@ -265,6 +266,77 @@ if ($_POST) {
 				@unlink($location . "thumb_" . $r['nm_file']);
 				echo json_encode(array("stat" => true, "msg" => "Data Berhasil Dihapus."));
 			} else {
+				echo json_encode(array("stat" => false, "msg" => "Aksi Gagal"));
+			}
+			break;
+
+		case 'bapttsv':
+			$id_pengajuan = U_IDP;
+
+			try {
+				$pegawais = Pegawai::query()
+					->select("idp", "nip")
+					->whereIn("idp", [$_POST["ptg1"], $_POST["ptg2"], $_POST["ptg3"], $_POST["ptg4"]])
+					->get()
+					->pluck("nip", "idp");
+
+				$berita_acara_pemeriksaan = BeritaAcaraPemeriksaanTidakTeridentifikasi::create([
+					'ref_idp' => $id_pengajuan,
+					'no_surat' => $_POST['no_surat'],
+					'tgl_surat' => date("Y-m-d", strtotime($_POST['tgl_penetapan'])),
+					'lokasi' => $_POST['lokasi_penetapan'],
+					'redaksi' => $_POST['redaksi_bap'],
+					'ptgs1' => $_POST['ptg1'],
+					'ptgs2' => $_POST['ptg2'],
+					'ptgs3' => $_POST['ptg3'],
+					'ptgs4' => $_POST['ptg4'],
+					'nipptgs1' => $pegawais[$_POST['ptg1']] ?? "-",
+					'nipptgs2' => $pegawais[$_POST['ptg2']] ?? "-",
+					'nipptgs3' => $pegawais[$_POST['ptg3']] ?? "-",
+					'nipptgs4' => $pegawais[$_POST['ptg4']] ?? "-",
+					'date_insert' => date('Y-m-d H:i:s')
+				]);
+
+				echo json_encode(array("stat" => true, "msg" => "Data Berhasil Disimpan."));
+			}
+			catch (Exception $e) {
+				echo json_encode(array("stat" => false, "msg" => "Aksi Gagal"));
+			}
+			break;
+
+		case 'bapttup':
+			$id_pengajuan = U_IDP;
+
+			$permohonan = Permohonan::find($id_pengajuan);
+
+			try {
+				$pegawais = Pegawai::query()
+					->select("idp", "nip")
+					->whereIn("idp", [$_POST["ptg1"], $_POST["ptg2"], $_POST["ptg3"], $_POST["ptg4"]])
+					->get()
+					->pluck("nip", "idp");
+
+				$permohonan
+					->berita_acara_pemeriksaan_tidak_teridentifikasi()
+					->update([
+						'no_surat' => $_POST['no_surat'],
+						'tgl_surat' => date("Y-m-d", strtotime($_POST['tgl_penetapan'])),
+						'lokasi' => $_POST['lokasi_penetapan'],
+						'redaksi' => $_POST['redaksi_bap'],
+						'ptgs1' => $_POST['ptg1'],
+						'ptgs2' => $_POST['ptg2'],
+						'ptgs3' => $_POST['ptg3'],
+						'ptgs4' => $_POST['ptg4'],
+						'nipptgs1' => $pegawais[$_POST['ptg1']] ?? "-",
+						'nipptgs2' => $pegawais[$_POST['ptg2']] ?? "-",
+						'nipptgs3' => $pegawais[$_POST['ptg3']] ?? "-",
+						'nipptgs4' => $pegawais[$_POST['ptg4']] ?? "-",
+						'date_insert' => date('Y-m-d H:i:s')
+					]);
+
+				echo json_encode(array("stat" => true, "msg" => "Data Berhasil Disimpan."));
+			}
+			catch (Exception $e) {
 				echo json_encode(array("stat" => false, "msg" => "Aksi Gagal"));
 			}
 			break;

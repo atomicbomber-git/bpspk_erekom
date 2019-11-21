@@ -15,6 +15,11 @@ class Permohonan extends Model
     const STATUS_VERIFIKASI = 1;
     const STATUS_DITERIMA = 2;
 
+    public function user()
+    {
+        return $this->belongsTo(UserPublic::class, "ref_iduser");
+    }
+
     public function petugas()
     {
         return $this->hasMany(PetugasLapangan::class, "ref_idp");
@@ -38,6 +43,16 @@ class Permohonan extends Model
     public function hasil_periksa()
     {
         return $this->hasMany(HasilPeriksa::class, "ref_idp");
+    }
+
+    public function berita_acara_pemeriksaan_tidak_teridentifikasi()
+    {
+        return $this->hasOne(BeritaAcaraPemeriksaanTidakTeridentifikasi::class, "ref_idp");
+    }
+
+    public function berita_acara_pemeriksaan()
+    {
+        return $this->hasOne(BeritaAcaraPemeriksaan::class, "ref_idp");
     }
 
     public function scopePersetujuan($query)

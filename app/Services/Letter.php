@@ -10,7 +10,7 @@ class Letter
         $this->app_name = container("app_name");
     }
 
-    public function getHeaderContentHTML($imageSourcepath)
+    public function getHeaderContentHTML($imageSourcepath = null)
     {
         $app_name = strtoupper($this->app_name);
 

@@ -33,7 +33,7 @@ $(document).ready(function(){
 	</header>
 	<div class="row">
 		<div class="col-md-12">
-			<form class="form-horizontal" name="statistik" id="statistik" action="laporan.php" method="POST"  target="_blank">
+			<form class="form-horizontal" name="statistik" id="statistik" action="laporan_new.php" method="POST"  target="_blank">
 				<input type="hidden" id="excel" name="excel" value="">
 				<section class="panel panel-featured-primary">
 					<header class="panel-heading">

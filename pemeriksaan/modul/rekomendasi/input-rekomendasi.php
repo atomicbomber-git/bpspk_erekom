@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Permohonan;
 use App\Services\Formatter;
 use Jenssegers\Date\Date;
 
@@ -28,8 +29,9 @@ if(ctype_digit($idpengajuan)){
 		);
 
 
-$tanggal_dua_hari_kedepan = $formatter->fancyDate(Date::today()->addDay(2));
-$tanggal_dua_minggu_kedepan = $formatter->fancyDate(Date::today()->addWeek(2));
+		$permohonan = Permohonan::find($idpengajuan);
+		$tanggal_dua_hari_kedepan = $formatter->fancyDate(Date::today()->addDay(2));
+		$tanggal_dua_minggu_kedepan = $formatter->fancyDate(Date::today()->addWeek(2));
 
 ?>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -40,6 +42,7 @@ $tanggal_dua_minggu_kedepan = $formatter->fancyDate(Date::today()->addWeek(2));
 </script>
 
 <div class="content-wrapper">
+
 	<section class="content-header">
 		<h1>
 		Draft Surat Rekomendasi
@@ -49,30 +52,37 @@ $tanggal_dua_minggu_kedepan = $formatter->fancyDate(Date::today()->addWeek(2));
 			<li class="active">Draft Surat Rekomendasi</li>
 		</ol>
 	</section>
-	<section class="content">
-		<?php
-		$sql->get_all('ref_data_ikan');
-		$arr_ikan=array();
-		foreach ($sql->result as $ik) {
-			$arr_ikan[$ik['id_ikan']]=array(
-				"nama"=>$ik['nama_ikan'],
-				"latin"=>$ik['nama_latin']);
-		}
-		$sql->get_all('ref_jns_sampel');
-		$arr_produk=array();
-		foreach ($sql->result as $pr) {
-			$arr_produk[$pr['id_ref']]=array(
-				"nama"=>$pr['jenis_sampel']);
-		}
 
-		$found=$sql->get_count('tb_rekomendasi',array('ref_idp'=>$idpengajuan));
-		if($found>0){
-			include ("rek-edit.php");
-		}else{
-			include ("rek-add.php");
-		}
-		
-		?>
+	<section class="content">
+		<?php if($permohonan->hasil_periksa()->count() > 0): ?>
+			<?php
+				$sql->get_all('ref_data_ikan');
+				$arr_ikan=array();
+				foreach ($sql->result as $ik) {
+					$arr_ikan[$ik['id_ikan']]=array(
+						"nama"=>$ik['nama_ikan'],
+						"latin"=>$ik['nama_latin']);
+				}
+				$sql->get_all('ref_jns_sampel');
+				$arr_produk=array();
+				foreach ($sql->result as $pr) {
+					$arr_produk[$pr['id_ref']]=array(
+						"nama"=>$pr['jenis_sampel']);
+				}
+
+				$found=$sql->get_count('tb_rekomendasi',array('ref_idp'=>$idpengajuan));
+				if($found>0){
+					include ("rek-edit.php");
+				}else{
+					include ("rek-add.php");
+				}
+			?>
+		<?php else: ?>
+			<div class="alert alert-danger">
+				<i class="fa fa-warning"></i>
+				Draft Surat Rekomendasi hanya dapat diisi jika hasil pemeriksaan telah diisi.
+			</div>
+		<?php endif ?>
 	</section>
 </div>
 

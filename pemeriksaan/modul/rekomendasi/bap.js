@@ -20,16 +20,6 @@ $(document).ready(function(){
         rules:{
             no_surat:{
                 required:true,
-                remote: {
-                    url: "ajax.php",
-                    type: "post",
-                    data:{
-                        no_surat: function() {
-                            return $( "#no_surat" ).val();
-                        },
-                        a:"check_nobap"
-                    }
-                }
             },
             tgl_penetapan:{
                 required:true
@@ -47,7 +37,6 @@ $(document).ready(function(){
         messages:{
             no_surat:{
                 required:"No Surat Harus Diisi.",
-                remote:"Nomor Surat Sudah Ada"
             },
             tgl_penetapan:{
                 required:"Tanggal Penetapan Berita Acara Harus Diisi."

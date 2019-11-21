@@ -126,9 +126,17 @@ if (ctype_digit($idpengajuan)) {
                 </thead>
                 <tbody>
                   <?php
-                    $tb = $sql->query("SELECT th.*,rdi.nama_ikan,rjs.jenis_sampel as jns_produk FROM tb_hsl_periksa th 
-                  LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=th.ref_idikan) 
-                  LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=th.ref_jns_sampel)
+                    $tb = $sql->query("SELECT 
+                        th.*,
+                        rdi.nama_ikan,
+                        rjs.jenis_sampel AS jns_produk,
+                        satuan_barang.nama AS nama_satuan_barang
+                        
+                        FROM tb_hsl_periksa th 
+                          LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=th.ref_idikan) 
+                          LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=th.ref_jns_sampel)
+                          LEFT JOIN satuan_barang ON (th.id_satuan_barang = satuan_barang.id)
+                  
                   WHERE th.ref_idp='$idpengajuan' AND th.ref_idperiksa='$idperiksa'
                   ");
                     if ($tb->rowCount() > 0) {
@@ -141,7 +149,7 @@ if (ctype_digit($idpengajuan)) {
                   <td>' . $no . '</td>
                   <td>' . $dtrow['nama_ikan'] . '</td>
                   <td>' . $dtrow['asal_komoditas'] . '</td>
-                  <td>' . $dtrow['kuantitas'] . '</td>
+                  <td>' . $dtrow['kuantitas'] . ' ' . $dtrow['nama_satuan_barang'] . '</td>
                   <td>' . $dtrow['produk'] . ' ' . $dtrow['kondisi_produk'] . ' ' . $dtrow['jenis_produk'] . '</td>
                   <td>' . $dtrow['pjg'] . '' . (($dtrow['pjg2'] != '0.00') ? " / " . $dtrow['pjg2'] : "") . '</td>
                   <td>' . $dtrow['lbr'] . '' . (($dtrow['lbr2'] != '0.00') ? " / " . $dtrow['lbr2'] : "") . '</td>

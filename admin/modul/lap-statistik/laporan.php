@@ -111,7 +111,10 @@ if($_POST['filter_kel_ikan']!='all'){
 
 //data ikan dari rekomendasi
 $arr_hasil=array();
-$h=$sql->run("SELECT trh.*,rdi.nama_ikan,rdi.nama_latin FROM tb_rek_hsl_periksa trh JOIN ref_data_ikan rdi ON(rdi.id_ikan=trh.ref_idikan) WHERE trh.ref_idikan<>0 $filter2");
+
+$query = "SELECT trh.*,rdi.nama_ikan,rdi.nama_latin FROM tb_rek_hsl_periksa trh JOIN ref_data_ikan rdi ON(rdi.id_ikan=trh.ref_idikan) WHERE trh.ref_idikan<>0 $filter2";
+$h=$sql->run($query);
+
 if($h->rowCount()>0){
 	
 	foreach ($h->fetchAll() as $hsl) {
