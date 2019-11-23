@@ -12,7 +12,7 @@
 				</header>
 				<div class="panel-body">
 					<div class="form-group">
-						<label class="control-label col-md-3">Nama Lengkap <small>*</small></label>
+						<label class="control-label col-md-3">Nama Perusahaan / Perseorangan <small>*</small></label>
 						<div class="col-md-6">
 							<input type="text" name="nm_lengkap" readonly class="form-control" value="<?php echo U_NAME;?>">
 						</div>
