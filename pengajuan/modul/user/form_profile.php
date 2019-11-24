@@ -126,7 +126,7 @@ $row=$sql->result;
 					</header>
 					<div class="panel-body">
 						<div class="form-group">
-							<label class="col-md-3 control-label" for="nama_lengkap">Nama Lengkap</label>
+							<label class="col-md-3 control-label" for="nama_lengkap">Nama Perusahaan / Perseorangan</label>
 							<div class="col-md-6">
 								<input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="<?php echo $row['nama_lengkap'];?>">
 							</div>

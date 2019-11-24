@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Pegawai extends Model
 {
     protected $table = "op_pegawai";
+    protected $primaryKey = "idp";
 }

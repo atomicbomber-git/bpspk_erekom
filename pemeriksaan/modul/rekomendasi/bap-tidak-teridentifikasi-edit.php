@@ -1,4 +1,14 @@
 <?php
+
+/* Controller code */
+
+use App\Models\Permohonan;
+use Jenssegers\Date\Date;
+
+$permohonan = Permohonan::find($idpengajuan);
+$permohonan->load("petugas.pegawai");
+$permohonan->load("berita_acara_pemeriksaan_tidak_teridentifikasi");
+
 $l = $sql->run("SELECT thp.ref_idp, thp.ref_idikan, thp.ref_jns_sampel, rdi.nama_ikan,rdi.nama_latin,rdi.dilindungi,rdi.peredaran,rdi.ket_dasarhukum, rjs.jenis_sampel
 		FROM tb_hsl_periksa thp
 		LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan = thp.ref_idikan)
@@ -73,7 +83,7 @@ $last = $sql->run("SELECT no_surat_bap as no_surat FROM tb_nosurat WHERE ref_idp
 $r = $last->fetch();
 ?>
 <form method="post" class="form-horizontal" id="bap_add" action="">
-	<input type="hidden" name="a" value="bapsv" />
+	<input type="hidden" name="a" value="bapttup" />
 	<input type="hidden" name="token" value="<?php echo md5($idpengajuan . U_ID . "bap"); ?>">
 
 	<div class="box">
@@ -84,27 +94,35 @@ $r = $last->fetch();
 			<div class="form-group">
 				<label class="control-label col-md-3">No Surat</label>
 				<div class="col-md-5">
-					<input type="text" readonly class="form-control" name="no_surat" id="no_surat" value="<?php echo $r['no_surat']; ?>">
+					<input type="text" readonly class="form-control" name="no_surat" id="no_surat" value="<?= $permohonan->berita_acara_pemeriksaan_tidak_teridentifikasi->no_surat ?>">
 					<p class="text-alert alert-info">Catatan : No Surat Sudah Dibuat Secara Otomatis Oleh Sistem.</p>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-md-3">Tanggal Penetapan</label>
 				<div class="col-md-4">
-					<input type="text" class="form-control datepicker" name="tgl_penetapan" value="<?php echo date('m/d/Y'); ?>">
+					<input 
+                        type="text"
+                        class="form-control datepicker"
+                        name="tgl_penetapan"
+                        value="<?= Date::parse($permohonan->berita_acara_pemeriksaan_tidak_teridentifikasi->tgl_surat)->format("d/m/Y") ?>">
 					<small class="text-alert alert-danger">Format : Bulan/Hari/Tahun (mm/dd/yyyy)</small>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-md-3">Lokasi Penetapan</label>
 				<div class="col-md-6">
-					<input type="text" class="form-control" name="lokasi_penetapan">
+					<input type="text" 
+                        value="<?= $permohonan->berita_acara_pemeriksaan_tidak_teridentifikasi->lokasi ?>"
+                        class="form-control" name="lokasi_penetapan">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-md-3">Redaksi Hasil Pemeriksaan</label>
 				<div class="col-md-8">
-					<textarea name="redaksi_bap" rows="5" class="editor form-control">Berdasarkan hasil pemeriksaan sampel <?php echo $nama_produk; ?> yang dilakukan secara uji visual, menunjukkan bahwa sampel <?php echo $redaksi; ?>.</textarea>
+                    <textarea name="redaksi_bap" rows="5" class="editor form-control">
+                        <?= $permohonan->berita_acara_pemeriksaan_tidak_teridentifikasi->redaksi ?>
+                    </textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -112,14 +130,18 @@ $r = $last->fetch();
 				<div class="col-md-6">
 					<select name="ptg1" class="form-control">
 						<option value="">-Pilih-</option>
-						<?php
-						$a1 = $sql->run("SELECT pl.ref_idpeg,p.nip,p.nm_lengkap FROM tb_petugas_lap pl JOIN op_pegawai p ON(p.idp=pl.ref_idpeg) WHERE pl.ref_idp='" . $idpengajuan . "' ");
-						if ($a1->rowCount() > 0) {
-							foreach ($a1->fetchAll() as $b1) {
-								echo '<option value="' . $b1['ref_idpeg'] . '">' . $b1['nm_lengkap'] . ' (' . $b1['nip'] . ')</option>';
-							}
-						}
-						?>
+
+						<?php foreach($permohonan->petugas as $petugas): ?>
+							<option 
+                                value="<?= $petugas->ref_idpeg ?>"
+                                <?= ($petugas->ref_idpeg == $permohonan->berita_acara_pemeriksaan_tidak_teridentifikasi->ptgs1) ? 
+                                    "selected" : 
+                                    ""
+                                ?>
+                                >
+								<?= $petugas->pegawai->nm_lengkap ?>
+							</option>
+						<?php endforeach ?>
 					</select>
 				</div>
 			</div>
@@ -128,14 +150,59 @@ $r = $last->fetch();
 				<div class="col-md-6">
 					<select name="ptg2" class="form-control">
 						<option value="">-Pilih-</option>
-						<?php
-						$a2 = $sql->run("SELECT pl.ref_idpeg,p.nip,p.nm_lengkap FROM tb_petugas_lap pl JOIN op_pegawai p ON(p.idp=pl.ref_idpeg) WHERE pl.ref_idp='" . $idpengajuan . "' ");
-						if ($a2->rowCount() > 0) {
-							foreach ($a2->fetchAll() as $b2) {
-								echo '<option value="' . $b2['ref_idpeg'] . '">' . $b2['nm_lengkap'] . ' (' . $b2['nip'] . ')</option>';
-							}
-						}
-						?>
+
+						<?php foreach($permohonan->petugas as $petugas): ?>
+							<option 
+                                value="<?= $petugas->ref_idpeg ?>"
+                                <?= ($petugas->ref_idpeg == $permohonan->berita_acara_pemeriksaan_tidak_teridentifikasi->ptgs2) ? 
+                                    "selected" : 
+                                    ""
+                                ?>
+                                >
+								<?= $petugas->pegawai->nm_lengkap ?>
+							</option>
+						<?php endforeach ?>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-md-3">Petugas 3</label>
+				<div class="col-md-6">
+					<select name="ptg3" class="form-control">
+						<option value="">-Pilih-</option>
+
+						<?php foreach($permohonan->petugas as $petugas): ?>
+							<option 
+                                <?= ($petugas->ref_idpeg == $permohonan->berita_acara_pemeriksaan_tidak_teridentifikasi->ptgs3) ? 
+                                    "selected" : 
+                                    ""
+                                ?>
+                                value="<?= $petugas->ref_idpeg ?>">
+								<?= $petugas->pegawai->nm_lengkap ?>
+							</option>
+						<?php endforeach ?>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-md-3">Petugas 4</label>
+				<div class="col-md-6">
+					<select name="ptg4" class="form-control">
+						<option value="">-Pilih-</option>
+
+						<?php foreach($permohonan->petugas as $petugas): ?>
+							<option 
+                                value="<?= $petugas->ref_idpeg ?>"
+                                <?= ($petugas->ref_idpeg == $permohonan->berita_acara_pemeriksaan_tidak_teridentifikasi->ptgs4) ? 
+                                    "selected" : 
+                                    ""
+                                ?>
+                                >
+								<?= $petugas->pegawai->nm_lengkap ?>
+							</option>
+						<?php endforeach ?>
 					</select>
 				</div>
 			</div>

@@ -9,6 +9,11 @@ class UserPublic extends Model
     protected $table = "tb_userpublic";
     protected $primaryKey = "iduser";
 
+    public function biodata()
+    {
+        return $this->hasOne(Biodata::class, "ref_iduser");
+    }
+
     public function metadata()
     {
         return $this->hasMany(WebMeta::class, "ref_id");

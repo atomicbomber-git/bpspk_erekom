@@ -6,8 +6,6 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
 	die();
 }
 
-dump($_POST);
-
 if ($_POST) {
 	include("../../engine/render.php");
 	switch (trim(strip_tags($_POST['a']))) {
@@ -37,6 +35,52 @@ if ($_POST) {
 				exit();
 			}
 
+			if (!isset($_FILES['invoice']['name']) or !is_uploaded_file($_FILES['invoice']['tmp_name'])) {
+				header('Content-Type: application/json');
+				echo json_encode(array("stat" => false, "msg" => "Silakan Upload Berkas Invoice Anda."));
+				exit();
+			}
+
+			if (!isset($_FILES['packing_list']['name']) or !is_uploaded_file($_FILES['packing_list']['tmp_name'])) {
+				header('Content-Type: application/json');
+				echo json_encode(array("stat" => false, "msg" => "Silakan Upload Berkas Packing List Anda."));
+				exit();
+			}
+
+			/* Handle file uploads */
+			$uploadPath = app_path() . "/pengajuan/berkas";
+			$allowedFileExtensions = ['jpeg','jpg','png'];
+			$errors = [];
+
+			$uploadedFileNames = [];
+
+			foreach (["invoice", "packing_list", "pra_bap"] as $field) {
+				
+				/* Allow pra_bap field to be empty */
+				if (($field === "pra_bap") && !isset($_FILES[$field]['name'])) {
+					continue;
+				}
+
+				$fileName = md5(time() .  $_FILES[$field]['name']);
+				$fileSize = $_FILES[$field]['size'];
+				$fileTmpName  = $_FILES[$field]['tmp_name'];
+				$fileType = $_FILES[$field]['type'];
+				$fileExtension = strtolower(end(explode('.', $_FILES[$field]["name"])));
+
+				if (! in_array($fileExtension, $allowedFileExtensions)) {
+					$errors[] = "{$field}: This file extension is not allowed.";
+				}
+
+				$finalFileName = $fileName . "." . $fileExtension;
+				$finalUploadPath = $uploadPath . "/" . $finalFileName;
+
+				if (move_uploaded_file($fileTmpName, $finalUploadPath)) {
+					$errors[] = "{$field}: Failed to upload file.";
+					$uploadedFileNames[$field] = $finalFileName;
+				}
+			}
+
+
 			$tgl_pengajuan = date('Y-m-d H:i:s');
 			$tgl_pelayanan = get_tgl_pelayanan($tgl_pengajuan);
 
@@ -57,7 +101,9 @@ if ($_POST) {
 				'log_u' => '',
 				'log_p' => '',
 				'tgl_pelayanan' => $tgl_pelayanan,
-				'no_antrian' => $no_antrian
+				'file_invoice' => $uploadedFileNames['invoice'] ?? null,
+				'file_packing_list' => $uploadedFileNames['packing_list'] ?? null,
+				'file_pra_bap' => $uploadedFileNames['pra_bap'] ?? null,
 			);
 
 			$sql->insert('tb_permohonan', $arr_insert);

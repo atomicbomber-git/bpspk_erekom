@@ -92,7 +92,7 @@ if (USER) {
                     <li class="nav-parent nav-user"><a href="#"><i class="fa fa-users" aria-hidden="true"></i></i><span>Manajemen User</span></a>
                         <ul class="nav nav-children">
                             <li class="user-adm"><a href="<?php echo c_URL.$ModuleDir;?>user/">Pegawai & Admin</a></li>
-                            <li class="user-guest"><a href="<?php echo c_URL.$ModuleDir;?>user/guest/">Tamu</a></li>
+                            <!-- <li class="user-guest"><a href="<?php echo c_URL.$ModuleDir;?>user/guest/">Tamu</a></li> -->
                         </ul>
                     </li>
                     <li class="nav-parent nav-dtref"><a href="#"><i class="fa fa-tag" aria-hidden="true"></i><span>Data Referensi</span></a>
@@ -102,15 +102,15 @@ if (USER) {
                             <li class="df-bk"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/balai-karantina.php">Balai Karantina</a></li>
                             <li class="df-prl"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/upt-prl.php">UPT PRL</a></li>
                             <li class="df-psdkp"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/psdkp.php">PSDKP</a></li>
-                            <li class="df-jp"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/jenis-produk.php">Jenis Produk</a></li>
-                            <li class="df-bw"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/web-index.php">Bahan Rekap</a></li>
-                            <li class="nav-parent nav-redaksi"><a href="#">Redaksi Surat</a>
+                            <!-- <li class="df-jp"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/jenis-produk.php">Jenis Produk</a></li>
+                            <li class="df-bw"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/web-index.php">Bahan Rekap</a></li> -->
+                            <!-- <li class="nav-parent nav-redaksi"><a href="#">Redaksi Surat</a>
                                 <ul class="nav nav-children nav-red">
                                     <li class="red-st"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/surat/st.php">Surat Tugas</a></li>
-                                    <!-- <li class="red-bap"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/surat/bap.php">BAP</a></li> -->
-                                    <!-- <li class="red-rek"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/surat/rekomendasi.php">Rekomendasi</a></li> -->
+                                    <li class="red-bap"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/surat/bap.php">BAP</a></li>
+                                    <li class="red-rek"><a href="<?php echo c_URL.$ModuleDir;?>data-referensi/surat/rekomendasi.php">Rekomendasi</a></li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
                     <li class="nav-parent nav-lap"><a href="#"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Statistik</span></a>

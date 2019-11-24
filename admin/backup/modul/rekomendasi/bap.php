@@ -37,7 +37,6 @@ if(ctype_digit($idpengajuan)){
 	}else{
 		include ("bap-add.php");
 	}
-	
 	?>
 </section>
 <?php

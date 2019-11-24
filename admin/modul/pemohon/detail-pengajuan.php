@@ -1,4 +1,10 @@
 <?php
+
+use App\Models\Permohonan;
+use App\Services\Formatter;
+use App\Services\Letter;
+use Jenssegers\Date\Date;
+
 include ("../../engine/render.php");
 
 $ITEM_HEAD = "bootstrap.css, font-awesome.css, magnific-popup.css, datepicker3.css, pnotify.custom.css, select2.css, codemirror.css, monokai.css, bootstrap-tagsinput.css, bootstrap-timepicker.css, theme.css, default.css, datatables.css, modernizr.js";
@@ -40,6 +46,14 @@ $arr_status=array(
 	4=>"Pemeriksaan Sampel Telah Dilakukan.",
 	5=>"Surat Rekomendasi Sudah Diterbitkan."
 );
+
+
+/* Controller */
+$permohonan = Permohonan::find($idpengajuan);
+$permohonan->load("nomor_surat");
+
+$letter = container(Letter::class);
+
 ?>
 <section role="main" class="content-body">
 	<header class="page-header">
@@ -100,6 +114,12 @@ $arr_status=array(
 							<td>Keterangan Tambahan</td>
 							<td><?php echo $p['ket_tambahan'];?></td>
 						</tr>
+
+						<tr>
+							<td>  Nomor BAP </td>
+							<td><?php echo $p['nomor_bap'];?></td>
+						</tr>
+
 					</table>
 					<hr/>
 					<table class="table table-hover table-bordered">
@@ -113,23 +133,22 @@ $arr_status=array(
 							</tr>
 						</thead>
 						<tbody>
-							<?php
-							$sql->order_by=""; 
-							$sql->get_all('tb_barang',array('ref_idphn'=>$idpengajuan),'*');
-							if($sql->num_rows>0){
-								$no=0;
-								foreach($sql->result as $b){
-									$no++;
-									echo '<tr>
-										<td>'.$no.'</td>
-										<td>'.$b['nm_barang'].'</td>
-										<td>'.$b['kuantitas'].' <em>Colly</em></td>
-										<td>'.$b['jlh'].' Kg</td>
-										<td>'.$b['asal_komoditas'].'</td>
-									</tr>';
-								}
-							}
+							<?php 
+								$barangs = App\Models\Barang::query()
+									->where("ref_idphn", $idpengajuan)
+									->with("satuan_kuantitas")
+									->get();
 							?>
+
+							<?php foreach($barangs as $index => $barang): ?>
+							<tr>
+								<td>  <?= $index + 1 ?> </td>
+								<td>  <?= $barang->nm_barang ?> </td>
+								<td>  <?= $barang->kuantitas ?> <?= $barang->satuan_kuantitas->nama ?> </td>
+								<td>  <?= $barang->jlh ?> </td>
+								<td>  <?= $barang->asal_komoditas ?> </td>
+							</tr>
+							<?php endforeach ?>
 						</tbody>
 					</table>
 					<hr/>
@@ -150,6 +169,15 @@ $arr_status=array(
 						}
 						?>
 					</ol>
+
+					<div>
+						<strong> Nomor BAP </strong>
+					</div>
+
+					<div>
+						<?= $permohonan->nomor_surat->no_surat_bap ?? '-' ?>
+					</div>
+
 					<?php
 					if($p['status']>1 AND $p['status']<5){
 						echo '<strong>Detail Login</strong>: <br/>';
@@ -169,6 +197,126 @@ $arr_status=array(
 					}
 					?>
 				</div>
+
+				<?php if($permohonan->hasil_periksa()->count() === 0): ?>
+					<div class="panel panel-featured" style="margin-top: 1rem;">
+						<div class="panel-body">
+							
+							<?= $letter->getHeaderContentHtml(ADM_IMAGES) ?>
+
+							
+
+
+							<table style="width: 100%">
+								<tbody>
+									<tr>
+										<td style="width: 5rem;"> Nomor </td>
+										<td>  </td>
+										<td> : </td>
+										<td> B. <?= $permohonan->nomor_surat->no_surat_bap ?? '-' ?> </td>
+										<td style="text-align: right">
+											<?= Formatter::fancyDate(Date::today()) ?>
+										</td>
+									</tr>
+
+									<tr>
+										<td style="width: 5rem;"> Perihal </td>
+										<td>  </td>
+										<td> : </td>
+										<td> Pengantar Uji DNA </td>
+										<td> </td>
+									</tr>
+								</tbody>
+							</table>
+
+							<p>
+								Kepada Yth. <br/>
+								<strong> Kepala Laboratorium DNA Forensik Lembaga Eijkman </strong>
+								Jl. Diponegoro No. 69 Jakarta 10430
+							</p>
+
+							<p style="text-indent: 30px">
+								Sebelum telah dilakukannya pemeriksaan terhadap produk yang akan diekspor oleh:
+							</p>
+							
+							<table style="width: 100%">
+								<thead>
+									<tr>
+										<th style="width: 15rem;"></th>
+										<th style="width: 1rem;"></th>
+										<th></th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr>
+										<td> Nama Perusahaan </td>
+										<td> : </td>
+										<td> <?= $permohonan->user->nama_lengkap ?> </td>
+									</tr>
+
+									<tr>
+										<td> Alamat </td>
+										<td> : </td>
+										<td> <?= $permohonan->user->biodata->gudang_1 ?> </td>
+									</tr>
+
+									<tr>
+										<td> Bentuk Produk </td>
+										<td> : </td>
+										<td>  </td>
+									</tr>
+								
+								</tbody>
+							</table>
+
+							<p>
+								Dengan ini Loka PSPL Serang belum dapat mengeluarkan rekomendasi dikarenakan produk dimaksud belum dapat diidentifikasi secara uji visual.
+							</p>
+
+							<p style="text-indent: 30px">
+								Berkaitan dengan hal tersebut, maka dengan ini kami sampaikan permohonan uji DNA produk tersebut untuk membuktikan apakah sampel yang disampaikan adalah termasuk / tidak termasuk jenis dilindungi dan Apendiks CITES (Pristis Microdon, Rhincodon typus, Manta alfredi, Manta birostris, Sphyrna zygaena, Sphyrna lewini, Sphyrna mokarran, Carcharhinus longimanus)
+							</p>
+
+							<p>
+								Demikian kami sampaikan, atas kerjasamanya kami ucapkan terima kasih.
+							</p>
+
+							<div style="text-align: right">
+								<table style="
+									display: inline-block;
+									width: 30rem;
+								">
+									<tbody>
+										<tr>
+											<td> Kepala Loka PSPL Serang </td>
+										</tr>
+
+										<tr style="height: 10rem;">
+										</tr>
+
+										<tr>
+											<td>
+												Nama ORang
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							
+
+							<p> Tembusan Yth: </p>
+							<ol>
+								<li> Direktur Konservasi dan Keanekaragaman Hayati Laut </li>
+								<li> Direktur Utama <?= $permohonan->user->nama_lengkap ?> </li>
+							</ol>
+
+
+						</div>
+					</div>
+				<?php endif ?>
+
 				<footer class="panel-footer">
 					<?php if($_GET['ref']!='' AND $_GET['ref']=='stat_permohonan') {
 						?>

@@ -1,18 +1,19 @@
 <?php
+
+use App\Models\Permohonan;
+
 require_once("config.php");
 $SCRIPT_FOOT = "
 <script>
 $(document).ready(function(){
-	$('ul li.nav-ba').addClass('active');
+	$('ul li.nav-ba-tidak-teridentifikasi').addClass('active');
 });
 </script>
 <script src=\"bap.js\"></script>
 ";
 
-$idpengajuan=U_IDP;
+$idpengajuan = U_IDP;
 $permohonan = Permohonan::find($idpengajuan);
-
-dump($permohonan->hasil_periksa()->count());
 
 if (ctype_digit($idpengajuan)) {
     ?>
@@ -20,28 +21,30 @@ if (ctype_digit($idpengajuan)) {
         <div class="content-wrapper">
             <section class="content-header">
                 <h1>
-                    Berita Acara Pemeriksaan
+                    Berita Acara Pemeriksaan Tidak Teridentifikasi
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="<?php echo c_URL; ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li class="active">Berita Acara Pemeriksaan</li>
+                    <li class="active">
+                        Berita Acara Pemeriksaan Tidak Teridentifikasi
+                    </li>
                 </ol>
             </section>
 
             <section class="content">
             <?php if($permohonan->hasil_periksa()->count() === 0): ?>
                 <?php
-                    $found = $sql->get_count('tb_bap', array('ref_idp' => $idpengajuan));
+                    $found = $sql->get_count('tb_bap_tidak_teridentifikasi', array('ref_idp' => $idpengajuan));
                     if ($found > 0) {
-                        include("bap-edit.php");
+                        include("bap-tidak-teridentifikasi-edit.php");
                     } else {
-                        include("bap-add.php");
+                        include("bap-tidak-teridentifikasi-add.php");
                     }
                     ?>
             <?php else: ?>
                 <div class="alert alert-danger">
                     <i class="fa fa-warning"></i>
-                    BAP Tidak Teridentifikasi hanya dapat diisi jika hasil pemeriksaan masih kosong.
+                    Berita Acara Pemeriksaan Tidak Teridentifikasi hanya dapat diisi jika hasil pemeriksaan masih kosong.
                 </div>
             <?php endif ?>
             </section>
