@@ -153,7 +153,7 @@ $satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 									</tr>
 									<?php
 										}
-									} else {
+							} else {
 										$tombol = 0;
 										$dt = $sql->run("SELECT
 											thp.tot_berat as berat,
@@ -409,9 +409,20 @@ $satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 			</div>
 		</div>
 		<div class="box-footer">
+
+			
+
 			<div class="form-group">
 				<label class="control-label col-md-2"></label>
 				<div class="col-md-5">
+                    <a 
+                        href="#"
+                        id="btn_reset"
+                        data-idrek="<?php echo base64_encode($dtrek['idrek']); ?>"
+                        class="btn btn-sm btn-default btn-danger">
+                        Hapus dan Reset Draft
+                    </a>
+
 					<button class="btn btn-sm btn-primary btn-flat" id="btn_simpan" type="submit">Simpan Perubahan</button>
 					<a class="btn btn-sm btn-info btn-flat" href="surat-rekomendasi.php?token=<?php echo md5($dtrek['idrek'] . U_ID . 'surat_rekomendasi'); ?>&rek=<?php echo base64_encode($dtrek['idrek']); ?>">Lihat Surat</a>
 					<!-- <button class="btn btn-sm btn-warning" id="btn_submit" data-token="<?php echo md5($dtrek['idrek'] . U_ID . 'submit'); ?>" type="button">Kirim ke Kepala Balai/Plh Untuk Disahkan</button> -->

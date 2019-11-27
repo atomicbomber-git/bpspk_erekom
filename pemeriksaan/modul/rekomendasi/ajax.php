@@ -3,6 +3,7 @@
 use App\Models\BeritaAcaraPemeriksaanTidakTeridentifikasi;
 use App\Models\Pegawai;
 use App\Models\Permohonan;
+use App\Models\Rekomendasi;
 
 if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
 	die();
@@ -517,7 +518,14 @@ if ($_POST) {
 			} else {
 				echo json_encode(array("stat" => false, "msg" => "Aksi Gagal"));
 			}
-			break;
+            break;
+            
+        case 'reset_rek':
+            $rekomendasi = Rekomendasi::find(base64_decode($_POST['idrek']));
+
+            $rekomendasi->delete();
+            echo json_encode(array("stat" => true, "msg" => "Reload Ulang Berhasil."));
+            break;
 
 		case 'reset_tbl_rek':
 			//hapus hasil pemeriksaan di rekomendasi
