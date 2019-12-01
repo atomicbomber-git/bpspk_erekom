@@ -133,7 +133,7 @@ $row=$rek->fetch();
 							<tr>
 								<td width="60%"></td>
 								<td width="60%" style="text-align:center">
-									<?php echo (($row['lvl']==90)?"Kepala Balai":"Plh. Kepala Balai");?>
+									<?php echo (($row['lvl']==90)?"Kepala Loka":"Plh. Kepala Balai");?>
 									<p><a href="#"><img height="100px" src="<?php echo ADM_IMAGES.$row['ttd'];?>"></a></p>
 									<?php echo $row['penandatgn'];?>
 								</td>

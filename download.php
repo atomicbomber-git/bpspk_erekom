@@ -96,7 +96,7 @@ if ($rek->rowCount() > 0) {
             $row['tujuan'],
             $row['jenis_angkutan'],
             $row['nobap'],
-            tanggalIndo($row['tglbap'], 'j F Y'),
+            tanggalIndo($row['tglbap'], 'j F Y')
         );
 
     $html .= 

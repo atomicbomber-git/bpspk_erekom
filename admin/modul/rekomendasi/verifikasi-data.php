@@ -317,7 +317,7 @@ $arr_jns_tujuan=array(
 								<th>No</th>
 								<th>Nama Barang</th>
 								<th>Kuantitas</th>
-								<th>Jumlah Berat</th>
+								<th>Jumlah Berat (Kg)</th>
 								<th>Asal Komoditas</th>
 							</tr>
 						</thead>

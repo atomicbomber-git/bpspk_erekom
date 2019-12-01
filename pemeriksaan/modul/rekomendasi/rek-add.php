@@ -155,12 +155,35 @@ $r = $last->fetch();
 										<td>
 											<?= $satuan_barangs[$row['id_satuan_barang']] ?>
 										</td>
-										<td><input type="text" name="nosegel[]" class="form-control"></td>
+										<td>
+												<input
+													style="display: inline-block;"
+													class="nosegel form-control"
+													type="text"
+													name="nosegel[]"
+													class="form-control">
+
+												<div
+													style="
+														display: inline-block;
+														text-align: center;
+													"
+													>
+													s/d
+												</div>
+
+												<input
+													style="display: inline-block;"
+													class="nosegel form-control"
+													type="text"
+													name="nosegel_akhir[]"
+													class="form-control">
+											</td>
 										<td>
 											<?php echo floatval($row['berat']); ?> Kg
 											<input type="hidden" name="berat[]" value="<?php echo floatval($row['berat']); ?>">
 										</td>
-										<td><input type="text" name="keterangan[]" class="form-control" value="<?php echo $arr_produk[$row['id_ref']]['nama']; ?>"></td>
+										<td><input type="text" name="ket" rows="5" class="form-control ket" value="<?php echo $row['ket'];?>"></td>
 									</tr>
 							<?php
 								}
@@ -203,6 +226,20 @@ $r = $last->fetch();
 						".\n"
 					)
 
+					{
+							document.querySelectorAll('input.nosegel')
+								.forEach(nosegel_input => {
+									new Cleave(nosegel_input, {
+										numeral: true,
+										stripLeadingZeroes: false,
+										numeralDecimalMark: '',
+										delimiter: '',
+										numeralIntegerScale: 4,
+										numeralDecimalScale: 0
+									});
+								})
+				}
+
 					select_masa_berlaku_rekomendasi.onchange = () => {
 						teks_masa_berlaku_rekomendasi = select_masa_berlaku_rekomendasi.value
 						CKEDITOR.instances["redaksi_rek"].setData(
@@ -213,6 +250,7 @@ $r = $last->fetch();
 						)
 					}
 				}
+			
 			</script>
 
 
