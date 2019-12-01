@@ -71,14 +71,14 @@ function cek_session(){
                 define("$key",$val);
             }
 
-            $NOWLOG = U_NOWLOG;
+            // $NOWLOG = U_NOWLOG;
 
-            if((U_NOWLOG + 7200) < time()){
-                define("U_LASTLOG", U_NOWLOG);
-                $NOWLOG = time();
-                $sql -> update('web_meta',array('meta_value'=>$NOWLOG),array('ref_id'=>U_ID, 'meta_key'=>'U_NOWLOG','meta_group'=>2) );
-                $sql -> update('web_meta',array('meta_value'=>$NOWLOG),array('ref_id'=>U_ID, 'meta_key'=>'U_LASTLOG','meta_group'=>2) );
-            }
+            // if((U_NOWLOG + 7200) < time()){
+            //     define("U_LASTLOG", U_NOWLOG);
+            //     $NOWLOG = time();
+            //     $sql -> update('web_meta',array('meta_value'=>$NOWLOG),array('ref_id'=>U_ID, 'meta_key'=>'U_NOWLOG','meta_group'=>2) );
+            //     $sql -> update('web_meta',array('meta_value'=>$NOWLOG),array('ref_id'=>U_ID, 'meta_key'=>'U_LASTLOG','meta_group'=>2) );
+            // }
             
             if((isset($_SESSION['admlockscreen']) AND $_SESSION['admlockscreen']!="") OR (isset($_COOKIE['admlockscreen']) AND $_COOKIE['admlockscreen']!="")){
                 define("U_LOCK", TRUE);

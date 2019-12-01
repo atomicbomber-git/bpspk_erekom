@@ -90,8 +90,15 @@ $row=$rek->fetch();
 								<td width="12%">Berat Ikan(Kg)</td>
 								<td>Keterangan</td>
 							</tr>
+                            
 							<?php
-							$dt=$sql->run("SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin FROM tb_rek_hsl_periksa thp JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$idrek."' ORDER BY thp.ref_jns ASC");
+                                $dt
+                                    =
+                                        $sql
+                                            ->run("SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin FROM tb_rek_hsl_periksa thp LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$idrek."' ORDER BY thp.ref_jns ASC"
+                        
+                        
+                            );
 							if($dt->rowCount()>0){
 								$no=0;
 								foreach($dt->fetchAll() as $dtrow){

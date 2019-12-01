@@ -72,11 +72,11 @@ if (USER) {
                             <li class="kuis-rekap"><a href="<?php echo c_URL.$ModuleDir;?>kuisioner/rekap.php">Rekap Kuisioner</a></li>
                         </ul>
                     </li>
-                    <li class="nav-parent nav-download"><a href="#"><i class="fa fa-download" aria-hidden="true"></i><span>Download</span></a>
+                    <!-- <li class="nav-parent nav-download"><a href="#"><i class="fa fa-download" aria-hidden="true"></i><span>Download</span></a>
                         <ul class="nav nav-children">
                             <li class="dw-dok"><a href="<?php echo c_URL.$ModuleDir;?>download/dok-pemeriksaan.php">Dokumentasi Pemeriksaan</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li class="nav-sop">
                         <a href="<?php echo c_URL.$ModuleDir;?>sop/index.php">
                             <i class="fa fa-file-text" aria-hidden="true"></i>

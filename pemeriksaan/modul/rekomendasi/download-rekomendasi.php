@@ -1,4 +1,7 @@
 <?php
+
+use Mpdf\HTMLParserMode;
+
 include ("../../engine/render.php");
 $kdsurat=($_GET['rek']);
 if(!ctype_digit($kdsurat)){
@@ -25,28 +28,7 @@ $html = '
 <head>
 <style>
 
-.table { border-collapse: collapse !important;}
-.table td, .table th {background-color: #fff !important;}
-.table-bordered th, .table-bordered td {border: 1px solid #000 !important;}
-.table-hasil td { padding: 0.2em; }
-h1{font-size: 34px;}
-h2{font-size: 28px;}
-h3{font-size: 22px;}
-h4{font-size: 16px;}
-h5{font-size: 12px;}
-h6{font-size: 10px;}
-p {margin: 0 0 10px; line-height: 120%;}
-.barcode {
-	padding: 1.5mm;
-	margin: 0;
-	vertical-align: top;
-	color: #000000;
-}
-.barcodecell {
-	text-align: right;
-	vertical-align: middle;
-	padding: 0;
-}
+
 </style>
 </head>
 <body>
@@ -105,7 +87,7 @@ if($rek->rowCount()>0){
 			<td width="12%">Berat Ikan(Kg)</td>
 			<td>Keterangan</td>
 		</tr>';
-		$dt=$sql->run("SELECT thp.*, rjs.jenis_sampel,rdi.nama_latin FROM tb_rek_hsl_periksa thp JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
+		$dt=$sql->run("SELECT thp.*, rjs.jenis_sampel,rdi.nama_latin FROM tb_rek_hsl_periksa thp LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
 		if($dt->rowCount()>0){
 			$no=0;
 			foreach($dt->fetchAll() as $dtrow){
@@ -159,10 +141,35 @@ $html.='</body>
 // echo $html;
 
 
-include("../../../assets/mpdf60/mpdf.php");
+// include("../../../assets/mpdf60/mpdf.php");
 
-$mpdf=new mPDF('','','10','Arial',15,10,15,10,10,10); 
-$mpdf->WriteHTML($html);
-$mpdf->Output("rekomendasi-".$row['kode_surat'].".pdf",'I'); 
+// $mpdf=new mPDF('','','10','Arial',15,10,15,10,10,10); 
+// $mpdf->WriteHTML($html);
+// $mpdf->Output("rekomendasi-".$row['kode_surat'].".pdf",'I'); 
 
-exit;
+// exit;
+
+$defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+$fontDirs = $defaultConfig['fontDir'];
+
+$defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
+$fontData = $defaultFontConfig['fontdata'];
+
+
+$mpdf = new \Mpdf\Mpdf([
+	'fontDir' => array_merge($fontDirs, [
+		app_path() . '/assets/fonts',
+	]),
+	'fontdata' => $fontData + [
+		'Arial' => [
+			'R' => 'arial.ttf',
+		]
+	],
+	'default_font' => 'Arial',
+
+	'tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf',
+]);
+
+$mpdf->WriteHTML(file_get_contents(app_path() . "/assets/mpdf.css"), HTMLParserMode::HEADER_CSS);
+$mpdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
+$mpdf->Output("rekomendasi-{$row['kode_surat']}.pdf", 'I');

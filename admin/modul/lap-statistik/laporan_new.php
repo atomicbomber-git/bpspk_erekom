@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Rekomendasi;
 use App\Models\RekomendasiHasilPeriksa;
 use App\Services\Formatter;
 use Jenssegers\Date\Date;
@@ -40,7 +41,17 @@ include ("../../engine/render.php");
                                 break;
                         }
                     });
-            });
+            })
+            ->orderBy(
+                Rekomendasi::query()
+                    ->select("tgl_surat")
+                    ->whereColumn(
+                        (new Rekomendasi)->getTable() . ".idrek",
+                        (new RekomendasiHasilPeriksa)->getTable() . ".ref_idrek",
+                    )
+                    ->limit(1)
+            );
+
 
     $rekomendasi_hasil_periksa =
         $rekomendasi_query_builder->get();
@@ -98,7 +109,7 @@ include ("../../engine/render.php");
                     <td> <?= $hasil_periksa->rekomendasi->user_public->nama_lengkap ?> </td>
                     <td> <?= $hasil_periksa->rekomendasi->no_surat ?> </td>
                     <td> <?= Formatter::fancyDate($hasil_periksa->rekomendasi->tgl_surat) ?> </td>
-                    <td> <?= $hasil_periksa->rekomendasi->tujuan ?> </td>
+                    <td> <?= $hasil_periksa->rekomendasi->permohonan->tujuan ?> </td>
                     <td>
                         <?= $hasil_periksa->produk ?>
                         <?= $hasil_periksa->kondisi_produk ?>
