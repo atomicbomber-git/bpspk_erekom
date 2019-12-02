@@ -316,14 +316,14 @@ function filterlvl(lvl){
 
 		case '90':
 			$("#filterlvl").val('90');
-			$(".ulvl").html('Kepala Balai');
+			$(".ulvl").html('Kepala Loka');
 			$("#lvl_kepala").css('font-weight', 'bold');
 			$("#lvl_admin,#lvl_plh,#lvl_vr").css('font-weight', 'normal');
 		break;
 
 		case '91':
 			$("#filterlvl").val('91');
-			$(".ulvl").html('Plh. Kepala Balai');
+			$(".ulvl").html('Plh. Kepala Loka');
 			$("#lvl_plh").css('font-weight', 'bold');
 			$("#lvl_admin,#lvl_kepala,#lvl_vr").css('font-weight', 'normal');
 		break;

@@ -58,8 +58,8 @@ if($rek->rowCount()>0){
 			<td><img  style="vertical-align: top" src="'.$location.'logo-kkp-kop.png" width="100"></td>
 			<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
 			<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-			<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-			PONTIANAK</strong></h4>
+			<h4><strong>LOKA PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
+			SERANG</strong></h4>
 			<small>JALAN HUSEIN HAMZAH NOMOR 01 PAALLIMA, PONTIANAK 78114 TELP.(0561)766691,
 			FAX(0561)766465, WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
 		</tr>
@@ -92,7 +92,7 @@ if($rek->rowCount()>0){
 	$html.='<table style="width:100%">
 		<tr>
 			<td style="text-align:justify;"><br>
-			<p>Menindaklanjuti Surat Saudara tanggal '.tanggalIndo($row['tgl_pengajuan'],'j F Y').' perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke '.$row['tujuan'].' melalui jalur '.ucwords($row['jenis_angkutan']).', dengan ini disampaikan bahwa Petugas Balai Pengelolaan Sumberdaya Pesisir dan Laut Pontianak telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : '.$row['nobap'].' tanggal '.tanggalIndo($row['tglbap'],'j F Y').' dengan hasil:</p>
+			<p>Menindaklanjuti Surat Saudara tanggal '.tanggalIndo($row['tgl_pengajuan'],'j F Y').' perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke '.$row['tujuan'].' melalui jalur '.ucwords($row['jenis_angkutan']).', dengan ini disampaikan bahwa Petugas Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : '.$row['nobap'].' tanggal '.tanggalIndo($row['tglbap'],'j F Y').' dengan hasil:</p>
 			</td>
 		</tr>
 	</table>';
@@ -136,7 +136,7 @@ if($rek->rowCount()>0){
 		<tr>
 			<td width="60%"></td>
 			<td width="40%" style="text-align:center"><br>
-				'.(($row['lvl']==90)?"Kepala Balai":"Plh. Kepala Balai").'
+				'.(($row['lvl']==90)?"Kepala Loka":"Plh. Kepala Loka").'
 				<p><img height="150px" src="'.$location.$row['ttd'].'"></p>
 				'.$row['penandatgn'].'
 			</td>

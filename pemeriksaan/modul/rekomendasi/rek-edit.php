@@ -427,7 +427,7 @@ $satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 
 					<button class="btn btn-sm btn-primary btn-flat" id="btn_simpan" type="submit">Simpan Perubahan</button>
 					<a class="btn btn-sm btn-info btn-flat" href="surat-rekomendasi.php?token=<?php echo md5($dtrek['idrek'] . U_ID . 'surat_rekomendasi'); ?>&rek=<?php echo base64_encode($dtrek['idrek']); ?>">Lihat Surat</a>
-					<!-- <button class="btn btn-sm btn-warning" id="btn_submit" data-token="<?php echo md5($dtrek['idrek'] . U_ID . 'submit'); ?>" type="button">Kirim ke Kepala Balai/Plh Untuk Disahkan</button> -->
+					<!-- <button class="btn btn-sm btn-warning" id="btn_submit" data-token="<?php echo md5($dtrek['idrek'] . U_ID . 'submit'); ?>" type="button">Kirim ke Kepala Loka/Plh Untuk Disahkan</button> -->
 					<span id="actloading" style="display:none"><i class="fa fa-spin fa-spinner"></i> Menyimpan...</span>
 					<!-- <span id="actsubmit" style="display:none"><i class="fa fa-spin fa-spinner"></i> Mengirim...</span> -->
 

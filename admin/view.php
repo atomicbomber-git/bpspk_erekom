@@ -399,8 +399,8 @@ $arr_jns_tujuan=array(
 							<td><img src="<?php echo ADM_IMAGES;?>logo-kkp-kop.png" width="150"></td>
 							<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
 							<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-							<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-							PONTIANAK</strong></h4>
+							<h4><strong>LOKA PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
+							SERANG</strong></h4>
 							<small>JALAN HUSEIN HAMZAH NOMOR 01 PAALLIMA, PONTIANAK 78114 TELP.(0561)766691,
 							FAX(0561)766465, <br>WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
 						</tr>
@@ -533,8 +533,8 @@ $arr_jns_tujuan=array(
 							<td><img src="<?php echo ADM_IMAGES;?>logo-kkp-kop.png" width="150"></td>
 							<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
 							<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-							<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-							PONTIANAK</strong></h4>
+							<h4><strong>LOKA PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
+							SERANG</strong></h4>
 							<small>JALAN HUSEIN HAMZAH NOMOR 01 PAALLIMA, PONTIANAK 78114 TELP.(0561)766691,
 							FAX(0561)766465, <br>WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
 						</tr>
@@ -565,7 +565,7 @@ $arr_jns_tujuan=array(
 					<table style="width:100%">
 						<tr>
 							<td><br>
-							<p>Menindaklanjuti Surat Saudara tanggal <?php echo tanggalIndo($row['tgl_pengajuan'],'j F Y');?> perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke <?php echo $row['tujuan'];?> melalui jalur <?php echo ucwords($row['jenis_angkutan']);?>, dengan ini disampaikan bahwa Petugas Balai Pengelolaan Sumberdaya Pesisir dan Laut Pontianak telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : <?php echo $row['nobap'];?> tanggal <?php echo tanggalIndo($row['tglbap'],'j F Y');?> dengan hasil:</p>
+							<p>Menindaklanjuti Surat Saudara tanggal <?php echo tanggalIndo($row['tgl_pengajuan'],'j F Y');?> perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke <?php echo $row['tujuan'];?> melalui jalur <?php echo ucwords($row['jenis_angkutan']);?>, dengan ini disampaikan bahwa Petugas Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : <?php echo $row['nobap'];?> tanggal <?php echo tanggalIndo($row['tglbap'],'j F Y');?> dengan hasil:</p>
 							</td>
 						</tr>
 					</table>
@@ -610,7 +610,7 @@ $arr_jns_tujuan=array(
 						<tr>
 							<td width="60%"></td>
 							<td width="60%" style="text-align:center">
-								<?php echo (($row['lvl']==90)?"Kepala Balai":"Plh. Kepala Balai");?>
+								<?php echo (($row['lvl']==90)?"Kepala Loka":"Plh. Kepala Loka");?>
 								<p><a href="#"><img height="100px" src="<?php echo ADM_IMAGES.$row['ttd'];?>"></a></p>
 								<?php echo $row['penandatgn'];?>
 							</td>

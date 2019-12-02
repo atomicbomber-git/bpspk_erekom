@@ -29,8 +29,8 @@ function getIP(){
 function get_Level($num) { 
     $level_label = array(
         100 => "Admin",
-        90 => "Kepala Balai",
-        91 => "Plh Kepala Balai",
+        90 => "Kepala Loka",
+        91 => "Plh Kepala Loka",
         95 => "Verifikator"
         );
     return $level_label[$num];
