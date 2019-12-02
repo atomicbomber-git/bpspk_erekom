@@ -212,6 +212,7 @@ $r = $last->fetch();
 				<label class="control-label col-md-3"></label>
 				<div class="col-md-5">
 					<button class="btn btn-sm btn-primary btn-flat" type="submit">Simpan</button>
+					<a class="btn btn-sm btn-info btn-flat" href="surat-bap.php?token=<?php echo md5($row['id_bap'].U_ID.'surat_bap');?>&bap=<?php echo base64_encode($row['id_bap']);?>">Lihat Surat</a>
 					<span id="actloading" style="display:none"><i class="fa fa-spin fa-spinner"></i> Menyimpan....</span>
 
 				</div>

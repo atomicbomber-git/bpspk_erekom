@@ -383,15 +383,15 @@ function generate_nosurat($jenis,$no,$kode,$tgl){
         $bulantahun = getRomawi(tanggalIndo($tgl,'n'))."/".tanggalIndo($tgl,'Y');
         switch ($jenis) {
             case 'st':
-                $no_surat="ST.".$no."/LPSPL.03/PRL/KP.444/".$bulantahun;
+                $no_surat="B.".$no."/PRL.LPSPL.05/PK.242/".$bulantahun;
             break;
 
             case 'bap':
-                $no_surat=$no."/".$kode."/LPSPL.03/PRL/".$bulantahun;
+                $no_surat="BAP.".$no."/PRL.LPSPL.05/PK.242/".$bulantahun;
             break;
 
             case 'rek':
-                $no_surat=$no."/".$kode."/LPSPL.03/PK.230/REKOM/".$bulantahun;
+                $no_surat=$no."/PRL.LPSPL.05/PK.242/".$bulantahun;
             break;
             
             default:

@@ -42,8 +42,8 @@ if($rek->rowCount()>0){
 			<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
 			<h4><strong>LOKA PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
 			SERANG</strong></h4>
-			<small>JALAN HUSEIN HAMZAH NOMOR 01 PAALLIMA, PONTIANAK 78114 TELP.(0561)766691,
-			FAX(0561)766465, WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
+			<small> JALAN RAYA CARITA KM 4.5, DESA CARINGIN KEC. LABUAN KAB. PANDEGLANG PROV. BANTEN </small> <br/>
+                        TELEPON (0253) 802626, FAKSIMILI (0253) 802616</td>
 		</tr>
 		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
 	</table>
@@ -97,7 +97,7 @@ if($rek->rowCount()>0){
 					<td width="5%">'.$no.'</td>
 					<td><em>'.$dtrow['nama_latin'].'</em></td>
 					<td>'.$dtrow['kemasan'].' '.$dtrow['satuan'].'</td>
-					<td>'.$dtrow['no_segel'].'</td>
+					<td>'.$dtrow['no_segel'].'-'.$dtrow['no_segel_akhir'].'</td>
 					<td>'.(($dtrow['berat']=='0.00')?"":$dtrow['berat']).'</td>
 					<td>'.$dtrow['keterangan'].'</td>
 				</tr>';

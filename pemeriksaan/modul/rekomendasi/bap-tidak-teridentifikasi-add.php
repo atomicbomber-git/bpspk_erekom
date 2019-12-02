@@ -116,11 +116,9 @@ $r = $last->fetch();
 				<div class="col-md-8">
 					<textarea name="redaksi_bap" rows="5" class="editor form-control">
 						<p>
-							Berdasarkan hasil pemeriksaan sampel yang dilakukan secara uji visual, menunjukkan bahwa sampel berupa <?php echo $nama_produk; ?> pada lampiran:. 
-						</p>
-
-						<p>
-							Termasuk / Tidak Termasuk / Tidak dapat diidentifikasi sebagai jenis hiu dan pari yang dilindungi oleh peraturan perundangan, dalam daftar apendiks CITES dan / atau dilarang keluar wilayah Negara Republik Indonesia.
+							Berdasarkan hasil pemeriksaan sampel yang dilakukan secara uji visual, menunjukkan bahwa sampel berupa [masukkan jenis sampel] pada lampiran
+						
+							[Termasuk / Tidak Termasuk / Tidak dapat diidentifikasi] sebagai jenis hiu dan pari yang dilindungi oleh peraturan perundangan, dalam daftar apendiks CITES dan / atau dilarang keluar wilayah Negara Republik Indonesia.
 						</p>
 
 						<p>

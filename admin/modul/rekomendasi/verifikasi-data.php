@@ -76,8 +76,16 @@ $arr_jns_tujuan=array(
 							<td><?php echo $bio['no_ktp'];?></td>
 						</tr>
 						<tr>
-							<td>Alamat Rumah</td>
-							<td><?php echo $bio['alamat'];?></td>
+							<td>Alamat Gudang 1</td>
+							<td><?= $bio['gudang_1'];?></td>
+						</tr>
+						<tr>
+							<td>Alamat Gudang 2</td>
+							<td><?= $bio['gudang_2'];?></td>
+						</tr>
+						<tr>
+							<td>Alamat Gudang 3</td>
+							<td><?= $bio['gudang_3'];?></td>
 						</tr>
 						<tr>
 							<td>No Telepon</td>
