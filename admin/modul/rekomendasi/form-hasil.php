@@ -309,7 +309,7 @@ if(ctype_digit($idpengajuan)){
                                     <td>'.$dtrow['nama_ikan'].'</td>
                                     <td>'.$dtrow['asal_komoditas'].'</td>
                                     <td>'.$dtrow['kuantitas'] . ' ' . $dtrow['nama_satuan_barang'] . '</td>
-                                    <td>'.$dtrow['jns_produk'].'</td>
+                                    <td>' . $dtrow['produk'] . ' ' . $dtrow['kondisi_produk'] . ' ' . $dtrow['jenis_produk'] . '</td>
                                     <td>'.$dtrow['pjg'].''.(($dtrow['pjg2']!='0.00')?" / ".$dtrow['pjg2']:"").'</td>
                                       <td>'.$dtrow['lbr'].''.(($dtrow['lbr2']!='0.00')?" / ".$dtrow['lbr2']:"").'</td>
                                       <td>'.$dtrow['berat'].''.(($dtrow['berat2']!='0.00')?" / ".$dtrow['berat2']:"").'</td>

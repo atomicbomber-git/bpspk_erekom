@@ -77,7 +77,7 @@ $row=$rek->fetch();
 						<table style="width:100%">
 							<tr>
 								<td><br>
-								<p>Menindaklanjuti Surat Saudara tanggal <?php echo tanggalIndo($row['tgl_pengajuan'],'j F Y');?> perihal permohonan rekomendasi untuk lalu lintas Hiu/Pari ke <?php echo ucwords($row['tujuan']);?> melalui jalur <?php echo ucwords($row['jenis_angkutan']);?>, dengan ini disampaikan bahwa Petugas Balai Pengelolaan Sumberdaya Pesisir dan Laut Pontianak telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : <?php echo $row['nobap'];?> tanggal <?php echo tanggalIndo($row['tglbap'],'j F Y');?> dengan hasil:</p>
+								<p>Menindaklanjuti Surat Saudara tanggal <?php echo tanggalIndo($row['tgl_pengajuan'],'j F Y');?> perihal permohonan rekomendasi untuk lalu lintas Hiu/Pari ke <?php echo ucwords($row['tujuan']);?> melalui jalur <?php echo ucwords($row['jenis_angkutan']);?>, dengan ini disampaikan bahwa Petugas Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : <?php echo $row['nobap'];?> tanggal <?php echo tanggalIndo($row['tglbap'],'j F Y');?> dengan hasil:</p>
 								</td>
 							</tr>
 						</table>
@@ -95,7 +95,19 @@ $row=$rek->fetch();
                                 $dt
                                     =
                                         $sql
-                                            ->run("SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin FROM tb_rek_hsl_periksa thp LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$idrek."' ORDER BY thp.ref_jns ASC"
+                                            ->run("SELECT 
+											thp.*, 
+											rjs.jenis_sampel, 
+											rdi.nama_latin 
+											FROM 
+											tb_rek_hsl_periksa thp 
+											LEFT JOIN 
+											ref_jns_sampel rjs 
+											ON (rjs.id_ref=thp.ref_jns) 
+											LEFT JOIN ref_data_ikan rdi 
+											ON(rdi.id_ikan=thp.ref_idikan) 
+											WHERE thp.ref_idrek='".$idrek."' 
+											ORDER BY thp.ref_jns ASC"
                         
                         
                             );
@@ -108,7 +120,7 @@ $row=$rek->fetch();
 										<td width="5%"><?php echo $no;?></td>
 										<td><em><?php echo $dtrow['nama_latin'];?></em></td>
 										<td><?php echo $dtrow['kemasan']." ".$dtrow['satuan'];?></td>
-										<td><?php echo $dtrow['no_segel'];?></td>
+										<td><?php echo $dtrow['no_segel']?> - <?= $dtrow['no_segel_akhir'];?></td>
 										<td><?php echo (($dtrow['berat']=='0.00')?"":$dtrow['berat']);?></td>
 										<td><?php echo $dtrow['keterangan'];?></td>
 									</tr>
@@ -133,7 +145,7 @@ $row=$rek->fetch();
 							<tr>
 								<td width="60%"></td>
 								<td width="60%" style="text-align:center">
-									<?php echo (($row['lvl']==90)?"Kepala Loka":"Plh. Kepala Balai");?>
+									<?php echo (($row['lvl']==90)?"Kepala Loka":"Plh. Kepala Loka");?>
 									<p><a href="#"><img height="100px" src="<?php echo ADM_IMAGES.$row['ttd'];?>"></a></p>
 									<?php echo $row['penandatgn'];?>
 								</td>

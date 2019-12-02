@@ -228,7 +228,8 @@ $satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 													class="nosegel form-control"
 													type="text"
 													name="nosegel[]"
-													class="form-control">
+													class="form-control"
+													value="<?= $row["no_segel"] ?? "" ?>">
 
 												<div
 													style="
@@ -244,7 +245,8 @@ $satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 													class="nosegel form-control"
 													type="text"
 													name="nosegel_akhir[]"
-													class="form-control">
+													class="form-control"
+													value="<?= $row["no_segel_akhir"] ?? "" ?>">
 											</td>
 											<td>
 												<?php echo floatval($row['berat']); ?> Kg
