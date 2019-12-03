@@ -1,5 +1,6 @@
 <?php
 use App\Services\Letter;
+use App\Services\Contracts\Template;
 
 require_once("config.php");
 $SCRIPT_FOOT = "
@@ -81,54 +82,33 @@ $row=$rek->fetch();
 								</td>
 							</tr>
 						</table>
-						<table style="width:100%" class="table table-bordered" >
-							<tr>
-								<td width="5%">No</td>
-								<td>Jenis Ikan</td>
-								<td width="12%">Kemasan</td>
-								<td width="12%">No.Segel</td>
-								<td width="12%">Berat Ikan(Kg)</td>
-								<td>Keterangan</td>
-							</tr>
-                            
-							<?php
-                                $dt
-                                    =
-                                        $sql
-                                            ->run("SELECT 
-											thp.*, 
-											rjs.jenis_sampel, 
-											rdi.nama_latin 
-											FROM 
-											tb_rek_hsl_periksa thp 
-											LEFT JOIN 
-											ref_jns_sampel rjs 
-											ON (rjs.id_ref=thp.ref_jns) 
-											LEFT JOIN ref_data_ikan rdi 
-											ON(rdi.id_ikan=thp.ref_idikan) 
-											WHERE thp.ref_idrek='".$idrek."' 
-											ORDER BY thp.ref_jns ASC"
-                        
-                        
-                            );
-							if($dt->rowCount()>0){
-								$no=0;
-								foreach($dt->fetchAll() as $dtrow){
-									$no++;
-									?>
-									<tr>
-										<td width="5%"><?php echo $no;?></td>
-										<td><em><?php echo $dtrow['nama_latin'];?></em></td>
-										<td><?php echo $dtrow['kemasan']." ".$dtrow['satuan'];?></td>
-										<td><?php echo $dtrow['no_segel']?> - <?= $dtrow['no_segel_akhir'];?></td>
-										<td><?php echo (($dtrow['berat']=='0.00')?"":$dtrow['berat']);?></td>
-										<td><?php echo $dtrow['keterangan'];?></td>
-									</tr>
-									<?php
-								}
-							}
-							?>
-						</table>
+
+						<?php
+							$dt = $sql->run("SELECT 
+							thp.*, 
+							
+							rdi.nama_latin, 
+							rdi.dilindungi,
+							satuan_barang.nama AS nama_satuan_barang
+							
+							
+							FROM tb_rek_hsl_periksa thp 
+								LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=thp.ref_idikan) 
+								LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
+								
+
+							WHERE thp.ref_idrek='" . $row['idrek'] . "' 
+							ORDER BY thp.ref_jns ASC"
+							);
+						?> 
+
+						
+							
+
+						<?= container(Template::class)->render("letter/table", ["records" => $dt->fetchAll()]) ?>
+						
+
+
 						<table style="width:100%">
 							<tr>
 								<td><br><p><?php echo $row['redaksi'];?></p></td>
