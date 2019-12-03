@@ -393,27 +393,43 @@ if ($sql->num_rows > 0) {
 							</thead>
 							<tbody>
 								<?php
-									$t = $sql->run("SELECT thp.*, rdi.nama_ikan, rdi.nama_latin,rjs.jenis_sampel FROM tb_hsl_periksa thp 
-								JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
-								JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel) WHERE thp.ref_idp='" . $idpengajuan . "'");
-									if ($t->rowCount() > 0) {
-										$not = 0;
-										foreach ($t->fetchAll() as $rp) {
-											$not++; ?>
-										<tr>
-											<td><?php echo $not; ?></td>
-											<td><?php echo $rp['jenis_sampel']; ?></td>
-											<td><?php echo $rp['nama_ikan'] . " (<em>" . $rp['nama_latin'] . "</em>)"; ?></td>
-											<td><?php echo $rp['pjg']; ?></td>
-											<td><?php echo $rp['lbr']; ?></td>
-											<td><?php echo $rp['berat']; ?></td>
-											<td><?php echo $rp['tot_berat']; ?></td>
-											<td><?php echo $rp['kuantitas']; ?></td>
-											<td><?php echo $rp['ket']; ?></td>
-										</tr>
-								<?php
-										}
-									} ?>
+									$tb = $sql->query("SELECT 
+										th.*,
+										rdi.nama_ikan,
+										rjs.jenis_sampel AS jns_produk,
+										satuan_barang.nama AS nama_satuan_barang
+										
+										FROM tb_hsl_periksa th 
+										LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=th.ref_idikan) 
+										LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=th.ref_jns_sampel)
+										LEFT JOIN satuan_barang ON (th.id_satuan_barang = satuan_barang.id)
+								
+								WHERE th.ref_idp='$idpengajuan' 
+								");
+								
+									if ($tb->rowCount() > 0) {
+									$no = 1;
+									foreach ($tb->fetchAll() as $dtrow) {
+										
+										echo
+								'<tr>
+									<td>' .  $no . '</td>
+									<td>' . $dtrow['produk'] . ' ' . $dtrow['kondisi_produk'] . ' ' . $dtrow['jenis_produk'] . '</td>
+									<td>' . $dtrow['nama_ikan'] . '</td>
+									<td>' . $dtrow['pjg'] . '' . (($dtrow['pjg2'] != '0.00') ? " / " . $dtrow['pjg2'] : "") . '</td>
+									<td>' . $dtrow['lbr'] . '' . (($dtrow['lbr2'] != '0.00') ? " / " . $dtrow['lbr2'] : "") . '</td>
+									<td>' . $dtrow['berat'] . '' . (($dtrow['berat2'] != '0.00') ? " / " . $dtrow['berat2'] : "") . '</td>
+									<td>' . $dtrow['tot_berat'] . '</td>
+									<td>' . $dtrow['kuantitas'] . ' ' . $dtrow['nama_satuan_barang'] . '</td>
+									<td>' . $dtrow['ket'] . '</td>
+								</tr>';
+										$no++;
+										
+									}
+									} else {
+									echo '<tr><td colspan="11" class="text-center">Data Belum Diisi.</td></tr>';
+									}
+									?>
 							</tbody>
 						</table>
 					</div>
@@ -484,7 +500,7 @@ if ($sql->num_rows > 0) {
 							$sql->get_row('tb_permohonan', array('idp' => $row['ref_idp']), 'ref_iduser');
 							$p = $sql->result;
 							$idpemohon = $p['ref_iduser'];
-							$u = $sql->run("SELECT u.nama_lengkap,b.alamat,
+							$u = $sql->run("SELECT u.nama_lengkap,b.gudang_1,
 						(SELECT nama_file FROM tb_berkas WHERE jenis_berkas='1' AND ref_iduser='" . $idpemohon . "' ORDER BY revisi DESC, date_upload DESC LIMIT 1) nama_file 
 						FROM tb_userpublic u 
 						JOIN tb_biodata b ON(u.iduser=b.ref_iduser)
@@ -550,7 +566,7 @@ if ($sql->num_rows > 0) {
 							</tr>
 							<tr>
 								<td colspan="2" width="20%">Alamat</td>
-								<td>: <?php echo $pemohon['alamat']; ?></td>
+								<td>: <?php echo $pemohon['gudang_1']; ?></td>
 							</tr>
 							<tr>
 								<td colspan="3">
