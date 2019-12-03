@@ -78,31 +78,62 @@ if($rek->rowCount()>0){
 			</td>
 		</tr>
 	</table>';
-	$html.='<table style="width:100%" class="table table-bordered table-hasil" >
-		<tr>
-			<td width="5%">No</td>
-			<td>Jenis Ikan</td>
-			<td width="12%">Kemasan</td>
-			<td width="12%">No.Segel</td>
-			<td width="12%">Berat Ikan(Kg)</td>
-			<td>Keterangan</td>
-		</tr>';
-		$dt=$sql->run("SELECT thp.*, rjs.jenis_sampel,rdi.nama_latin FROM tb_rek_hsl_periksa thp LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
+	$html.='<table style="width:100%" class="table table-bordered">
+    <thead style="background: rgba(0, 0, 0, 0.1)">
+        <tr>
+            <td style="text-align:center" width="5%">No</td>
+            <td style="text-align:center"> Nama Ikan / Barang </td>
+            <td style="text-align:center" width="12%"> Jenis Produk </td>
+            <td style="text-align:center" width="12%"> Berat (kg) </td>
+            <td style="text-align:center" width="12%"> Jumlah Kemasan </td>
+            <td style="text-align:center"> No. Segel </td>
+            <td style="text-align:center"> Keterangan </td>
+        </tr>
+    </thead>';
+		$dt=$sql->run("SELECT 
+		thp.*, 
+		rjs.jenis_sampel,
+		rdi.nama_latin,
+		satuan_barang.nama AS nama_satuan_barang
+
+		FROM tb_rek_hsl_periksa 
+		thp LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
+		LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
+		LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
+		
+		WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
 		if($dt->rowCount()>0){
 			$no=0;
+			$jlh_berat=0;
 			foreach($dt->fetchAll() as $dtrow){
 				$no++;
+				
 				$html.='
 				<tr>
-					<td width="5%">'.$no.'</td>
-					<td><em>'.$dtrow['nama_latin'].'</em></td>
-					<td>'.$dtrow['kemasan'].' '.$dtrow['satuan'].'</td>
-					<td>'.$dtrow['no_segel'].'-'.$dtrow['no_segel_akhir'].'</td>
-					<td>'.(($dtrow['berat']=='0.00')?"":$dtrow['berat']).'</td>
-					<td>'.$dtrow['keterangan'].'</td>
+					<td style="text-align: center"  width="5%">'.$no.'</td>
+					<td style="text-align: center"><em>'.$dtrow['nama_latin'].'</em></td>
+					<td style="text-align: center"> '.$dtrow['produk'].' '.$dtrow['jenis_produk'].' '.$dtrow['kondisi_produk'].'</td>
+					<td style="text-align: center">'.(($dtrow['berat']=='0.00')?"":$dtrow['berat']).'</td>
+					<td style="text-align: center">'.$dtrow['kemasan'].' '.$dtrow['nama_satuan_barang'].'</td>
+					<td style="text-align: center">'.$dtrow['no_segel'].'-'.$dtrow['no_segel_akhir'].'</td>
+					<td style="text-align: center">'.$dtrow['keterangan'].'</td>
 				</tr>';
 			}
+			
 		}
+		$html.='
+			<tr>
+				<td style="text-align: center; font-weight: bold" colspan="3">
+					Total Berat:
+				</td>
+				<td style="text-align: center">
+					total berat
+				</td>
+				<td> </td>
+				<td> </td>
+				<td> </td>
+			</tr>';
+		
 	$html.='</table>';
 	$html.='<table style="width:100%">
 		<tr>

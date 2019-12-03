@@ -91,24 +91,17 @@ $row=$rek->fetch();
 							rdi.dilindungi,
 							satuan_barang.nama AS nama_satuan_barang
 							
-							
 							FROM tb_rek_hsl_periksa thp 
 								LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=thp.ref_idikan) 
 								LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
 								
-
 							WHERE thp.ref_idrek='" . $row['idrek'] . "' 
 							ORDER BY thp.ref_jns ASC"
 							);
 						?> 
-
-						
-							
-
+					
 						<?= container(Template::class)->render("letter/table", ["records" => $dt->fetchAll()]) ?>
 						
-
-
 						<table style="width:100%">
 							<tr>
 								<td><br><p><?php echo $row['redaksi'];?></p></td>
