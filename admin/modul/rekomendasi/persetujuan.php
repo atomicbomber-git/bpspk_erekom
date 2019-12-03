@@ -404,7 +404,7 @@ if ($sql->num_rows > 0) {
 										LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=th.ref_jns_sampel)
 										LEFT JOIN satuan_barang ON (th.id_satuan_barang = satuan_barang.id)
 								
-								WHERE th.ref_idp='$idpengajuan' 
+								WHERE th.ref_idp='$idpengajuan'
 								");
 								
 									if ($tb->rowCount() > 0) {
@@ -679,15 +679,26 @@ if ($sql->num_rows > 0) {
 						</table>
 
 						<?php
-							$dt = $sql->run(
-								"
-                            SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin, rdi.dilindungi FROM
-                                tb_rek_hsl_periksa thp 
-                                    JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
-                                    LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
-                                WHERE thp.ref_idrek='" . $row['idrek'] . "' ORDER BY thp.ref_jns ASC"
+							$dt = $sql->run("SELECT 
+							thp.*, 
+							
+							rdi.nama_latin, 
+							rdi.dilindungi,
+							satuan_barang.nama AS nama_satuan_barang
+							
+							
+							FROM tb_rek_hsl_periksa thp 
+								LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=thp.ref_idikan) 
+								LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
+								
+
+							WHERE thp.ref_idrek='" . $row['idrek'] . "' 
+							ORDER BY thp.ref_jns ASC"
 							);
-							?>
+						?> 
+
+						
+							
 
 						<?= container(Template::class)->render("letter/table", ["records" => $dt->fetchAll()]) ?>
 

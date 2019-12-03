@@ -7,13 +7,13 @@ use App\Models\DataIkan;
 <table style="width:100%" class="table table-bordered">
     <thead style="background: rgba(0, 0, 0, 0.1)">
         <tr>
-            <td style="text-align:center" width="5%">No</td>
-            <td style="text-align:center"> Nama Latin </td>
-            <td style="text-align:center" width="12%"> Jenis Produk </td>
-            <td style="text-align:center" width="12%"> Jumlah Berat (kg) </td>
-            <td style="text-align:center" width="12%"> Jumlah Kemasan </td>
-            <td style="text-align:center"> No. Segel </td>
-            <td style="text-align:center"> Status </td>
+            <th style="text-align:center" width="5%">No</th>
+            <th style="text-align:center"> Nama Latin </th>
+            <th style="text-align:center" width="12%"> Jenis Produk </th>
+            <th style="text-align:center" width="12%"> Berat (kg) </th>
+            <th style="text-align:center" width="12%"> Jumlah Kemasan </th>
+            <th style="text-align:center"> No. Segel </th>
+            <th style="text-align:center"> Keterangan </th>
         </tr>
     </thead>
 
@@ -22,26 +22,13 @@ use App\Models\DataIkan;
 
             <tr>
                 <td style="text-align: center" width="5%"><?php echo $key + 1; ?></td>
-                <td style="text-align: center"><?php echo  $record['nama_latin']; ?></td>
-                <td style="text-align: center"><?php echo $record['keterangan']; ?></td>
+                <td style="text-align: center" width="20%"><?php echo  $record['nama_latin']; ?></td>
+                <td style="text-align: center"><?php echo $record['produk']; ?> <?php echo $record['jenis_produk']; ?> <?php echo $record['kondisi_produk']; ?></td>
                 <td style="text-align: center"><?php echo (($record['berat'] == '0.000') ? "" : $record['berat']); ?></td>
-                <td style="text-align: center"><?php echo $record['kemasan'] . " " . $record['satuan']; ?></td>
-                <td style="text-align: center"><?php echo $record['no_segel']; ?></td>
-                <td style="text-align: center">
-                    <?php switch ($record['dilindungi']):
-                            case DataIkan::STATUS_DILINDUNGI: ?>
-                            Dilindungi
-                            <?php break ?>
-                        <?php
-                            case DataIkan::STATUS_TIDAK_DILINDUNGI: ?>
-                            Tidak Dilindungi
-                            <?php break ?>
-                        <?php
-                            case DataIkan::STATUS_APPENDIKS_2_CITES ?>
-                            Appendiks II CITES
-                            <?php break ?>
-                    <?php endswitch ?>
-                </td>
+                <td style="text-align: center"><?php echo $record['kemasan'] . " " . $record['nama_satuan_barang']; ?></td>
+                <td style="text-align: center"><?php echo $record['no_segel']; ?> - <?php echo $record['no_segel_akhir']; ?></td>
+                <td style="text-align: center"><?php echo $record['keterangan']; ?></td>
+                
             </tr>
         <?php endforeach ?>
     </tbody>
