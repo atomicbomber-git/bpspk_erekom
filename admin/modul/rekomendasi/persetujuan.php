@@ -3,6 +3,7 @@
 use App\Models\DataIkan;
 use App\Services\Contracts\Template;
 use App\Services\Letter;
+use App\Models\Permohonan;
 
 require_once("config.php");
 $SCRIPT_FOOT = "
@@ -64,7 +65,7 @@ if ($sql->num_rows > 0) {
 					<div class="panel-body">
 						<table class="table table-hover">
 							<tr>
-								<td width="20%">Nama Lengkap</td>
+								<td width="30%">Nama Lengkap</td>
 								<td><?php echo $bio['nama_lengkap']; ?></td>
 							</tr>
 							<tr>
@@ -76,8 +77,16 @@ if ($sql->num_rows > 0) {
 								<td><?php echo $bio['no_ktp']; ?></td>
 							</tr>
 							<tr>
-								<td>Alamat Rumah</td>
-								<td><?php echo $bio['alamat']; ?></td>
+								<td>Alamat Gudang 1</td>
+								<td><?php echo $bio['gudang_1']; ?></td>
+							</tr>
+							<tr>
+								<td>Alamat Gudang 2</td>
+								<td><?php echo $bio['gudang_2']; ?></td>
+							</tr>
+							<tr>
+								<td>Alamat Gudang 3</td>
+								<td><?php echo $bio['gudang_3']; ?></td>
 							</tr>
 							<tr>
 								<td>No Telepon</td>
@@ -158,40 +167,109 @@ if ($sql->num_rows > 0) {
 										} ?></td>
 							</tr>
 							<tr>
-								<td>NIB<br />
-									<?php
-										$sql->order_by = "revisi DESC, date_upload DESC, idb DESC";
-										$sql->get_row('tb_berkas', array('ref_iduser' => $p['ref_iduser'], 'jenis_berkas' => 3), array('nama_file'));
-										$img_nib = $sql->result;
-										if ($img_nib['nama_file'] == '') {
-											echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
-										} else {
-											echo '<img width="50%" href="' . BERKAS . $img_nib['nama_file'] . '" src="' . BERKAS . $img_nib['nama_file'] . '" class="img-prev">';
-										} ?></td>
+								<td>NIB<br/>
+								<?php
+								$n=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='5' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+								if($n->rowCount()>0){
+									$img_nib=$n->fetch();
+									echo '<img width="50%" href="'.BERKAS.$img_nib['nama_file'].'" src="'.BERKAS.$img_nib['nama_file'].'" class="img-prev">';
+								}else{
+									echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
+								}
+								?></td>
 							</tr>
 							<tr>
-								<td>SIPJI<br />
-									<?php
-										$sql->order_by = "revisi DESC, date_upload DESC, idb DESC";
-										$sql->get_row('tb_berkas', array('ref_iduser' => $p['ref_iduser'], 'jenis_berkas' => 3), array('nama_file'));
-										$img_sipji = $sql->result;
-										if ($img_sipji['nama_file'] == '') {
-											echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
-										} else {
-											echo '<img width="50%" href="' . BERKAS . $img_sipji['nama_file'] . '" src="' . BERKAS . $img_sipji['nama_file'] . '" class="img-prev">';
-										} ?></td>
-							</tr>
+								<td>SIPJI<br/>
+								<?php
+								$n=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='6' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+								if($n->rowCount()>0){
+									$img_sipji=$n->fetch();
+									echo '<img width="50%" href="'.BERKAS.$img_sipji['nama_file'].'" src="'.BERKAS.$img_sipji['nama_file'].'" class="img-prev">';
+								}else{
+									echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
+								}
+								?></td>
+							</tr>	
 							<tr>
-								<td>TTD<br />
-									<?php
-										$t = $sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='" . $p['ref_iduser'] . "' AND jenis_berkas='1' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
-										if ($t->rowCount() > 0) {
-											$img_npwp = $t->fetch();
-											echo '<img width="50%" href="' . BERKAS . $img_npwp['nama_file'] . '" src="' . BERKAS . $img_npwp['nama_file'] . '" class="img-prev">';
-										} else {
-											echo '<p class="text-alert alert-warning">Tandatangan Belum diupload</p>';
-										} ?></td>
+								<td>TTD<br/>
+								<?php
+								$t=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='1' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+								if($t->rowCount()>0){
+									$img_npwp=$t->fetch();
+									echo '<img width="50%" href="'.BERKAS.$img_npwp['nama_file'].'" src="'.BERKAS.$img_npwp['nama_file'].'" class="img-prev">';
+								}else{
+									echo '<p class="text-alert alert-warning">Tandatangan Belum diupload</p>';
+								}
+								?></td>
 							</tr>
+
+							<?php 
+								$permohonanStoragePath = "/pengajuan/berkas/";
+								$permohonan = Permohonan::find(
+									base64_decode($_GET['data'])
+								);
+							
+							?>
+
+							<tr>
+								<td>
+									<div>
+										Invoice
+									</div>
+
+									<a href="<?= $permohonanStoragePath . $permohonan->file_invoice ?>">
+										<img
+											style="
+												width: 200px;
+												height: auto;
+												object-fit: cover;
+											" 
+											src="<?= $permohonanStoragePath . $permohonan->file_invoice ?>"
+											>
+									</a>
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									<div>
+										Packing List
+									</div>
+
+									<a href="<?= $permohonanStoragePath . $permohonan->file_packing_list ?>">
+										<img
+											style="
+												width: 200px;
+												height: auto;
+												object-fit: cover;
+											" 
+											src="<?= $permohonanStoragePath . $permohonan->file_packing_list ?>"
+											>
+									</a>
+								</td>
+							</tr>
+
+							<?php if($permohonan->file_pra_bap): ?>
+							<tr>
+								<td>
+									<div>
+										Pra-BAP
+									</div>
+
+									<a href="<?= $permohonanStoragePath . $permohonan->file_pra_bap ?>">
+										<img
+											style="
+												width: 200px;
+												height: auto;
+												object-fit: cover;
+											" 
+											src="<?= $permohonanStoragePath . $permohonan->file_pra_bap ?>"
+											>
+									</a>
+								</td>
+							</tr>
+							<?php endif ?>
+
 						</table>
 					</div>
 				</section>
