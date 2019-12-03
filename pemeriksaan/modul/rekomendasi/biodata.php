@@ -272,10 +272,10 @@ $arr_jns_tujuan=array(
 								?></td>
 							</tr>
 							<?php 
-							$permohonanStoragePath = "/pengajuan/berkas/";
-							$permohonan = Permohonan::find(
-								base64_decode($_GET['data'])
-							);
+								$permohonanStoragePath = "/pengajuan/berkas/";
+								$permohonan = Permohonan::find(
+									base64_decode($_GET['data'])
+								);
 							?>
 
 							<tr>

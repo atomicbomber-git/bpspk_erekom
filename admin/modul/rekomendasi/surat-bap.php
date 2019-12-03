@@ -47,7 +47,7 @@ $list_brg=implode(' dan ', $barang);
 $sql->get_row('tb_permohonan',array('idp'=>$row['ref_idp']),'ref_iduser');
 $p=$sql->result;
 $idpemohon=$p['ref_iduser'];
-$u=$sql->run("SELECT u.nama_lengkap,b.alamat,
+$u=$sql->run("SELECT u.nama_lengkap,b.gudang_1,
 	(SELECT nama_file FROM tb_berkas WHERE jenis_berkas='1' AND ref_iduser='".$idpemohon."' ORDER BY revisi DESC, date_upload DESC LIMIT 1) nama_file 
 	FROM tb_userpublic u 
 	JOIN tb_biodata b ON(u.iduser=b.ref_iduser)
@@ -136,7 +136,7 @@ $pt=$sql->run("SELECT p.nm_lengkap,p.nip,p.jabatan,p.ttd FROM tb_petugas_lap pl 
 						</tr>
 						<tr>
 							<td colspan="2" width="20%">Alamat</td>
-							<td>: <?php echo $pemohon['alamat'];?></td>
+							<td>: <?php echo $pemohon['gudang_1'];?></td>
 						</tr>
 						<tr>
 							<td colspan="3">
