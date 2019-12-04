@@ -130,16 +130,18 @@ if(!ctype_digit($iduser)){
 							?></td>
 						</tr>
 						<tr>
-								<td>NPWP<br />
-									<?php
-										$n = $sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='" . $p['ref_iduser'] . "' AND jenis_berkas='2' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
-										if ($n->rowCount() > 0) {
-											$img_npwp = $n->fetch();
-											echo '<img width="50%" href="' . BERKAS . $img_npwp['nama_file'] . '" src="' . BERKAS . $img_npwp['nama_file'] . '" class="img-prev">';
-										} else {
-											echo '<p class="text-alert alert-warning">NPWP Belum diupload</p>';
-										} ?></td>
-							</tr>
+							<td>NPWP<br/>
+							<?php
+							$s=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$iduser."' AND jenis_berkas='2' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+							if($s->rowCount()>0){
+								$img_npwp=$s->fetch();
+								echo '<img width="50%" href="'.BERKAS.$img_npwp['nama_file'].'" src="'.BERKAS.$img_npwp['nama_file'].'" class="img-prev">';
+							}else{
+								echo '<p class="text-alert alert-warning">NPWP Belum diupload</p>';
+							}
+
+							?></td>
+						</tr>
 						<tr>
 							<td>SIUP<br/>
 							<?php
