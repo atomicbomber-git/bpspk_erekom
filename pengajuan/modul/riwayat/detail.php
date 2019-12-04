@@ -30,7 +30,7 @@ $formatter = container(App\Services\Formatter::class);
 $permohonan = Permohonan::find($idpengajuan);
 $tanggal_pemeriksaan = $permohonan->tanggal_pemeriksaan ?
 	$formatter->date($permohonan->tanggal_pemeriksaan) :
-	'-';
+	'';
 
 $sql->get_row('tb_permohonan',array('idp'=>$idpengajuan),'*');
 if($sql->num_rows>0){
@@ -45,10 +45,10 @@ $arr_jns_tujuan=array(
 	"souvenir"=>"Souvenir");
 
 $arr_status=array(
-	1=>"Pemeriksaan Data.",
+	1=>"Pemeriksaan Data Oleh Admin.",
 	2=>"Data Diterima, Pengajuan Sedang Diproses Oleh Admin.",
 	3=>"Data Ditolak, Berkas/Data Tidak Lengkap.",
-	4=>"Pemeriksaan Sampel Telah Dilakukan.",
+	4=>"Pemeriksaan Barang/Sampel Telah Dilakukan.",
 	5=>"Surat Rekomendasi Sudah Diterbitkan."
 );
 ?>
@@ -146,7 +146,7 @@ $arr_status=array(
 
 					Dijadwalkan tanggal <?= $formatter->fancyDate($tanggal_pemeriksaan) ?> di <?= $permohonan->alamat_gudang ?> <br/>
 
-					Status : <?php echo $arr_status[$p['status']];?> <br/>
+					Status : <?php echo $arr_status[$p['status']];?> <br/><br/>
 					<?php
 					if($p['status']=='3'){
 						$ps=$sql->run("SELECT pesan FROM tb_hsl_verifikasi WHERE ref_idp='$idpengajuan' ORDER BY date_act DESC LIMIT 1");
