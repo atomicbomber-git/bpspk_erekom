@@ -357,8 +357,8 @@ $letter = container(Letter::class);
 						</select>
 					</div>
 				</div>
-			</div>
-			<footer class="panel-footer">
+			
+			
 				<div class="row">
 					<div class="col-md-12 text-right">
 						<button class="btn btn-primary modal-confirm">Ganti</button>
@@ -366,6 +366,7 @@ $letter = container(Letter::class);
 					</div>
 				</div>
 			</footer>
+			</div>
 			
 		</section>
 	</form>
