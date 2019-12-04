@@ -144,7 +144,7 @@ $arr_status=array(
 					</table>
 					<hr/>
 
-					Dijadwalkan tanggal <?= $formatter->fancyDate($tanggal_pemeriksaan) ?> di <?= $permohonan->alamat_gudang ?> <br/>
+					<!-- Dijadwalkan tanggal <?= $formatter->fancyDate($tanggal_pemeriksaan) ?> di <?= $permohonan->alamat_gudang ?> <br/> -->
 
 					Status : <?php echo $arr_status[$p['status']];?> <br/><br/>
 					<?php
