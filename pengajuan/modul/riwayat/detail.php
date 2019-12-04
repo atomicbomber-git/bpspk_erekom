@@ -88,11 +88,6 @@ $arr_status=array(
 						</tr>
 
 						<tr>
-							<td width="20%">No Antrian</td>
-							<td><?php echo format_noantrian($p['tgl_pelayanan'],$p['no_antrian']);?></td>
-						</tr>
-
-						<tr>
 							<td>Dikirim Ke</td>
 							<td><?php echo $p['tujuan'];?></td>
 						</tr>
