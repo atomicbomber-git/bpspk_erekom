@@ -352,10 +352,20 @@ $letter = container(Letter::class);
 								echo '<option value="'.$ptgs['idp'].'">'.$ptgs['nip'].' - '.$ptgs['nm_lengkap'].'</option>';
 							}
 							?>
+						
+				<footer class="panel-footer">
 						</select>
 					</div>
 				</div>
-		
+			</div>
+			<footer class="panel-footer">
+				<div class="row">
+					<div class="col-md-12 text-right">
+						<button class="btn btn-primary modal-confirm">Ganti</button>
+						<button class="btn btn-default modal-dismiss">Cancel</button>
+					</div>
+				</div>
+			</footer>
 			
 		</section>
 	</form>
