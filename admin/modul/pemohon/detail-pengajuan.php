@@ -40,10 +40,10 @@ $arr_jns_tujuan=array(
 	"souvenir"=>"Souvenir");
 
 $arr_status=array(
-	1=>"Pemeriksaan Data.",
+	1=>"Pemeriksaan Data Oleh Admin.",
 	2=>"Data Diterima, Pengajuan Sedang Diproses Oleh Admin.",
 	3=>"Data Ditolak, Berkas/Data Tidak Lengkap.",
-	4=>"Pemeriksaan Sampel Telah Dilakukan.",
+	4=>"Pemeriksaan Barang/Sampel Telah Dilakukan.",
 	5=>"Surat Rekomendasi Sudah Diterbitkan."
 );
 
