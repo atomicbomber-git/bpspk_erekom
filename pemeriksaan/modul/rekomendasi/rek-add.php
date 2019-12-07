@@ -142,13 +142,13 @@ $r = $last->fetch();
 							thp.tot_berat as berat, 
 							thp.kuantitas as kemasan, 
 							thp.ref_idikan, 
-							rjs.id_ref,
-							rjs.jenis_sampel,
+							thp.produk,
+							thp.kondisi_produk,
+							thp.jenis_produk,
 							rdi.nama_ikan,
 							rdi.nama_latin 
 							FROM tb_hsl_periksa thp
-									LEFT JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel)
-									JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
+									LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
 									WHERE thp.ref_idp='$idpengajuan' 
 									ORDER BY ref_jns_sampel ASC");
 
@@ -196,8 +196,9 @@ $r = $last->fetch();
 													class="nosegel form-control"
 													type="text"
 													name="nosegel[]"
-													class="form-control">
-													
+													class="form-control"
+													value="<?= $row["no_segel"] ?? "" ?>"
+													>
 
 												<div
 													style="
@@ -213,14 +214,15 @@ $r = $last->fetch();
 													class="nosegel form-control"
 													type="text"
 													name="nosegel_akhir[]"
-													class="form-control">
-													
+													class="form-control"
+													value="<?= $row["no_segel_akhir"] ?? "" ?>"
+													>
 											</td>
 										<td>
 											<?php echo floatval($row['berat']); ?> Kg
 											<input type="hidden" name="berat[]" value="<?php echo floatval($row['berat']); ?>">
 										</td>
-										<td><input type="text" name="keterangan[]" rows="5" class="form-control" value="<?php echo $arr_produk[$row['id_ref']]['nama']; ?>"></td>
+										<td><input type="text" name="keterangan[]" rows="5" class="form-control" value="<?php echo $row['keterangan']; ?>"></td>
 									</tr>
 							<?php
 								}

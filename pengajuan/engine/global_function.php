@@ -248,15 +248,15 @@ function sendMail($data){
     $mail->SMTPDebug = 0;
 
     //$mail->Debugoutput = 'html';
-    $mail->Host = 'tls://mail.bpsplpontianak.com';
+    $mail->Host = 'tls://mail.lpsplserang.com';
     $mail->Port = 587;
     $mail->SMTPSecure = 'tls';
     $mail->SMTPAuth = true;
 
-    $mail->Username = "admin@bpsplpontianak.com";
+    $mail->Username = "admin@lpsplserang.com";
     $mail->Password = "adm92mail";
-    $mail->setFrom('admin@bpsplpontianak.com', 'LPSPL Serang');
-    $mail->AddReplyTo("admin@bpsplpontianak.com","LPSPL Serang");
+    $mail->setFrom('admin@lpsplserang.com', 'LPSPL Serang');
+    $mail->AddReplyTo("admin@lpsplserang.com","LPSPL Serang");
 
     $mail->isHTML(true); 
     $mail->addAddress($tujuan, $tujuan_nama);

@@ -22,14 +22,25 @@ if($_GET['token']!=md5($idrek.U_ID.'surat_rekomendasi')){
 }
 
 //load data surat rekomendasi
-$rek=$sql->run("SELECT tr.*, tp.tgl_pengajuan, tp.tujuan, tp.jenis_angkutan, tu.nama_lengkap, tb.no_surat nobap, tb.tgl_surat tglbap, op.nm_lengkap penandatgn, op.jabatan, op.ttd,ou.lvl 
-FROM tb_rekomendasi tr
-JOIN tb_permohonan tp ON (tr.ref_idp=tp.idp)
-JOIN tb_userpublic tu ON (tu.iduser=tr.ref_iduser)
-JOIN tb_bap tb ON (tp.idp=tb.ref_idp)
-JOIN op_pegawai op ON(tr.pnttd=op.nip)
-JOIN op_user ou ON(ou.ref_idpeg=op.idp)
-WHERE tr.idrek='".$idrek."' LIMIT 1");
+		$rek=$sql->run("SELECT tr.*, 
+			tp.tgl_pengajuan, 
+			tp.tujuan, 
+			tp.jenis_angkutan, 
+			tu.nama_lengkap, 
+			tb.no_surat nobap, 
+			tb.tgl_surat tglbap, 
+			op.nm_lengkap penandatgn, 
+			op.jabatan, 
+			op.ttd,
+			ou.lvl 
+
+		FROM tb_rekomendasi tr
+		JOIN tb_permohonan tp ON (tr.ref_idp=tp.idp)
+		JOIN tb_userpublic tu ON (tu.iduser=tr.ref_iduser)
+		JOIN tb_bap tb ON (tp.idp=tb.ref_idp)
+		JOIN op_pegawai op ON(tr.pnttd=op.nip)
+		JOIN op_user ou ON(ou.ref_idpeg=op.idp)
+		WHERE tr.idrek='".$idrek."' LIMIT 1");
 
 $row=$rek->fetch();
 ?>
@@ -111,7 +122,14 @@ $row=$rek->fetch();
 							</tr>
 						</table>
 						<?php
-						$tmb=$sql->run("SELECT rbk.nama FROM tb_rekomendasi tr JOIN ref_balai_karantina rbk ON(rbk.idbk=tr.ref_bk) WHERE tr.ref_idp='".$row['ref_idp']."' LIMIT 1");
+						$tmb=$sql->run("SELECT 
+						rbk.nama 
+						
+						FROM tb_rekomendasi tr 
+						JOIN ref_balai_karantina rbk 
+						ON(rbk.idbk=tr.ref_bk) 
+						
+						WHERE tr.ref_idp='".$row['ref_idp']."' LIMIT 1");
 						$karantina=$tmb->fetch();
 						?>
 						<table style="width:100%">

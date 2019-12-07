@@ -1,5 +1,7 @@
 <?php
+
 use App\Models\Permohonan;
+
 require_once("config.php");
 $SCRIPT_FOOT = "
 <script>
@@ -9,6 +11,7 @@ $(document).ready(function(){
 });
 </script>
 ";
+
 
 $idpengajuan=U_IDP;
 if(!ctype_digit($idpengajuan)){

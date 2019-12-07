@@ -449,12 +449,16 @@ if ($_POST) {
 						"ref_jns" => $_POST['jenis_sampel'][$x],
 						"ref_idikan" => $_POST['jenis_ikan'][$x],
 						"kemasan" => $_POST['kemasan'][$x],
-						"satuan" => $_POST['satuan'][$x],
 						"no_segel" => $_POST['nosegel'][$x],
+						"no_segel_akhir" => $_POST['nosegel_akhir'][$x],
 						"berat" => $_POST['berat'][$x],
+						"satuan" => $_POST['satuan'][$x],
 						"keterangan" => $_POST['keterangan'][$x],
 						"date_create" => date('Y-m-d H:i:s'),
 						"id_satuan_barang" => $_POST['id_satuan_barang'][$x],
+						"produk" => $_POST['produk'][$x],
+						"kondisi_produk" => $_POST['kondisi_produk'][$x],
+						"jenis_produk" => $_POST['jenis_produk'][$x],
 					);
 
 					$sql->insert('tb_rek_hsl_periksa', $arr_insert2);
