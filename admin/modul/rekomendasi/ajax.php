@@ -511,7 +511,7 @@ if ($_POST) {
 				$sql->get_row('tb_stat_pengesahan', array('ref_idp' => $data['idp'], 'status' => 3), array('pesan'));
 				if ($sql->num_rows > 0) {
 					$rp = $sql->result;
-					$notif = "<p class='text-alert alert-danger'>Pengajuan Ditolak Kepala Balai / Plh Kepala Balai, Segera perbaiki data : <br>" . $rp['pesan'] . "</p>";
+					$notif = "<p class='text-alert alert-danger'>Pengajuan Ditolak Kepala Loka / Plh Kepala Loka, Segera perbaiki data : <br>" . $rp['pesan'] . "</p>";
 				} else {
 					$notif = "";
 				}
@@ -1347,7 +1347,7 @@ if ($_POST) {
 
 					//-kirim email pemberitahuan kepada verifiaktor
 					require '../../../assets/phpmailer/PHPMailerAutoload.php';
-					$isi_pesan = "<p>" . $nama_verifikator . ", terdapat data/surat yang perlu diperbaiki dari pengajuan pengesahaan yang anda ajukan kepada Kepala Balai/plh Kepala Balai untuk permohonan rekomendasi dari:</p>";
+					$isi_pesan = "<p>" . $nama_verifikator . ", terdapat data/surat yang perlu diperbaiki dari pengajuan pengesahaan yang anda ajukan kepada Kepala Loka/plh Kepala Loka untuk permohonan rekomendasi dari:</p>";
 					$isi_pesan .= '<table border="0">
 						<tr>
 							<td>Pemohon</td>
@@ -1363,7 +1363,7 @@ if ($_POST) {
 						</tr>
 						<tr>
 							<td>Catatan :</td>
-							<td>Pesan dari Kepala Balai/Plh Kepala Balai : <p>' . $_POST['pesan'] . '</p></td>
+							<td>Pesan dari Kepala Loka/Plh Kepala Loka : <p>' . $_POST['pesan'] . '</p></td>
 						</tr>
 					</table>';
 					$isi_pesan .= "<p>Demikian Pemberitahuan Ini kami sampaikan, atas perhatiannya kami ucapkan terima kasih.</p>";

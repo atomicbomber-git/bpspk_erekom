@@ -40,10 +40,10 @@ if($rek->rowCount()>0){
 			<td><img  style="vertical-align: top" src="'.$location.'logo-kkp-kop.png" width="100"></td>
 			<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
 			<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-			<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-			PONTIANAK</strong></h4>
-			<small>JALAN HUSEIN HAMZAH NOMOR 01 PAALLIMA, PONTIANAK 78114 TELP.(0561)766691,
-			FAX(0561)766465, WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
+			<h4><strong>LOKA PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
+			SERANG</strong></h4>
+			<small> JALAN RAYA CARITA KM 4.5, DESA CARINGIN KEC. LABUAN KAB. PANDEGLANG PROV. BANTEN </small> <br/>
+                        TELEPON (0253) 802626, FAKSIMILI (0253) 802616</td>
 		</tr>
 		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
 	</table>
@@ -74,35 +74,66 @@ if($rek->rowCount()>0){
 	$html.='<table style="width:100%">
 		<tr>
 			<td style="text-align:justify;"><br>
-			<p>Menindaklanjuti Surat Saudara tanggal '.tanggalIndo($row['tgl_pengajuan'],'j F Y').' perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke '.$row['tujuan'].' melalui jalur '.ucwords($row['jenis_angkutan']).', dengan ini disampaikan bahwa Petugas Balai Pengelolaan Sumberdaya Pesisir dan Laut Pontianak telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : '.$row['nobap'].' tanggal '.tanggalIndo($row['tglbap'],'j F Y').' dengan hasil:</p>
+			<p>Menindaklanjuti Surat Saudara tanggal '.tanggalIndo($row['tgl_pengajuan'],'j F Y').' perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke '.$row['tujuan'].' melalui jalur '.ucwords($row['jenis_angkutan']).', dengan ini disampaikan bahwa Petugas Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : '.$row['nobap'].' tanggal '.tanggalIndo($row['tglbap'],'j F Y').' dengan hasil:</p>
 			</td>
 		</tr>
 	</table>';
-	$html.='<table style="width:100%" class="table table-bordered table-hasil" >
-		<tr>
-			<td width="5%">No</td>
-			<td>Jenis Ikan</td>
-			<td width="12%">Kemasan</td>
-			<td width="12%">No.Segel</td>
-			<td width="12%">Berat Ikan(Kg)</td>
-			<td>Keterangan</td>
-		</tr>';
-		$dt=$sql->run("SELECT thp.*, rjs.jenis_sampel,rdi.nama_latin FROM tb_rek_hsl_periksa thp LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
+	$html.='<table style="width:100%" class="table table-bordered">
+    <thead style="background: rgba(0, 0, 0, 0.1)">
+        <tr>
+            <td style="text-align:center" width="5%">No</td>
+            <td style="text-align:center"> Nama Ikan / Barang </td>
+            <td style="text-align:center" width="12%"> Jenis Produk </td>
+            <td style="text-align:center" width="12%"> Berat (kg) </td>
+            <td style="text-align:center" width="12%"> Jumlah Kemasan </td>
+            <td style="text-align:center"> No. Segel </td>
+            <td style="text-align:center"> Keterangan </td>
+        </tr>
+    </thead>';
+		$dt=$sql->run("SELECT 
+		thp.*, 
+		rjs.jenis_sampel,
+		rdi.nama_latin,
+		satuan_barang.nama AS nama_satuan_barang
+
+		FROM tb_rek_hsl_periksa 
+		thp LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
+		LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
+		LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
+		
+		WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
 		if($dt->rowCount()>0){
 			$no=0;
+			$jlh_berat=0;
 			foreach($dt->fetchAll() as $dtrow){
 				$no++;
+				
 				$html.='
 				<tr>
-					<td width="5%">'.$no.'</td>
-					<td><em>'.$dtrow['nama_latin'].'</em></td>
-					<td>'.$dtrow['kemasan'].' '.$dtrow['satuan'].'</td>
-					<td>'.$dtrow['no_segel'].'</td>
-					<td>'.(($dtrow['berat']=='0.00')?"":$dtrow['berat']).'</td>
-					<td>'.$dtrow['keterangan'].'</td>
+					<td style="text-align: center"  width="5%">'.$no.'</td>
+					<td style="text-align: center"><em>'.$dtrow['nama_latin'].'</em></td>
+					<td style="text-align: center"> '.$dtrow['produk'].' '.$dtrow['jenis_produk'].' '.$dtrow['kondisi_produk'].'</td>
+					<td style="text-align: center">'.(($dtrow['berat']=='0.00')?"":$dtrow['berat']).'</td>
+					<td style="text-align: center">'.$dtrow['kemasan'].' '.$dtrow['nama_satuan_barang'].'</td>
+					<td style="text-align: center">'.$dtrow['no_segel'].'-'.$dtrow['no_segel_akhir'].'</td>
+					<td style="text-align: center">'.$dtrow['keterangan'].'</td>
 				</tr>';
 			}
+			
 		}
+		$html.='
+			<tr>
+				<td style="text-align: center; font-weight: bold" colspan="3">
+					Total Berat:
+				</td>
+				<td style="text-align: center">
+					total berat
+				</td>
+				<td> </td>
+				<td> </td>
+				<td> </td>
+			</tr>';
+		
 	$html.='</table>';
 	$html.='<table style="width:100%">
 		<tr>
@@ -118,7 +149,7 @@ if($rek->rowCount()>0){
 		<tr>
 			<td width="60%"></td>
 			<td width="40%" style="text-align:center"><br>
-				'.(($row['lvl']==90)?"Kepala Balai":"Plh. Kepala Balai").'
+				'.(($row['lvl']==90)?"Kepala Loka":"Plh. Kepala Loka").'
 				<p><img height="150px" src="'.$location.$row['ttd'].'"></p>
 				'.$row['penandatgn'].'
 			</td>

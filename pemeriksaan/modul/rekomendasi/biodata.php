@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\Permohonan;
+
 require_once("config.php");
 $SCRIPT_FOOT = "
 <script>
@@ -8,6 +11,7 @@ $(document).ready(function(){
 });
 </script>
 ";
+
 
 $idpengajuan=U_IDP;
 if(!ctype_digit($idpengajuan)){
@@ -134,8 +138,16 @@ $arr_jns_tujuan=array(
 								<td><?php echo $bio['no_ktp'];?></td>
 							</tr>
 							<tr>
-								<td>Alamat Rumah</td>
-								<td><?php echo $bio['alamat'];?></td>
+								<td>Alamat Gudang 1</td>
+								<td><?php echo $bio['gudang_1'];?></td>
+							</tr>
+							<tr>
+								<td>Alamat Gudang 2</td>
+								<td><?php echo $bio['gudang_2'];?></td>
+							</tr>
+							<tr>
+								<td>Alamat Gudang 3</td>
+								<td><?php echo $bio['gudang_3'];?></td>
 							</tr>
 							<tr>
 								<td>No Telepon</td>
@@ -192,8 +204,8 @@ $arr_jns_tujuan=array(
 								<?php
 								$n=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='4' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
 								if($n->rowCount()>0){
-									$img_npwp=$n->fetch();
-									echo '<img width="50%" href="'.BERKAS.$img_npwp['nama_file'].'" src="'.BERKAS.$img_npwp['nama_file'].'" class="img-prev">';
+									$img_ktp=$n->fetch();
+									echo '<img width="50%" href="'.BERKAS.$img_ktp['nama_file'].'" src="'.BERKAS.$img_ktp['nama_file'].'" class="img-prev">';
 								}else{
 									echo '<p class="text-alert alert-warning">KTP Belum diupload</p>';
 								}
@@ -214,13 +226,12 @@ $arr_jns_tujuan=array(
 							<tr>
 								<td>SIUP<br/>
 								<?php
-								$sql->get_row('tb_berkas',array('ref_iduser'=>$p['ref_iduser'],'jenis_berkas'=>3),array('nama_file'));
-								$sql->order_by="revisi DESC, date_upload DESC, idb DESC";
-								$img_siup=$sql->result;
-								if($img_siup['nama_file']==''){
-									echo '<p class="text-alert alert-warning">SIUP Belum diupload</p>';
-								}else{
+								$n=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='3' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+								if($n->rowCount()>0){
+									$img_siup=$n->fetch();
 									echo '<img width="50%" href="'.BERKAS.$img_siup['nama_file'].'" src="'.BERKAS.$img_siup['nama_file'].'" class="img-prev">';
+								}else{
+									echo '<p class="text-alert alert-warning">SIUP Belum diupload</p>';
 								}
 								?></td>
 							</tr>
@@ -228,13 +239,12 @@ $arr_jns_tujuan=array(
 							<tr>
 								<td>NIB<br/>
 								<?php
-								$sql->get_row('tb_berkas',array('ref_iduser'=>$p['ref_iduser'],'jenis_berkas'=>3),array('nama_file'));
-								$sql->order_by="revisi DESC, date_upload DESC, idb DESC";
-								$img_nib=$sql->result;
-								if($img_nib['nama_file']==''){
-									echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
-								}else{
+								$n=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='5' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+								if($n->rowCount()>0){
+									$img_nib=$n->fetch();
 									echo '<img width="50%" href="'.BERKAS.$img_nib['nama_file'].'" src="'.BERKAS.$img_nib['nama_file'].'" class="img-prev">';
+								}else{
+									echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
 								}
 								?></td>
 							</tr>
@@ -242,13 +252,12 @@ $arr_jns_tujuan=array(
 							<tr>
 								<td>SIPJI<br/>
 								<?php
-								$sql->get_row('tb_berkas',array('ref_iduser'=>$p['ref_iduser'],'jenis_berkas'=>3),array('nama_file'));
-								$sql->order_by="revisi DESC, date_upload DESC, idb DESC";
-								$img_sipji=$sql->result;
-								if($img_sipji['nama_file']==''){
-									echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
-								}else{
+								$n=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='6' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+								if($n->rowCount()>0){
+									$img_sipji=$n->fetch();
 									echo '<img width="50%" href="'.BERKAS.$img_sipji['nama_file'].'" src="'.BERKAS.$img_sipji['nama_file'].'" class="img-prev">';
+								}else{
+									echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
 								}
 								?></td>
 							</tr>
@@ -265,6 +274,71 @@ $arr_jns_tujuan=array(
 								}
 								?></td>
 							</tr>
+							<?php 
+								$permohonanStoragePath = "/pengajuan/berkas/";
+								$permohonan = Permohonan::find(
+									base64_decode($_GET['data'])
+								);
+							?>
+
+							<tr>
+								<td>
+									<div>
+										Invoice
+									</div>
+
+									<a href="<?= $permohonanStoragePath . $permohonan->file_invoice ?>">
+										<img
+											style="
+												width: 200px;
+												height: auto;
+												object-fit: cover;
+											" 
+											src="<?= $permohonanStoragePath . $permohonan->file_invoice ?>"
+											>
+									</a>
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									<div>
+										Packing List
+									</div>
+
+									<a href="<?= $permohonanStoragePath . $permohonan->file_packing_list ?>">
+										<img
+											style="
+												width: 200px;
+												height: auto;
+												object-fit: cover;
+											" 
+											src="<?= $permohonanStoragePath . $permohonan->file_packing_list ?>"
+											>
+									</a>
+								</td>
+							</tr>
+
+							<?php if($permohonan->file_pra_bap): ?>
+							<tr>
+								<td>
+									<div>
+										Pra-BAP
+									</div>
+
+									<a href="<?= $permohonanStoragePath . $permohonan->file_pra_bap ?>">
+										<img
+											style="
+												width: 200px;
+												height: auto;
+												object-fit: cover;
+											" 
+											src="<?= $permohonanStoragePath . $permohonan->file_pra_bap ?>"
+											>
+									</a>
+								</td>
+							</tr>
+							<?php endif ?>
 						</table>
 					</div>
 				</div>

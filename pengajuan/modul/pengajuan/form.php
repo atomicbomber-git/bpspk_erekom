@@ -66,7 +66,13 @@ $(document).ready(function(){
 			alamat_gudang:{required:true},
 			sop:{required:true},
 			persetujuan2:{required:true},
-			alat_angkut:{required:true}
+			persetujuan3:{required:true},
+			persetujuan4:{required:true},
+			jenis_tujuan:{required:true},
+			alat_angkut:{required:true},
+			invoice:{required:true},
+			packing_list:{required:true}
+			
 		},
 		messages:{
 			nm_penerima:{required:'Nama Penerima Harap Diisi.'},
@@ -74,7 +80,13 @@ $(document).ready(function(){
 			alamat_gudang:{required:'Alamat Gudang Harap Diisi.'},
 			sop:{required:'Harus Dicentang.'},
 			persetujuan2:{required:'Harus Dicentang.'},
-			alat_angkut:{required:'Silakan Pilih Jenis Alat Angkut.'}
+			persetujuan3:{required:'Harus Dicentang.'},
+			persetujuan4:{required:'Harus Dicentang.'},
+			alat_angkut:{required:'Silakan Pilih Jenis Alat Angkut.'},
+			jenis_tujuan:{required:'Silakan Pilih Keperluan Pengiriman'},
+			invoice:{required:'Invoice Harap Diisi.'},
+			packing_list:{required:'Packing List Harap Diisi.'}
+
 		},
 		errorPlacement: function (error, element) {
 	        error.insertAfter(element);
@@ -305,6 +317,16 @@ $(document).ready(function(){
 											<label>
 												<input type="checkbox" name="persetujuan3" value="yes">
 												Perusahaan menyetujui Standar Pelayanan untuk menentukan lokasi dan waktu sesuai SOP.
+											</label>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-md-3"></label>
+										<div class="checkbox col-md-5">
+											<label>
+												<input type="checkbox" name="persetujuan4" value="yes">
+												Dengan ini saya menyetujui hasil berita acara pemeriksaan yang akan diterbitkan oleh tim pemeriksa Loka PSPL Serang.
 											</label>
 										</div>
 									</div>

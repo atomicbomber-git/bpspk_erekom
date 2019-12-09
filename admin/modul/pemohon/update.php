@@ -118,14 +118,18 @@ $(document).ready(function(){
 			$tgl_lahir=date("m/d/Y", strtotime($row['tgl_lahir']));
 			$no_ktp=$row['no_ktp'];
 			$no_telp=$row['no_telp'];
-			$alamat_rmh=$row['alamat'];
+			$nib = $row['nib'];
+			$sipji = $row['sipji'];
 			$npwp=$row['npwp'];
 			$nm_perusahaan=$row['nm_perusahaan'];
 			$siup=$row['siup'];
 			$izin_lainnya=$row['izin_lain'];
 			$nama_pemohon=$row['nama_lengkap'];
+			$gudang_1 = $row['gudang_1'];
+			$gudang_2 = $row['gudang_2'];
+			$gudang_3 = $row['gudang_3'];
 		}else{
-			$nama_pemohon="";$tmp_lahir="";$tgl_lahir="";$no_ktp="";$no_telp="";$alamat_rmh="";$npwp="";$nm_perusahaan="";$siup="";$izin_lainnya="";
+			$nama_pemohon="";$tmp_lahir="";$tgl_lahir="";$no_ktp="";$no_telp="";$gudang_1="";$gudang_2="";$gudang_3="";$npwp="";$nm_perusahaan="";$siup="";$nib="";$sipji="";$izin_lainnya="";
 		}
 		?>
 		<form id="form_biodata" method="post" enctype="multipart/form-data">
@@ -191,10 +195,31 @@ $(document).ready(function(){
 									<input type="text" name="no_telp" class="form-control" value="<?php echo $no_telp;?>">
 								</div>
 							</div>
+							
 							<div class="form-group">
-								<label class="control-label col-md-3">Alamat Rumah <small>*</small></label>
+								<label class="control-label col-md-3">
+									Gudang 1 <small>*</small>
+								</label>
 								<div class="col-md-5">
-									<textarea class="form-control" row="3" name="alamat_rmh"><?php echo $alamat_rmh;?></textarea>
+									<textarea class="form-control" row="3" name="gudang_1"><?= $gudang_1 ?></textarea>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3">
+									Gudang 2
+								</label>
+								<div class="col-md-5">
+									<textarea class="form-control" row="3" name="gudang_2"><?= $gudang_2 ?></textarea>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3">
+									Gudang 3
+								</label>
+								<div class="col-md-5">
+									<textarea class="form-control" row="3" name="gudang_3"><?= $gudang_3 ?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -250,6 +275,61 @@ $(document).ready(function(){
 										echo '<img width="100%" href="'.BERKAS.$img_siup['nama_file'].'" src="'.BERKAS.$img_siup['nama_file'].'" class="img-prev">';
 									}else{
 										echo '<p class="text-alert alert-warning">SIUP Belum diupload</p>';
+									}
+									?>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3">Nomor NIB*</label>
+								<div class="col-md-4">
+									<input type="text" name="nib" class="form-control" value="<?php echo $nib; ?>">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3">Berkas NIB*</label>
+								<div class="col-md-5">
+									<input type="file" accept="image/*" name="file_nib" class="form-control" value="">
+									<p class="text-alert alert-info">Upload Hasil Scan NIB Anda. (Hanya Gambar:png,jpg,jpeg)</p>
+								</div>
+								<div class="col-md-4">
+									<p>NIB</p>
+									<?php
+										$s=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$iduser."' AND jenis_berkas='5' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+										if($s->rowCount()>0){
+											$img_nib=$s->fetch();
+											echo '<img width="100%" href="'.BERKAS.$img_nib['nama_file'].'" src="'.BERKAS.$img_nib['nama_file'].'" class="img-prev">';
+										}else{
+											echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
+										}
+
+										?>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3">Nomor SIPJI</label>
+								<div class="col-md-4">
+									<input type="text" name="sipji" class="form-control" value="<?php echo $sipji; ?>">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-md-3">Berkas SIPJI</label>
+								<div class="col-md-5">
+									<input type="file" accept="image/*" name="sipji" class="form-control" value="">
+									<p class="text-alert alert-info">Upload Hasil Scan SIPJI Anda. (Hanya Gambar:png,jpg,jpeg)</p>
+								</div>
+								<div class="col-md-4">
+									<p>SIPJI</p>
+									<?php
+									$s=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='" .$iduser. "' AND jenis_berkas='6' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+									if ($s->rowCount() > 0) {
+										$img_sipji = $s->fetch();
+										echo '<img width="100%" href="' . BERKAS . $img_sipji['nama_file'] . '" src="' . BERKAS . $img_sipji['nama_file'] . '" class="img-prev">';
+									} else {
+										echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
 									}
 									?>
 								</div>

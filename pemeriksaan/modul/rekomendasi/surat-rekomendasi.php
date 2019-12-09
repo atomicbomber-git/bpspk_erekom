@@ -1,6 +1,6 @@
 <?php
-
-use App\Models\Rekomendasi;
+use App\Services\Letter;
+use App\Services\Contracts\Template;
 
 require_once("config.php");
 $SCRIPT_FOOT = "
@@ -22,14 +22,25 @@ if($_GET['token']!=md5($idrek.U_ID.'surat_rekomendasi')){
 }
 
 //load data surat rekomendasi
-$rek=$sql->run("SELECT tr.*, tp.tgl_pengajuan, tp.tujuan, tp.jenis_angkutan, tu.nama_lengkap, tb.no_surat nobap, tb.tgl_surat tglbap, op.nm_lengkap penandatgn, op.jabatan, op.ttd,ou.lvl 
-FROM tb_rekomendasi tr
-JOIN tb_permohonan tp ON (tr.ref_idp=tp.idp)
-JOIN tb_userpublic tu ON (tu.iduser=tr.ref_iduser)
-JOIN tb_bap tb ON (tp.idp=tb.ref_idp)
-JOIN op_pegawai op ON(tr.pnttd=op.nip)
-JOIN op_user ou ON(ou.ref_idpeg=op.idp)
-WHERE tr.idrek='".$idrek."' LIMIT 1");
+		$rek=$sql->run("SELECT tr.*, 
+			tp.tgl_pengajuan, 
+			tp.tujuan, 
+			tp.jenis_angkutan, 
+			tu.nama_lengkap, 
+			tb.no_surat nobap, 
+			tb.tgl_surat tglbap, 
+			op.nm_lengkap penandatgn, 
+			op.jabatan, 
+			op.ttd,
+			ou.lvl 
+
+		FROM tb_rekomendasi tr
+		JOIN tb_permohonan tp ON (tr.ref_idp=tp.idp)
+		JOIN tb_userpublic tu ON (tu.iduser=tr.ref_iduser)
+		JOIN tb_bap tb ON (tp.idp=tb.ref_idp)
+		JOIN op_pegawai op ON(tr.pnttd=op.nip)
+		JOIN op_user ou ON(ou.ref_idpeg=op.idp)
+		WHERE tr.idrek='".$idrek."' LIMIT 1");
 
 $row=$rek->fetch();
 ?>
@@ -51,17 +62,7 @@ $row=$rek->fetch();
 			<div class="col-md-12">
 				<section class="panel">
 					<div class="panel-body">
-						<table style="width:100%">
-							<tr style="border-bottom:2pt solid black;">
-								<td><img src="<?php echo ADM_IMAGES;?>logo-kkp-kop.png" width="150"></td>
-								<td style="text-align: center;"><h4><strong>KEMENTERIAN KELAUTAN DAN PERIKANAN</strong></h4>
-								<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
-								<h4><strong>BALAI PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
-								PONTIANAK</strong></h4>
-								<small>JALAN HUSEIN HAMZAH NOMOR 01 PAALLIMA, PONTIANAK 78114 TELP.(0561)766691,
-								FAX(0561)766465, <br>WEBSITE:bpsplpontianak.kkp.go.id, EMAIL :bpsplpontianak@gmail.com</small></td>
-							</tr>
-						</table>
+					<?= container(Letter::class)->getHeaderContentHTML(ADM_IMAGES) ?>
 						<br/>
 						<table style="width:100%">
 							<tr>
@@ -88,46 +89,30 @@ $row=$rek->fetch();
 						<table style="width:100%">
 							<tr>
 								<td><br>
-								<p>Menindaklanjuti Surat Saudara tanggal <?php echo tanggalIndo($row['tgl_pengajuan'],'j F Y');?> perihal permohonan rekomendasi untuk lalu lintas Hiu/Pari ke <?php echo ucwords($row['tujuan']);?> melalui jalur <?php echo ucwords($row['jenis_angkutan']);?>, dengan ini disampaikan bahwa Petugas Balai Pengelolaan Sumberdaya Pesisir dan Laut Pontianak telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : <?php echo $row['nobap'];?> tanggal <?php echo tanggalIndo($row['tglbap'],'j F Y');?> dengan hasil:</p>
+								<p>Menindaklanjuti Surat Saudara tanggal <?php echo tanggalIndo($row['tgl_pengajuan'],'j F Y');?> perihal permohonan rekomendasi untuk lalu lintas Hiu/Pari ke <?php echo ucwords($row['tujuan']);?> melalui jalur <?php echo ucwords($row['jenis_angkutan']);?>, dengan ini disampaikan bahwa Petugas Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : <?php echo $row['nobap'];?> tanggal <?php echo tanggalIndo($row['tglbap'],'j F Y');?> dengan hasil:</p>
 								</td>
 							</tr>
 						</table>
-						<table style="width:100%" class="table table-bordered" >
-							<tr>
-								<td width="5%">No</td>
-								<td>Jenis Ikan</td>
-								<td width="12%">Kemasan</td>
-								<td width="12%">No.Segel</td>
-								<td width="12%">Berat Ikan(Kg)</td>
-								<td>Keterangan</td>
-							</tr>
-                            
-							<?php
-                                $dt
-                                    =
-                                        $sql
-                                            ->run("SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin FROM tb_rek_hsl_periksa thp LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$idrek."' ORDER BY thp.ref_jns ASC"
-                        
-                        
-                            );
-							if($dt->rowCount()>0){
-								$no=0;
-								foreach($dt->fetchAll() as $dtrow){
-									$no++;
-									?>
-									<tr>
-										<td width="5%"><?php echo $no;?></td>
-										<td><em><?php echo $dtrow['nama_latin'];?></em></td>
-										<td><?php echo $dtrow['kemasan']." ".$dtrow['satuan'];?></td>
-										<td><?php echo $dtrow['no_segel'];?></td>
-										<td><?php echo (($dtrow['berat']=='0.00')?"":$dtrow['berat']);?></td>
-										<td><?php echo $dtrow['keterangan'];?></td>
-									</tr>
-									<?php
-								}
-							}
-							?>
-						</table>
+
+						<?php
+							$dt = $sql->run("SELECT 
+							thp.*, 
+							
+							rdi.nama_latin, 
+							rdi.dilindungi,
+							satuan_barang.nama AS nama_satuan_barang
+							
+							FROM tb_rek_hsl_periksa thp 
+								LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=thp.ref_idikan) 
+								LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
+								
+							WHERE thp.ref_idrek='" . $row['idrek'] . "' 
+							ORDER BY thp.ref_jns ASC"
+							);
+						?> 
+					
+						<?= container(Template::class)->render("letter/table", ["records" => $dt->fetchAll()]) ?>
+						
 						<table style="width:100%">
 							<tr>
 								<td><br><p><?php echo $row['redaksi'];?></p></td>
@@ -137,14 +122,21 @@ $row=$rek->fetch();
 							</tr>
 						</table>
 						<?php
-						$tmb=$sql->run("SELECT rbk.nama FROM tb_rekomendasi tr JOIN ref_balai_karantina rbk ON(rbk.idbk=tr.ref_bk) WHERE tr.ref_idp='".$row['ref_idp']."' LIMIT 1");
+						$tmb=$sql->run("SELECT 
+						rbk.nama 
+						
+						FROM tb_rekomendasi tr 
+						JOIN ref_balai_karantina rbk 
+						ON(rbk.idbk=tr.ref_bk) 
+						
+						WHERE tr.ref_idp='".$row['ref_idp']."' LIMIT 1");
 						$karantina=$tmb->fetch();
 						?>
 						<table style="width:100%">
 							<tr>
 								<td width="60%"></td>
 								<td width="60%" style="text-align:center">
-									<?php echo (($row['lvl']==90)?"Kepala Balai":"Plh. Kepala Balai");?>
+									<?php echo (($row['lvl']==90)?"Kepala Loka":"Plh. Kepala Loka");?>
 									<p><a href="#"><img height="100px" src="<?php echo ADM_IMAGES.$row['ttd'];?>"></a></p>
 									<?php echo $row['penandatgn'];?>
 								</td>

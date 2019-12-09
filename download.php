@@ -96,7 +96,7 @@ if ($rek->rowCount() > 0) {
             $row['tujuan'],
             $row['jenis_angkutan'],
             $row['nobap'],
-            tanggalIndo($row['tglbap'], 'j F Y'),
+            tanggalIndo($row['tglbap'], 'j F Y')
         );
 
     $html .= 
@@ -138,7 +138,7 @@ if ($rek->rowCount() > 0) {
 		<tr>
 			<td width="60%"></td>
 			<td width="40%" style="text-align:center"><br>
-				' . (($row['lvl'] == 90) ? "Kepala Balai" : "Plh. Kepala Balai") . '
+				' . (($row['lvl'] == 90) ? "Kepala Loka" : "Plh. Kepala Loka") . '
 				<p><img height="150px" style="z-index:-1;" src="' . $berkas_admin . $row['ttd'] . '"></p>
 				' . $row['penandatgn'] . '
 			</td>

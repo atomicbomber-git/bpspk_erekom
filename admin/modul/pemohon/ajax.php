@@ -139,10 +139,10 @@ if($_POST){
 
 			$no=1+$_POST['start'];
 			$arr_status=array(
-				1=>"Pemeriksaan Data.",
+				1=>"Pemeriksaan Data Oleh Admin.",
 				2=>"Data Diterima, Pengajuan Sedang Diproses Oleh Admin.",
 				3=>"Data Ditolak, Berkas/Data Tidak Lengkap.",
-				4=>"Pemeriksaan Sampel Telah Dilakukan.",
+				4=>"Pemeriksaan Barang/Sampel Telah Dilakukan.",
 				5=>"Surat Rekomendasi Sudah Diterbitkan."
 			);
 
@@ -232,17 +232,24 @@ if($_POST){
 					"npwp"=>$npwp,
 					"nm_perusahaan"=>$nm_perusahaan,
 					"siup"=>$siup,
-					"izin_lain"=>$izin_lainnya
+					"nib" => $nib,
+					"sipji" => $sipji,
+					"izin_lain"=>$izin_lainnya,
+					"gudang_1" => $_POST["gudang_1"],
+					"gudang_2" => $_POST["gudang_2"] ?? null,
+					"gudang_3" => $_POST["gudang_3"] ?? null,
 				);
 
 				$sql->update('tb_biodata',$arr_update,array('idbio'=>$id));
 
 
-				include ("../../engine/resize-class.php");
+				include("../../engine/resize-class.php");
 				$location		= c_BASE_UTAMA."pengajuan/berkas/";
 				$npwp=$_FILES['file_npwp'];
 				$ktp=$_FILES['file_ktp'];
 				$siup=$_FILES['siup'];
+				$nib = $_FILES['nib'];
+				$sipji = $_FILES['sipji'];
 				$ttd=$_FILES['ttd'];
 				
 				//npwp
@@ -309,6 +316,72 @@ if($_POST){
 						);
 
 					$sql->insert('tb_berkas',$arr_insert);
+				}
+
+				//nib
+				if (isset($nib['name']) and is_uploaded_file($nib['tmp_name'])) {
+					list($CurWidth, $CurHeight) = getimagesize($nib['tmp_name']);
+					$nibnm = get_file_extension($nib['name']);
+					$nib_filename = $iduser . 'nib_' . time();
+					$nib_ext = $nibnm['file_ext'];
+					$saved = $nib_filename . '.' . $nib_ext;
+
+					$original = new resize($nib['tmp_name']);
+					$original->resizeImage($CurWidth, $CurHeight, 'exact');
+					$original->saveImage($location . $saved, 75);
+
+					$sql->get_row('tb_berkas', array('ref_iduser' => $iduser, 'jenis_berkas' => 5), array('revisi'));
+					$sql->order_by = "date_upload DESC, idb DESC";
+					if ($sql->num_rows > 0) {
+						$n = $sql->result;
+						$rev = $n['revisi'];
+						$revisi = $rev + 1;
+					} else {
+						$revisi = 0;
+					}
+					$arr_insert = array(
+						"ref_iduser" => $iduser,
+						"nama_file" => $saved,
+						"type_file" => $nib['type'],
+						"jenis_berkas" => 5,
+						"date_upload" => date('Y-m-d H:i:s'),
+						"revisi" => $revisi
+					);
+
+					$sql->insert('tb_berkas', $arr_insert);
+				}
+
+				//sipji
+				if (isset($sipji['name']) and is_uploaded_file($sipji['tmp_name'])) {
+					list($CurWidth, $CurHeight) = getimagesize($sipji['tmp_name']);
+					$sipjinm = get_file_extension($sipji['name']);
+					$sipji_filename = $iduser . 'sipji_' . time();
+					$sipji_ext = $sipjinm['file_ext'];
+					$saved = $sipji_filename . '.' . $sipji_ext;
+
+					$original = new resize($sipji['tmp_name']);
+					$original->resizeImage($CurWidth, $CurHeight, 'exact');
+					$original->saveImage($location . $saved, 75);
+
+					$sql->get_row('tb_berkas', array('ref_iduser' => $iduser, 'jenis_berkas' => 6), array('revisi'));
+					$sql->order_by = "date_upload DESC, idb DESC";
+					if ($sql->num_rows > 0) {
+						$n = $sql->result;
+						$rev = $n['revisi'];
+						$revisi = $rev + 1;
+					} else {
+						$revisi = 0;
+					}
+					$arr_insert = array(
+						"ref_iduser" => $iduser,
+						"nama_file" => $saved,
+						"type_file" => $sipji['type'],
+						"jenis_berkas" => 6,
+						"date_upload" => date('Y-m-d H:i:s'),
+						"revisi" => $revisi
+					);
+
+					$sql->insert('tb_berkas', $arr_insert);
 				}
 
 				//ktp

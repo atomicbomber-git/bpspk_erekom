@@ -86,6 +86,32 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="control-label col-md-3">Nomor NIB</label>
+						<div class="col-md-4">
+							<input type="text" name="nib" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3">Berkas NIB</label>
+						<div class="col-md-5">
+							<input type="file" name="nib" accept="image/*" class="form-control" value="">
+							<p class="text-alert alert-info">Upload Hasil Scan NIB Anda. (Hanya Gambar:png,jpg,jpeg, Size Maksimal 2Mb)</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3">Nomor SIPJI</label>
+						<div class="col-md-4">
+							<input type="text" name="sipji" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3">Berkas SIPJI</label>
+						<div class="col-md-5">
+							<input type="file" name="sipji" accept="image/*" class="form-control" value="">
+							<p class="text-alert alert-info">Upload Hasil Scan SIPJI Anda. (Hanya Gambar:png,jpg,jpeg, Size Maksimal 2Mb)</p>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="control-label col-md-3">Izin Usaha Lainnya</label>
 						<div class="col-md-5">
 							<textarea class="form-control" row="4" name="izin_lainnya"></textarea>

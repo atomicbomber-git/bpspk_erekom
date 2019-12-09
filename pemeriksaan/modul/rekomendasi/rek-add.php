@@ -1,6 +1,7 @@
 <?php
 //redaksi isi surat
 
+use App\Models\Permohonan;
 use App\Models\SatuanBarang;
 
 $l = $sql->run("SELECT thp.ref_idp, thp.ref_idikan, thp.ref_jns_sampel, rdi.nama_ikan,rdi.nama_latin,rdi.dilindungi,rdi.peredaran,rdi.ket_dasarhukum, rjs.jenis_sampel
@@ -10,6 +11,9 @@ $l = $sql->run("SELECT thp.ref_idp, thp.ref_idikan, thp.ref_jns_sampel, rdi.nama
 		WHERE ref_idp ='$idpengajuan'
 		ORDER BY rdi.dilindungi DESC, rdi.nama_ikan ASC  ");
 $produk = array();
+$permohonan = Permohonan::where("idp", $idpengajuan)
+	->with("rekomendasi")
+	->get();
 
 foreach ($l->fetchAll() as $prd) {
 	$dasar_hukum = "";
@@ -133,9 +137,18 @@ $r = $last->fetch();
 							</tr>
 						<tbody>
 							<?php
-							$dt = $sql->run("SELECT thp.id_satuan_barang, thp.tot_berat as berat, thp.kuantitas as kemasan, thp.ref_idikan, rjs.id_ref,rjs.jenis_sampel,rdi.nama_ikan,rdi.nama_latin FROM tb_hsl_periksa thp
-									LEFT JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel)
-									JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
+							$dt = $sql->run("SELECT 
+							thp.id_satuan_barang, 
+							thp.tot_berat as berat, 
+							thp.kuantitas as kemasan, 
+							thp.ref_idikan, 
+							thp.produk,
+							thp.kondisi_produk,
+							thp.jenis_produk,
+							rdi.nama_ikan,
+							rdi.nama_latin 
+							FROM tb_hsl_periksa thp
+									LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
 									WHERE thp.ref_idp='$idpengajuan' 
 									ORDER BY ref_jns_sampel ASC");
 
@@ -146,8 +159,30 @@ $r = $last->fetch();
 									?>
 									<tr class="dt">
 										<td>
-											<input type="hidden" name="jenis_ikan[]" value="<?php echo $row['ref_idikan']; ?>">
-											<input type="hidden" name="jenis_sampel[]" value="<?php echo $row['id_ref']; ?>">
+										<input
+													type="hidden"
+													name="jenis_ikan[]"
+													value="<?= $row['ref_idikan']; ?>">
+												
+												<input 
+													type="hidden"
+													name="jenis_sampel[]"
+													value="<?= $row['id_ref']; ?>">
+
+												<input 
+													type="hidden"
+													name="produk[]"
+													value="<?= $row['produk']; ?>">
+
+												<input 
+													type="hidden"
+													name="kondisi_produk[]"
+													value="<?= $row['kondisi_produk']; ?>">
+
+												<input 
+													type="hidden"
+													name="jenis_produk[]"
+													value="<?= $row['jenis_produk']; ?>">
 											<p><?php echo $arr_produk[$row['id_ref']]['nama']; ?><br />
 												<?php echo $arr_ikan[$row['ref_idikan']]['nama'] . " <br><strong>" . $arr_ikan[$row['ref_idikan']]['latin'] . "</strong>"; ?></p>
 										</td>
@@ -155,12 +190,39 @@ $r = $last->fetch();
 										<td>
 											<?= $satuan_barangs[$row['id_satuan_barang']] ?>
 										</td>
-										<td><input type="text" name="nosegel[]" class="form-control"></td>
+										<td>
+												<input
+													style="display: inline-block;"
+													class="nosegel form-control"
+													type="text"
+													name="nosegel[]"
+													class="form-control"
+													value="<?= $row["no_segel"] ?? "" ?>"
+													>
+
+												<div
+													style="
+														display: inline-block;
+														text-align: center;
+													"
+													>
+													s/d
+												</div>
+
+												<input
+													style="display: inline-block;"
+													class="nosegel form-control"
+													type="text"
+													name="nosegel_akhir[]"
+													class="form-control"
+													value="<?= $row["no_segel_akhir"] ?? "" ?>"
+													>
+											</td>
 										<td>
 											<?php echo floatval($row['berat']); ?> Kg
 											<input type="hidden" name="berat[]" value="<?php echo floatval($row['berat']); ?>">
 										</td>
-										<td><input type="text" name="keterangan[]" class="form-control" value="<?php echo $arr_produk[$row['id_ref']]['nama']; ?>"></td>
+										<td><input type="text" name="keterangan[]" rows="5" class="form-control" value="<?php echo $row['keterangan']; ?>"></td>
 									</tr>
 							<?php
 								}
@@ -171,6 +233,11 @@ $r = $last->fetch();
 							<tr id="addrow">
 								<td colspan="7">
 									<p>catatan : <span class="text-alert alert-danger">Angka Desimal Menggunakan . <strong>(titik) cth: 90.2Kg</strong></span></p>
+									<p>
+										<span class="text-alert alert-danger">
+											Nomor segel harus diisi 4 digit. Cth: 0001
+										</span>
+									</p>
 								</td>
 							</tr>
 						</tfoot>
@@ -203,6 +270,20 @@ $r = $last->fetch();
 						".\n"
 					)
 
+					{
+							document.querySelectorAll('input.nosegel')
+								.forEach(nosegel_input => {
+									new Cleave(nosegel_input, {
+										numeral: true,
+										stripLeadingZeroes: false,
+										numeralDecimalMark: '',
+										delimiter: '',
+										numeralIntegerScale: 4,
+										numeralDecimalScale: 0
+									});
+								})
+				}
+
 					select_masa_berlaku_rekomendasi.onchange = () => {
 						teks_masa_berlaku_rekomendasi = select_masa_berlaku_rekomendasi.value
 						CKEDITOR.instances["redaksi_rek"].setData(
@@ -213,6 +294,7 @@ $r = $last->fetch();
 						)
 					}
 				}
+			
 			</script>
 
 
