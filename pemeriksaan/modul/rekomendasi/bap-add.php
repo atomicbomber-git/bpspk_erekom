@@ -1,8 +1,17 @@
 <?php
-$l = $sql->run("SELECT thp.ref_idp, thp.ref_idikan, thp.ref_jns_sampel, rdi.nama_ikan,rdi.nama_latin,rdi.dilindungi,rdi.peredaran,rdi.ket_dasarhukum, rjs.jenis_sampel
+$l = $sql->run("SELECT 
+			thp.ref_idp,
+			thp.ref_idikan,
+			thp.ref_jns_sampel,
+			rdi.nama_ikan,
+			rdi.nama_latin,
+			rdi.dilindungi,
+			rdi.peredaran,
+			rdi.ket_dasarhukum,
+			rjs.jenis_sampel
 		FROM tb_hsl_periksa thp
-		LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan = thp.ref_idikan)
-		LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref = thp.ref_jns_sampel)
+			LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan = thp.ref_idikan)
+			LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref = thp.ref_jns_sampel)
 		WHERE ref_idp ='$idpengajuan'
 		ORDER BY rdi.dilindungi DESC, rdi.nama_ikan ASC  ");
 $produk = array();

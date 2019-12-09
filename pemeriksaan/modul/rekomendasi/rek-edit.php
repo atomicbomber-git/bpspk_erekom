@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\JenisSampel;
 use App\Models\Permohonan;
 use App\Models\SatuanBarang;
 
@@ -7,8 +8,16 @@ $sql->get_row('tb_rekomendasi', array('ref_idp' => $idpengajuan));
 $dtrek = $sql->result;
 
 $permohonan = Permohonan::where("idp", $idpengajuan)
-	->with("rekomendasi")
-	->get();
+	->with([
+		"rekomendasi:idrek,ref_idp",
+		"rekomendasi.hasil_periksa:idtb,ref_jns,ref_idrek",
+		"rekomendasi.hasil_periksa.jenis_sampel",
+	])
+	->first();
+
+$jenis_sampel = $permohonan->rekomendasi->hasil_periksa->map->jenis_sampel
+	->map->jenis_sampel
+	->unique();
 
 $satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 

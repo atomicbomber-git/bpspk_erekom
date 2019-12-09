@@ -25,4 +25,9 @@ class RekomendasiHasilPeriksa extends Model
     {
         return $this->belongsTo(DataIkan::class, "ref_idikan");
     }
+
+    public function jenis_sampel()
+    {
+        return $this->belongsTo(JenisSampel::class, "ref_jns", "id_ref");
+    }
 }
