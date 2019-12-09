@@ -47,7 +47,7 @@ if(!ctype_digit($iduser)){
 				<div class="panel-body">
 					<table class="table table-hover">
 						<tr>
-							<td width="20%">Nama Lengkap</td>
+							<td width="30%">Nama Lengkap</td>
 							<td><?php echo $bio['nama_lengkap'];?></td>
 						</tr>
 						<tr>
@@ -59,8 +59,16 @@ if(!ctype_digit($iduser)){
 							<td><?php echo $bio['no_ktp'];?></td>
 						</tr>
 						<tr>
-							<td>Alamat Rumah</td>
-							<td><?php echo $bio['alamat'];?></td>
+							<td>Alamat Gudang 1</td>
+							<td><?php echo $bio['gudang_1'];?></td>
+						</tr>
+						<tr>
+							<td>Alamat Gudang 2</td>
+							<td><?php echo $bio['gudang_2'];?></td>
+						</tr>
+						<tr>
+							<td>Alamat Gudang 3</td>
+							<td><?php echo $bio['gudang_3'];?></td>
 						</tr>
 						<tr>
 							<td>No Telepon</td>
@@ -124,13 +132,14 @@ if(!ctype_digit($iduser)){
 						<tr>
 							<td>NPWP<br/>
 							<?php
-							$n=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$iduser."' AND jenis_berkas='2' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
-							if($n->rowCount()>0){
-								$img_npwp=$n->fetch();
+							$s=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$iduser."' AND jenis_berkas='2' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+							if($s->rowCount()>0){
+								$img_npwp=$s->fetch();
 								echo '<img width="50%" href="'.BERKAS.$img_npwp['nama_file'].'" src="'.BERKAS.$img_npwp['nama_file'].'" class="img-prev">';
 							}else{
 								echo '<p class="text-alert alert-warning">NPWP Belum diupload</p>';
 							}
+
 							?></td>
 						</tr>
 						<tr>

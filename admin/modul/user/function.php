@@ -11,8 +11,8 @@ function NAV_LEVEL($current=""){
     $on = "
     <p><a href=\"#all\"".$nav_aktif." id=\"lvl_all\" onClick=\"filterlvl('all')\">Semua</a> (".$count_all.") | 
     <a href=\"#\" id=\"lvl_admin\" onClick=\"filterlvl('100')\">Admin</a> (".$count_admin.") | 
-    <a href=\"#\" id=\"lvl_kepala\"onClick=\"filterlvl('90')\">Kepala Balai</a> (".$count_kepala.") |
-    <a href=\"#\" id=\"lvl_plh\"onClick=\"filterlvl('91')\">Plh Kepala Balai</a> (".$count_plh.") | 
+    <a href=\"#\" id=\"lvl_kepala\"onClick=\"filterlvl('90')\">Kepala Loka</a> (".$count_kepala.") |
+    <a href=\"#\" id=\"lvl_plh\"onClick=\"filterlvl('91')\">Plh Kepala Loka</a> (".$count_plh.") | 
     <a href=\"#\" id=\"lvl_vr\"onClick=\"filterlvl('95')\">Verifikator</a> (".$count_verifikator.")";
     $on.="</p>";
     return $on;

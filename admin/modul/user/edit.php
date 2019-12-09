@@ -91,8 +91,8 @@ $row=$sql->result;
 							$array_level=array(
 								""=>"Pilih Level",
 						        "100"=>"Admin",
-						        "90"=>"Kepala Balai",
-						        "91"=>"Plh Kepala Balai",
+						        "90"=>"Kepala Loka",
+						        "91"=>"Plh Kepala Loka",
 						        "95"=>"Verifikator"
 						        );
 

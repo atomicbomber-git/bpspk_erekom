@@ -3,6 +3,7 @@
 use App\Models\DataIkan;
 use App\Services\Contracts\Template;
 use App\Services\Letter;
+use App\Models\Permohonan;
 
 require_once("config.php");
 $SCRIPT_FOOT = "
@@ -64,7 +65,7 @@ if ($sql->num_rows > 0) {
 					<div class="panel-body">
 						<table class="table table-hover">
 							<tr>
-								<td width="20%">Nama Lengkap</td>
+								<td width="30%">Nama Lengkap</td>
 								<td><?php echo $bio['nama_lengkap']; ?></td>
 							</tr>
 							<tr>
@@ -76,8 +77,16 @@ if ($sql->num_rows > 0) {
 								<td><?php echo $bio['no_ktp']; ?></td>
 							</tr>
 							<tr>
-								<td>Alamat Rumah</td>
-								<td><?php echo $bio['alamat']; ?></td>
+								<td>Alamat Gudang 1</td>
+								<td><?php echo $bio['gudang_1']; ?></td>
+							</tr>
+							<tr>
+								<td>Alamat Gudang 2</td>
+								<td><?php echo $bio['gudang_2']; ?></td>
+							</tr>
+							<tr>
+								<td>Alamat Gudang 3</td>
+								<td><?php echo $bio['gudang_3']; ?></td>
 							</tr>
 							<tr>
 								<td>No Telepon</td>
@@ -158,40 +167,109 @@ if ($sql->num_rows > 0) {
 										} ?></td>
 							</tr>
 							<tr>
-								<td>NIB<br />
-									<?php
-										$sql->order_by = "revisi DESC, date_upload DESC, idb DESC";
-										$sql->get_row('tb_berkas', array('ref_iduser' => $p['ref_iduser'], 'jenis_berkas' => 3), array('nama_file'));
-										$img_nib = $sql->result;
-										if ($img_nib['nama_file'] == '') {
-											echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
-										} else {
-											echo '<img width="50%" href="' . BERKAS . $img_nib['nama_file'] . '" src="' . BERKAS . $img_nib['nama_file'] . '" class="img-prev">';
-										} ?></td>
+								<td>NIB<br/>
+								<?php
+								$n=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='5' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+								if($n->rowCount()>0){
+									$img_nib=$n->fetch();
+									echo '<img width="50%" href="'.BERKAS.$img_nib['nama_file'].'" src="'.BERKAS.$img_nib['nama_file'].'" class="img-prev">';
+								}else{
+									echo '<p class="text-alert alert-warning">NIB Belum diupload</p>';
+								}
+								?></td>
 							</tr>
 							<tr>
-								<td>SIPJI<br />
-									<?php
-										$sql->order_by = "revisi DESC, date_upload DESC, idb DESC";
-										$sql->get_row('tb_berkas', array('ref_iduser' => $p['ref_iduser'], 'jenis_berkas' => 3), array('nama_file'));
-										$img_sipji = $sql->result;
-										if ($img_sipji['nama_file'] == '') {
-											echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
-										} else {
-											echo '<img width="50%" href="' . BERKAS . $img_sipji['nama_file'] . '" src="' . BERKAS . $img_sipji['nama_file'] . '" class="img-prev">';
-										} ?></td>
-							</tr>
+								<td>SIPJI<br/>
+								<?php
+								$n=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='6' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+								if($n->rowCount()>0){
+									$img_sipji=$n->fetch();
+									echo '<img width="50%" href="'.BERKAS.$img_sipji['nama_file'].'" src="'.BERKAS.$img_sipji['nama_file'].'" class="img-prev">';
+								}else{
+									echo '<p class="text-alert alert-warning">SIPJI Belum diupload</p>';
+								}
+								?></td>
+							</tr>	
 							<tr>
-								<td>TTD<br />
-									<?php
-										$t = $sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='" . $p['ref_iduser'] . "' AND jenis_berkas='1' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
-										if ($t->rowCount() > 0) {
-											$img_npwp = $t->fetch();
-											echo '<img width="50%" href="' . BERKAS . $img_npwp['nama_file'] . '" src="' . BERKAS . $img_npwp['nama_file'] . '" class="img-prev">';
-										} else {
-											echo '<p class="text-alert alert-warning">Tandatangan Belum diupload</p>';
-										} ?></td>
+								<td>TTD<br/>
+								<?php
+								$t=$sql->run("SELECT nama_file FROM tb_berkas WHERE ref_iduser='".$p['ref_iduser']."' AND jenis_berkas='1' ORDER BY revisi DESC, date_upload DESC LIMIT 1");
+								if($t->rowCount()>0){
+									$img_npwp=$t->fetch();
+									echo '<img width="50%" href="'.BERKAS.$img_npwp['nama_file'].'" src="'.BERKAS.$img_npwp['nama_file'].'" class="img-prev">';
+								}else{
+									echo '<p class="text-alert alert-warning">Tandatangan Belum diupload</p>';
+								}
+								?></td>
 							</tr>
+
+							<?php 
+								$permohonanStoragePath = "/pengajuan/berkas/";
+								$permohonan = Permohonan::find(
+									base64_decode($_GET['data'])
+								);
+							
+							?>
+
+							<tr>
+								<td>
+									<div>
+										Invoice
+									</div>
+
+									<a href="<?= $permohonanStoragePath . $permohonan->file_invoice ?>">
+										<img
+											style="
+												width: 200px;
+												height: auto;
+												object-fit: cover;
+											" 
+											src="<?= $permohonanStoragePath . $permohonan->file_invoice ?>"
+											>
+									</a>
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									<div>
+										Packing List
+									</div>
+
+									<a href="<?= $permohonanStoragePath . $permohonan->file_packing_list ?>">
+										<img
+											style="
+												width: 200px;
+												height: auto;
+												object-fit: cover;
+											" 
+											src="<?= $permohonanStoragePath . $permohonan->file_packing_list ?>"
+											>
+									</a>
+								</td>
+							</tr>
+
+							<?php if($permohonan->file_pra_bap): ?>
+							<tr>
+								<td>
+									<div>
+										Pra-BAP
+									</div>
+
+									<a href="<?= $permohonanStoragePath . $permohonan->file_pra_bap ?>">
+										<img
+											style="
+												width: 200px;
+												height: auto;
+												object-fit: cover;
+											" 
+											src="<?= $permohonanStoragePath . $permohonan->file_pra_bap ?>"
+											>
+									</a>
+								</td>
+							</tr>
+							<?php endif ?>
+
 						</table>
 					</div>
 				</section>
@@ -315,27 +393,43 @@ if ($sql->num_rows > 0) {
 							</thead>
 							<tbody>
 								<?php
-									$t = $sql->run("SELECT thp.*, rdi.nama_ikan, rdi.nama_latin,rjs.jenis_sampel FROM tb_hsl_periksa thp 
-								JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
-								JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel) WHERE thp.ref_idp='" . $idpengajuan . "'");
-									if ($t->rowCount() > 0) {
-										$not = 0;
-										foreach ($t->fetchAll() as $rp) {
-											$not++; ?>
-										<tr>
-											<td><?php echo $not; ?></td>
-											<td><?php echo $rp['jenis_sampel']; ?></td>
-											<td><?php echo $rp['nama_ikan'] . " (<em>" . $rp['nama_latin'] . "</em>)"; ?></td>
-											<td><?php echo $rp['pjg']; ?></td>
-											<td><?php echo $rp['lbr']; ?></td>
-											<td><?php echo $rp['berat']; ?></td>
-											<td><?php echo $rp['tot_berat']; ?></td>
-											<td><?php echo $rp['kuantitas']; ?></td>
-											<td><?php echo $rp['ket']; ?></td>
-										</tr>
-								<?php
-										}
-									} ?>
+									$tb = $sql->query("SELECT 
+										th.*,
+										rdi.nama_ikan,
+										rjs.jenis_sampel AS jns_produk,
+										satuan_barang.nama AS nama_satuan_barang
+										
+										FROM tb_hsl_periksa th 
+										LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=th.ref_idikan) 
+										LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=th.ref_jns_sampel)
+										LEFT JOIN satuan_barang ON (th.id_satuan_barang = satuan_barang.id)
+								
+								WHERE th.ref_idp='$idpengajuan'
+								");
+								
+									if ($tb->rowCount() > 0) {
+									$no = 1;
+									foreach ($tb->fetchAll() as $dtrow) {
+										
+										echo
+								'<tr>
+									<td>' .  $no . '</td>
+									<td>' . $dtrow['produk'] . ' ' . $dtrow['kondisi_produk'] . ' ' . $dtrow['jenis_produk'] . '</td>
+									<td>' . $dtrow['nama_ikan'] . '</td>
+									<td>' . $dtrow['pjg'] . '' . (($dtrow['pjg2'] != '0.00') ? " / " . $dtrow['pjg2'] : "") . '</td>
+									<td>' . $dtrow['lbr'] . '' . (($dtrow['lbr2'] != '0.00') ? " / " . $dtrow['lbr2'] : "") . '</td>
+									<td>' . $dtrow['berat'] . '' . (($dtrow['berat2'] != '0.00') ? " / " . $dtrow['berat2'] : "") . '</td>
+									<td>' . $dtrow['tot_berat'] . '</td>
+									<td>' . $dtrow['kuantitas'] . ' ' . $dtrow['nama_satuan_barang'] . '</td>
+									<td>' . $dtrow['ket'] . '</td>
+								</tr>';
+										$no++;
+										
+									}
+									} else {
+									echo '<tr><td colspan="11" class="text-center">Data Belum Diisi.</td></tr>';
+									}
+									?>
 							</tbody>
 						</table>
 					</div>
@@ -406,7 +500,7 @@ if ($sql->num_rows > 0) {
 							$sql->get_row('tb_permohonan', array('idp' => $row['ref_idp']), 'ref_iduser');
 							$p = $sql->result;
 							$idpemohon = $p['ref_iduser'];
-							$u = $sql->run("SELECT u.nama_lengkap,b.alamat,
+							$u = $sql->run("SELECT u.nama_lengkap,b.gudang_1,
 						(SELECT nama_file FROM tb_berkas WHERE jenis_berkas='1' AND ref_iduser='" . $idpemohon . "' ORDER BY revisi DESC, date_upload DESC LIMIT 1) nama_file 
 						FROM tb_userpublic u 
 						JOIN tb_biodata b ON(u.iduser=b.ref_iduser)
@@ -472,7 +566,7 @@ if ($sql->num_rows > 0) {
 							</tr>
 							<tr>
 								<td colspan="2" width="20%">Alamat</td>
-								<td>: <?php echo $pemohon['alamat']; ?></td>
+								<td>: <?php echo $pemohon['gudang_1']; ?></td>
 							</tr>
 							<tr>
 								<td colspan="3">
@@ -577,7 +671,7 @@ if ($sql->num_rows > 0) {
 												$row['tujuan'],
 												$row['jenis_angkutan'],
 												$row['nobap'],
-												tanggalIndo($row['tglbap'], 'j F Y'),
+												tanggalIndo($row['tglbap'], 'j F Y')
 											)
 										?>
 								</td>
@@ -585,15 +679,26 @@ if ($sql->num_rows > 0) {
 						</table>
 
 						<?php
-							$dt = $sql->run(
-								"
-                            SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin, rdi.dilindungi FROM
-                                tb_rek_hsl_periksa thp 
-                                    JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
-                                    LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
-                                WHERE thp.ref_idrek='" . $row['idrek'] . "' ORDER BY thp.ref_jns ASC"
+							$dt = $sql->run("SELECT 
+							thp.*, 
+							
+							rdi.nama_latin, 
+							rdi.dilindungi,
+							satuan_barang.nama AS nama_satuan_barang
+							
+							
+							FROM tb_rek_hsl_periksa thp 
+								LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=thp.ref_idikan) 
+								LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
+								
+
+							WHERE thp.ref_idrek='" . $row['idrek'] . "' 
+							ORDER BY thp.ref_jns ASC"
 							);
-							?>
+						?> 
+
+						
+							
 
 						<?= container(Template::class)->render("letter/table", ["records" => $dt->fetchAll()]) ?>
 

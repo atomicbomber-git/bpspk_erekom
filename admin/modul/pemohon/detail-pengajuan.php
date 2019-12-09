@@ -40,10 +40,10 @@ $arr_jns_tujuan=array(
 	"souvenir"=>"Souvenir");
 
 $arr_status=array(
-	1=>"Pemeriksaan Data.",
+	1=>"Pemeriksaan Data Oleh Admin.",
 	2=>"Data Diterima, Pengajuan Sedang Diproses Oleh Admin.",
 	3=>"Data Ditolak, Berkas/Data Tidak Lengkap.",
-	4=>"Pemeriksaan Sampel Telah Dilakukan.",
+	4=>"Pemeriksaan Barang/Sampel Telah Dilakukan.",
 	5=>"Surat Rekomendasi Sudah Diterbitkan."
 );
 
@@ -107,7 +107,7 @@ $letter = container(Letter::class);
 							<td><?php echo $arr_alatangkut[$p['jenis_angkutan']];?></td>
 						</tr>
 						<tr>
-							<td>Alamat Gudang</td>
+							<td>Alamat Pemeriksaan</td>
 							<td><?php echo $p['alamat_gudang'];?></td>
 						</tr>
 						<tr>
@@ -117,7 +117,7 @@ $letter = container(Letter::class);
 
 						<tr>
 							<td>  Nomor BAP </td>
-							<td><?php echo $p['nomor_bap'];?></td>
+							<td><?= $permohonan->nomor_surat->no_surat_bap ?? '-' ?></td>
 						</tr>
 
 					</table>
@@ -145,7 +145,7 @@ $letter = container(Letter::class);
 								<td>  <?= $index + 1 ?> </td>
 								<td>  <?= $barang->nm_barang ?> </td>
 								<td>  <?= $barang->kuantitas ?> <?= $barang->satuan_kuantitas->nama ?> </td>
-								<td>  <?= $barang->jlh ?> </td>
+								<td>  <?= $barang->jlh ?> Kg</td>
 								<td>  <?= $barang->asal_komoditas ?> </td>
 							</tr>
 							<?php endforeach ?>
@@ -170,13 +170,7 @@ $letter = container(Letter::class);
 						?>
 					</ol>
 
-					<div>
-						<strong> Nomor BAP </strong>
-					</div>
-
-					<div>
-						<?= $permohonan->nomor_surat->no_surat_bap ?? '-' ?>
-					</div>
+				
 
 					<?php
 					if($p['status']>1 AND $p['status']<5){
@@ -197,6 +191,8 @@ $letter = container(Letter::class);
 					}
 					?>
 				</div>
+				
+			
 
 				<?php if($permohonan->hasil_periksa()->count() === 0): ?>
 					<div class="panel panel-featured" style="margin-top: 1rem;">
@@ -213,7 +209,7 @@ $letter = container(Letter::class);
 										<td style="width: 5rem;"> Nomor </td>
 										<td>  </td>
 										<td> : </td>
-										<td> B. <?= $permohonan->nomor_surat->no_surat_bap ?? '-' ?> </td>
+										<td> B.<?= $permohonan->nomor_surat->no_surat_rek?? '-' ?> </td>
 										<td style="text-align: right">
 											<?= Formatter::fancyDate(Date::today()) ?>
 										</td>
@@ -264,7 +260,7 @@ $letter = container(Letter::class);
 									<tr>
 										<td> Bentuk Produk </td>
 										<td> : </td>
-										<td>  </td>
+										<td> <?= $permohonan->user->hasil_periksa->produk ?>  </td>
 									</tr>
 								
 								</tbody>
@@ -297,7 +293,7 @@ $letter = container(Letter::class);
 
 										<tr>
 											<td>
-												Nama ORang
+											Sy. Iwan Taruna Alkadrie, ST., M.Si
 											</td>
 										</tr>
 									</tbody>
@@ -314,6 +310,7 @@ $letter = container(Letter::class);
 
 
 						</div>
+					</div>
 					</div>
 				<?php endif ?>
 
@@ -355,11 +352,13 @@ $letter = container(Letter::class);
 								echo '<option value="'.$ptgs['idp'].'">'.$ptgs['nip'].' - '.$ptgs['nm_lengkap'].'</option>';
 							}
 							?>
+						
+				<footer class="panel-footer">
 						</select>
 					</div>
 				</div>
-			</div>
-			<footer class="panel-footer">
+			
+			
 				<div class="row">
 					<div class="col-md-12 text-right">
 						<button class="btn btn-primary modal-confirm">Ganti</button>
@@ -367,6 +366,8 @@ $letter = container(Letter::class);
 					</div>
 				</div>
 			</footer>
+			</div>
+			
 		</section>
 	</form>
 </div>

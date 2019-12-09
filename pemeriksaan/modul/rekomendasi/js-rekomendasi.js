@@ -233,5 +233,54 @@ $(document).ready(function() {
 			});
         })
 
+    });
+    
+    $('#btn_reset').click(function(event){
+		event.preventDefault();
+		var rek=$(this).data('idrek');
+		(new PNotify({
+            title: 'Konfirmasi',
+            text: 'Anda yakin akan mereset ulang draft surat rekomendasi?',
+            icon: 'glyphicon glyphicon-question-sign',
+            hide: false,
+            confirm: {
+                confirm: true
+            },
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            }
+        })).get().on('pnotify.confirm', function() {
+            $.ajax({
+			 	url:'ajax.php',
+	            dataType:'json',
+	            type:'post',
+	            data:'a=reset_rek&idrek='+rek,
+				success: function(json){
+					if(json.stat){
+						var notice = new PNotify({
+							title: 'Notification',
+							text: json.msg,
+							type: 'success',
+							delay:1000,
+							after_close: function() {
+						        location.reload();
+						    }
+						});
+					}else{
+						var notice = new PNotify({
+							title: 'Notification',
+							text: json.msg,
+							type: 'warning',
+							delay:2500
+						});
+					}
+				}
+			});
+        })
+
 	});
 });
