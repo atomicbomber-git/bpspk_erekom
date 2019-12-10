@@ -35,6 +35,11 @@ class Permohonan extends Model
         return $this->belongsTo(SatuanKerja::class, "ref_satker");
     }
 
+    public function pemeriksaan()
+    {
+        return $this->hasOne(Pemeriksaan::class, "ref_idp");
+    }
+
     public function rekomendasi()
     {
         return $this->hasOne(Rekomendasi::class, "ref_idp");

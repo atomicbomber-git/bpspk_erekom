@@ -8,6 +8,7 @@ use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Container\ContainerInterface;
 use Jenssegers\Date\Date;
+use Mpdf\Mpdf;
 
 require_once(__DIR__ . "/vendor/autoload.php");
 
@@ -55,7 +56,55 @@ $container = (new DI\ContainerBuilder())
     ->addDefinitions([
         "app_name" => "Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang",
         
-        "default_module" => ModuleNames::ADMIN,  
+        "default_module" => ModuleNames::ADMIN,
+
+        "app_path" => __DIR__,
+    
+        "mpdf_css_path" => function (ContainerInterface $container) {
+            return sprintf(
+                "%s/%s/%s/%s/%s/%s",
+                $container->get("app_path"),
+                "vendor",
+                "mpdf",
+                "mpdf",
+                "data",
+                "mpdf.css",
+            ) ;
+        },
+
+        "font_assets_path" => function (ContainerInterface $container) {
+            return sprintf(
+                "%s/%s/%s/",
+                $container->get("app_path"),
+                "assets",
+                "fonts",
+            );
+        },
+
+        Mpdf::class => function (ContainerInterface $container) {
+            $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+            $fontDirs = $defaultConfig['fontDir'] ?? [];
+
+            $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
+            $fontData = $defaultFontConfig['fontdata'];
+
+            return new Mpdf([
+                'fontDir' => array_merge($fontDirs, [
+                    $container->get("font_assets_path"),
+                ]),
+                'fontdata' => $fontData + [
+                    'Arial' => [
+                        'R' => 'arial.ttf',
+                    ]
+                ],
+                'default_font' => 'Arial',
+            
+                'tempDir' => $container->get("temp_dir_path"),
+            ]);
+        },
+
+        "temp_dir_path" => sys_get_temp_dir() . "/mpdf",
+
         "module" => function (ContainerInterface $c) {
             return explode("/", $_SERVER["SCRIPT_NAME"])
                 [1] ?? $c->get("default_module");
@@ -67,9 +116,9 @@ $container = (new DI\ContainerBuilder())
             return new Auth($c->get("module"));
         },
         
-        League\Plates\Engine::class => function() {
+        League\Plates\Engine::class => function(ContainerInterface $container) {
             return new League\Plates\Engine(
-                __DIR__ . "/templates"
+                $container->get("app_path") . "/templates"
             );
         },
 

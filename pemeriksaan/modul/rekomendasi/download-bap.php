@@ -1,5 +1,12 @@
 <?php
 
+use App\Models\HasilPeriksa;
+use App\Models\Permohonan;
+use App\Services\Contracts\Template;
+use Jenssegers\Date\Date;
+use Mpdf\HTMLParserMode;
+use Mpdf\Mpdf;
+
 include ("../../engine/render.php");
 
 $idbap=base64_decode($_GET['bap']);
@@ -57,31 +64,6 @@ $pt=$sql->run("SELECT p.nm_lengkap,p.nip,p.jabatan,p.ttd FROM tb_petugas_lap pl 
 $html = '
 <html>
 <head>
-<style>
-
-.table { border-collapse: collapse !important;}
-.table td, .table th {background-color: #fff !important;}
-.table-bordered th, .table-bordered td {border: 1px solid #000 !important;}
-.table-hasil td { padding: 0.2em; }
-h1{font-size: 34px;}
-h2{font-size: 28px;}
-h3{font-size: 22px;}
-h4{font-size: 16px;}
-h5{font-size: 12px;}
-h6{font-size: 10px;}
-p {margin: 0 0 10px; line-height: 120%;}
-.barcode {
-	padding: 1.5mm;
-	margin: 0;
-	vertical-align: top;
-	color: #000000;
-}
-.barcodecell {
-	text-align: right;
-	vertical-align: middle;
-	padding: 0;
-}
-</style>
 </head>
 <body>';
 
@@ -197,69 +179,25 @@ $html.='<table width="100%">
 	</tr>
 </table><pagebreak />';
 //tabel hasil pemeriksaan
-$sql->get_row('tb_pemeriksaan',array('ref_idp'=>$idpengajuan),array('tgl_periksa'));
-$tgl=$sql->result;
-$html.='<table class="table">
-<tr>
-	<td width="35%">Tanggal Pemeriksaan</td>
-	<td>: '.tanggalIndo($tgl['tgl_periksa'],'j F Y').'</td>
-</tr>';
 
-$pt=$sql->run("SELECT op.nm_lengkap, op.nip FROM tb_petugas_lap pl JOIN op_pegawai op ON (pl.ref_idpeg=op.idp) WHERE pl.ref_idp='$idpengajuan'");
-if($pt->rowCount()>0){
-	$no=0;
-	foreach($pt->fetchAll() as $ptgs){
-		$no++;
-		$html.='<tr>
-			<td width="35%">Petugas Pemeriksa '.$no.'</td>
-			<td>: '.$ptgs['nm_lengkap'].' ('.$ptgs['nip'].')</td>
-		</tr>';
-	}
-}
-$html.='</table><br/>';
-$html.='<table style="width:100%" class="table table-bordered table-hasil">
-	<caption><h4>Tabel Hasil Pemeriksaan Sampel</h4></caption>
-	<tr>
-		<td rowspan="2">No</td>
-		<td rowspan="2">Jenis Produk</td>
-		<td rowspan="2">Jenis Ikan</td>
-		<td colspan="3">Sampel (Terkecil/Terbesar)</td>
-		<td rowspan="2">Berat Total<br>(Kg)</td>
-		<td rowspan="2">Jlh Kemasan </td>
-		<td rowspan="2">Keterangan</td>
-	</tr>
-	<tr>
-		<td>Panjang<br>(Cm)</td>
-		<td>Lebar<br>(Cm)</td>
-		<td>Berat<br>(Kg)</td>
-	</tr>
-	';
 
-$t=$sql->run("SELECT thp.*, rdi.nama_ikan, rdi.nama_latin,rjs.jenis_sampel FROM tb_hsl_periksa thp 
-	JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
-	JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel) WHERE thp.ref_idp='".$idpengajuan."' ");
-if($t->rowCount()>0){
-	$not=0;
-	foreach($t->fetchAll() as $rp){
-		$not++;
-		$html.='
-		<tr>
-			<td>'.$not.'</td>
-			<td>'.$rp['jenis_sampel'].'</td>
-			<td>'.$rp['nama_ikan']." (<em>".$rp['nama_latin']."</em>)".'</td>
-			<td>'.$rp['pjg'].''.(($rp['pjg2']!='0.00')?" / ".$rp['pjg2']:"").'</td>
-			<td>'.$rp['lbr'].''.(($rp['lbr2']!='0.00')?" / ".$rp['lbr2']:"").'</td>
-			<td>'.$rp['berat'].''.(($rp['berat2']!='0.00')?" / ".$rp['berat2']:"").'</td>
-			<td>'.$rp['tot_berat'].'</td>
-			<td>'.$rp['kuantitas'].'</td>
-			<td>'.$rp['ket'].'</td>
-		</tr>';
-	}
-}
-$html.='</table><pagebreak />';
+$template = container(Template::class);
 
-//dokumentasi pemeriksaan
-$html.='<table class="table">';
+$permohonan = Permohonan::find($idpengajuan)
+	->load([
+		"pemeriksaan",
+		"petugas.pegawai",
+		"hasil_periksa",
+		"hasil_periksa.jenis_sampel",
+		"hasil_periksa.data_ikan",
+		"hasil_periksa.satuan_barang",
+	]);
+
+$html .= $template->render("letter/bap_hasil_pemeriksaan_table", [
+	"permohonan" => $permohonan
+]);
+
+$html.='<table>';
 $html.='<caption><h4>Dokumentasi Pemeriksaan Sampel</h4></caption>';
 $sql->get_all('tb_dokumentasi',array('ref_idp'=>$idpengajuan),array('nm_file','ket_foto','id_dok'));
 if($sql->num_rows>0){
@@ -278,16 +216,11 @@ if($sql->num_rows>0){
 }
 $html.='</table>';
 
-$html.='</body>
-</html>';
 
-// echo $html;
-include("../../../assets/mpdf60/mpdf.php");
-
-$mpdf=new mPDF('','','10','Arial',15,10,15,10,10,10);
-$mpdf->WriteHTML($html);
-$mpdf->Output("bap-".$idbap.".pdf",'I'); 
+$html .= "</html>";
 
 
-exit;
-?>
+$mpdf = container(Mpdf::class);
+$mpdf->WriteHTML(file_get_contents(container("mpdf_css_path")), HTMLParserMode::HEADER_CSS);
+$mpdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
+$mpdf->Output("rekomendasi-{$row['kode_surat']}.pdf", 'I');

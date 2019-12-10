@@ -15,4 +15,14 @@ class HasilPeriksa extends Model
     {
         return $this->belongsTo(JenisSampel::class, "ref_jns");
     }
+
+    public function data_ikan()
+    {
+        return $this->belongsTo(DataIkan::class, "ref_idikan");
+    }
+
+    public function satuan_barang()
+    {
+        return $this->belongsTo(SatuanBarang::class, "id_satuan_barang");
+    }
 }
