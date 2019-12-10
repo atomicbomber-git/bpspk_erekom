@@ -1,6 +1,7 @@
 <?php
 
 use Mpdf\HTMLParserMode;
+use Mpdf\Mpdf;
 
 include ("../../engine/render.php");
 $kdsurat=($_GET['rek']);
@@ -48,7 +49,7 @@ if($rek->rowCount()>0){
 		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
 	</table>
 	<br/>';
-	$html.='<table class="table" style="width:100%">
+	$html.='<table style="width:100%">
 		<tr>
 			<td>Nomor</td>
 			<td>: '.$row['no_surat'].'</td>
@@ -102,18 +103,23 @@ if($rek->rowCount()>0){
 		LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
 		
 		WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
+		
+		$total_berat = 0;
+		
 		if($dt->rowCount()>0){
 			$no=0;
 			$jlh_berat=0;
 			foreach($dt->fetchAll() as $dtrow){
 				$no++;
+
+				$total_berat += ($berat = ($dtrow['berat'] ?: 0));
 				
 				$html.='
 				<tr>
 					<td style="text-align: center"  width="5%">'.$no.'</td>
 					<td style="text-align: center"><em>'.$dtrow['nama_latin'].'</em></td>
 					<td style="text-align: center"> '.$dtrow['produk'].' '.$dtrow['jenis_produk'].' '.$dtrow['kondisi_produk'].'</td>
-					<td style="text-align: center">'.(($dtrow['berat']=='0.00')?"":$dtrow['berat']).'</td>
+					<td style="text-align: center">'. $berat .'</td>
 					<td style="text-align: center">'.$dtrow['kemasan'].' '.$dtrow['nama_satuan_barang'].'</td>
 					<td style="text-align: center">'.$dtrow['no_segel'].'-'.$dtrow['no_segel_akhir'].'</td>
 					<td style="text-align: center">'.$dtrow['keterangan'].'</td>
@@ -127,7 +133,7 @@ if($rek->rowCount()>0){
 					Total Berat:
 				</td>
 				<td style="text-align: center">
-					total berat
+					'. $total_berat .'
 				</td>
 				<td> </td>
 				<td> </td>
@@ -169,38 +175,8 @@ if($rek->rowCount()>0){
 
 $html.='</body>
 </html>';
-// echo $html;
 
-
-// include("../../../assets/mpdf60/mpdf.php");
-
-// $mpdf=new mPDF('','','10','Arial',15,10,15,10,10,10); 
-// $mpdf->WriteHTML($html);
-// $mpdf->Output("rekomendasi-".$row['kode_surat'].".pdf",'I'); 
-
-// exit;
-
-$defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
-$fontDirs = $defaultConfig['fontDir'];
-
-$defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
-$fontData = $defaultFontConfig['fontdata'];
-
-
-$mpdf = new \Mpdf\Mpdf([
-	'fontDir' => array_merge($fontDirs, [
-		app_path() . '/assets/fonts',
-	]),
-	'fontdata' => $fontData + [
-		'Arial' => [
-			'R' => 'arial.ttf',
-		]
-	],
-	'default_font' => 'Arial',
-
-	'tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf',
-]);
-
-$mpdf->WriteHTML(file_get_contents(app_path() . "/assets/mpdf.css"), HTMLParserMode::HEADER_CSS);
+$mpdf = container(Mpdf::class);
+$mpdf->WriteHTML(file_get_contents(container("mpdf_css_path")), HTMLParserMode::HEADER_CSS);
 $mpdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
 $mpdf->Output("rekomendasi-{$row['kode_surat']}.pdf", 'I');
