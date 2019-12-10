@@ -25,4 +25,9 @@ class Rekomendasi extends Model
     {
         return $this->belongsTo(UserPublic::class, "ref_iduser");
     }
+
+    public function letterNumber()
+    {
+        return explode("/", $this->no_surat)[0] ?? "-";
+    }
 }

@@ -4,6 +4,7 @@ use App\Models\DataIkan;
 use App\Services\Contracts\Template;
 use App\Services\Letter;
 use App\Models\Permohonan;
+use App\Models\Rekomendasi;
 
 require_once("config.php");
 $SCRIPT_FOOT = "
@@ -700,7 +701,10 @@ if ($sql->num_rows > 0) {
 						
 							
 
-						<?= container(Template::class)->render("letter/table", ["records" => $dt->fetchAll()]) ?>
+						<?= container(Template::class)->render("letter/table", [
+							"records" => $dt->fetchAll(),
+							"rekomendasi" => Rekomendasi::find($row['idrek']) ?? new Rekomendasi(),	
+						]) ?>
 
 						<table style="width:100%">
 							<tr>

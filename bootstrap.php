@@ -2,7 +2,9 @@
 
 use App\Enums\ModuleNames;
 use App\Services\Auth;
+use App\Services\Contracts\KodeSegelGenerator as ContractsKodeSegelGenerator;
 use App\Services\Contracts\Template;
+use App\Services\KodeSegelGenerator;
 use App\Services\PlatesTemplate;
 use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager;
@@ -55,6 +57,8 @@ Date::setLocale("id");
 $container = (new DI\ContainerBuilder())
     ->addDefinitions([
         "app_name" => "Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang",
+
+        "upt_code" => "05",
         
         "default_module" => ModuleNames::ADMIN,
 
@@ -80,6 +84,8 @@ $container = (new DI\ContainerBuilder())
                 "fonts",
             );
         },
+
+        ContractsKodeSegelGenerator::class => DI\autowire(KodeSegelGenerator::class),
 
         Mpdf::class => function (ContainerInterface $container) {
             $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();

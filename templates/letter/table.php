@@ -1,6 +1,10 @@
 <?php
 
-use App\Models\DataIkan;
+use App\Models\RekomendasiHasilPeriksa;
+use App\Services\Contracts\KodeSegelGenerator;
+use Jenssegers\Date\Date;
+
+$kodeSegelGenerator = container(KodeSegelGenerator::class);
 
 ?>
 
@@ -26,7 +30,21 @@ use App\Models\DataIkan;
                 <td style="text-align: center"><?php echo $record['produk']; ?> <?php echo $record['jenis_produk']; ?> <?php echo $record['kondisi_produk']; ?></td>
                 <td style="text-align: center"><?php echo (($record['berat'] == '0.000') ? "" : $record['berat']); ?></td>
                 <td style="text-align: center"><?php echo $record['kemasan'] . " " . $record['nama_satuan_barang']; ?></td>
-                <td style="text-align: center" width="10%"><?php echo $record['no_segel']; ?> - <?php echo $record['no_segel_akhir']; ?></td>
+                <td style="text-align: center" width="10%">
+                    <?php 
+                        $rekomendasiHasilPeriksa = RekomendasiHasilPeriksa::find($record["idtb"]);
+                    ?>
+                    
+                    <?= 
+                        $kodeSegelGenerator->generate(
+                            $rekomendasi->letterNumber(),
+                            Date::today()->format("Y"),
+                            container("upt_code"),
+                            $rekomendasiHasilPeriksa->productCode(),
+                            $rekomendasiHasilPeriksa->packageCode(),
+                        )
+                    ?>
+                </td>
                 <td style="text-align: center"><?php echo $record['keterangan']; ?></td>
                 
             </tr>

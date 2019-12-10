@@ -1,6 +1,10 @@
 <?php
+
+use App\Models\Rekomendasi;
+use App\Services\Contracts\KodeSegelGenerator;
 use App\Services\Letter;
 use App\Services\Contracts\Template;
+use Jenssegers\Date\Date;
 
 require_once("config.php");
 $SCRIPT_FOOT = "
@@ -20,6 +24,8 @@ if(!ctype_digit($idrek)){
 if($_GET['token']!=md5($idrek.U_ID.'surat_rekomendasi')){
 	exit();
 }
+
+$rekomendasi = Rekomendasi::find($idrek);
 
 //load data surat rekomendasi
 $rek=$sql->run("SELECT tr.*, tp.tgl_pengajuan, tp.tujuan, tp.jenis_angkutan, tu.nama_lengkap, tb.no_surat nobap, tb.tgl_surat tglbap, op.nm_lengkap penandatgn, op.jabatan, op.ttd,ou.lvl 
@@ -104,7 +110,12 @@ $row=$rek->fetch();
 								);
 							?> 
 						
-							<?= container(Template::class)->render("letter/table", ["records" => $dt->fetchAll()]) ?>
+							<?= container(Template::class)->render(
+								"letter/table", [
+									"records" => $dt->fetchAll(),
+									"rekomendasi" => $rekomendasi,
+								]
+							) ?>
 					<table style="width:100%">
 						<tr>
 							<td><br><p><?php echo $row['redaksi'];?></p></td>

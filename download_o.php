@@ -1,4 +1,11 @@
 <?php
+
+use App\Models\Permohonan;
+use App\Models\Rekomendasi;
+use App\Services\Contracts\Template;
+use Mpdf\HTMLParserMode;
+use Mpdf\Mpdf;
+
 include ("pemeriksaan/engine/render.php");
 
 $token=$_GET['token'];
@@ -39,31 +46,6 @@ WHERE tr.kode_surat='".$kdsurat."' LIMIT 1");
 $html = '
 <html>
 <head>
-<style>
-
-.table { border-collapse: collapse !important;}
-.table td, .table th {background-color: #fff !important;}
-.table-bordered th, .table-bordered td {border: 1px solid #000 !important;}
-.table-hasil td { padding: 0.4em; }
-h1{font-size: 34px;}
-h2{font-size: 28px;}
-h3{font-size: 22px;}
-h4{font-size: 16px;}
-h5{font-size: 12px;}
-h6{font-size: 10px;}
-p {margin: 0 0 10px; line-height: 120%;}
-.barcode {
-	padding: 1.5mm;
-	margin: 0;
-	vertical-align: top;
-	color: #000000;
-}
-.barcodecell {
-	text-align: right;
-	vertical-align: middle;
-	padding: 0;
-}
-</style>
 </head>
 <body>
 ';
@@ -88,7 +70,7 @@ if($rek->rowCount()>0){
 		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
 	</table>
 	<br/>';
-	$html.='<table class="table" style="width:100%">
+	$html.='<table style="width:100%">
 		<tr>
 			<td>Nomor</td>
 			<td>: '.$row['no_surat'].'</td>
@@ -118,32 +100,54 @@ if($rek->rowCount()>0){
 			</td>
 		</tr>
 	</table>';
-	$html.='<table style="width:100%" class="table table-bordered table-hasil" >
-		<tr>
-			<td width="5%">No</td>
-			<td>Jenis Produk</td>
-			<td width="12%">Kemasan</td>
-			<td width="12%">No.Segel</td>
-			<td width="12%">Berat Ikan(Kg)</td>
-			<td>Keterangan</td>
-		</tr>';
-		$dt=$sql->run("SELECT thp.*, rjs.jenis_sampel FROM tb_rek_hsl_periksa thp JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
-		if($dt->rowCount()>0){
-			$no=0;
-			foreach($dt->fetchAll() as $dtrow){
-				$no++;
-				$html.='
-				<tr>
-					<td width="5%">'.$no.'</td>
-					<td>'.$dtrow['jenis_sampel'].'</td>
-					<td>'.$dtrow['kemasan'].' '.$dtrow['satuan'].'</td>
-					<td>'.$dtrow['no_segel'].'</td>
-					<td>'.(($dtrow['berat']=='0.00')?"":$dtrow['berat']).'</td>
-					<td><em>'.$dtrow['keterangan'].'</em></td>
-				</tr>';
-			}
-		}
-	$html.='</table>';
+	// $html.='<table style="width:100%" class="table table-bordered table-hasil" >
+	// 	<tr>
+	// 		<td width="5%">No</td>
+	// 		<td>Jenis Produk</td>
+	// 		<td width="12%">Kemasan</td>
+	// 		<td width="12%">No.Segel</td>
+	// 		<td width="12%">Berat Ikan(Kg)</td>
+	// 		<td>Keterangan</td>
+	// 	</tr>';
+
+
+	$dt = $sql->run("SELECT 
+			thp.*, 
+			
+			rdi.nama_latin, 
+			rdi.dilindungi,
+			satuan_barang.nama AS nama_satuan_barang
+			
+			FROM tb_rek_hsl_periksa thp 
+				LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=thp.ref_idikan) 
+				LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
+				
+			WHERE thp.ref_idrek='" . $row['idrek'] . "' 
+			ORDER BY thp.ref_jns ASC"
+			);
+
+		
+		$html .= container(Template::class)->render("letter/table", [
+			"records" => $dt->fetchAll(),
+			"rekomendasi" => Rekomendasi::find($row['idrek']) ?? new Rekomendasi(),
+		]);
+
+		// if($dt->rowCount()>0){
+		// 	$no=0;
+		// 	foreach($dt->fetchAll() as $dtrow){
+		// 		$no++;
+		// 		$html.='
+		// 		<tr>
+		// 			<td width="5%">'.$no.'</td>
+		// 			<td>'.$dtrow['jenis_sampel'].'</td>
+		// 			<td>'.$dtrow['kemasan'].' '.$dtrow['satuan'].'</td>
+		// 			<td>'.$dtrow['no_segel'].'</td>
+		// 			<td>'.(($dtrow['berat']=='0.00')?"":$dtrow['berat']).'</td>
+		// 			<td><em>'.$dtrow['keterangan'].'</em></td>
+		// 		</tr>';
+		// 	}
+		// }
+	// $html.='</table>';
 	$html.='<table style="width:100%">
 		<tr>
 			<td style="text-align:justify;"><br><p>'.$row['redaksi'].'</p></td>
@@ -332,66 +336,21 @@ $html.='<table width="100%">
 	</tr>
 </table> <pagebreak />';
 
-//tabel hasil pemeriksaan
-$sql->get_row('tb_pemeriksaan',array('ref_idp'=>$idpengajuan),array('tgl_periksa'));
-$tgl=$sql->result;
-$html.='<table class="table">
-<tr>
-	<td width="35%">Tanggal Pemeriksaan</td>
-	<td>: '.tanggalIndo($tgl['tgl_periksa'],'j F Y').'</td>
-</tr>';
+$permohonan = Permohonan::find($idpengajuan)
+	->load([
+		"pemeriksaan",
+		"petugas.pegawai",
+		"hasil_periksa",
+		"hasil_periksa.jenis_sampel",
+		"hasil_periksa.data_ikan",
+		"hasil_periksa.satuan_barang",
+	]);
 
-$pt=$sql->run("SELECT op.nm_lengkap, op.nip FROM tb_petugas_lap pl JOIN op_pegawai op ON (pl.ref_idpeg=op.idp) WHERE pl.ref_idp='$idpengajuan'");
-if($pt->rowCount()>0){
-	$no=0;
-	foreach($pt->fetchAll() as $ptgs){
-		$no++;
-		$html.='<tr>
-			<td width="35%">Petugas Pemeriksa '.$no.'</td>
-			<td>: '.$ptgs['nm_lengkap'].' ('.$ptgs['nip'].')</td>
-		</tr>';
-	}
-}
-$html.='</table><br/>';
-$html.='<table style="width:100%" class="table table-bordered table-hasil">
-	<caption><h4>Tabel Hasil Pemeriksaan Sampel</h4></caption>
-	<tr>
-		<td>No</td>
-		<td>Jenis Produk</td>
-		<td>Jenis Ikan</td>
-		<td>Panjang<br>Sampel<br>(Cm)</td>
-		<td>Lebar<br>Sampel<br>(Cm)</td>
-		<td>Berat<br>Sampel<br>(Kg)</td>
-		<td>Berat Total<br>(Kg)</td>
-		<td>Jlh Kemasan </td>
-		<td>Keterangan</td>
-	</tr>';
+$html .= container(Template::class)->render("letter/bap_hasil_pemeriksaan_table", [
+	"permohonan" => $permohonan
+]);
 
-$t=$sql->run("SELECT thp.*, rdi.nama_ikan, rdi.nama_latin,rjs.jenis_sampel FROM tb_hsl_periksa thp 
-	JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
-	JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel) WHERE thp.ref_idp='".$idpengajuan."' ");
-if($t->rowCount()>0){
-	$not=0;
-	foreach($t->fetchAll() as $rp){
-		$not++;
-		$html.='
-		<tr>
-			<td>'.$not.'</td>
-			<td>'.$rp['jenis_sampel'].'</td>
-			<td>'.$rp['nama_ikan']." (<em>".$rp['nama_latin']."</em>)".'</td>
-			<td>'.$rp['pjg'].'</td>
-			<td>'.$rp['lbr'].'</td>
-			<td>'.$rp['berat'].'</td>
-			<td>'.$rp['tot_berat'].'</td>
-			<td>'.$rp['kuantitas'].'</td>
-			<td>'.$rp['ket'].'</td>
-		</tr>';
-	}
-}
-$html.='</table><pagebreak />';
-
-//dokumentasi pemeriksaan
-$html.='<table class="table">';
+$html.='<table>';
 $html.='<caption><h4>Dokumentasi Pemeriksaan Sampel</h4></caption>';
 $sql->get_all('tb_dokumentasi',array('ref_idp'=>$idpengajuan),array('nm_file','ket_foto','id_dok'));
 if($sql->num_rows>0){
@@ -399,7 +358,7 @@ if($sql->num_rows>0){
 	$html.='<tr>';
 	foreach($sql->result as $gbr){
 		$nog++;
-		$html.='<td><img style="padding:10px" width="100%" src="'.$berkas_admin_foto.$gbr['nm_file'].'"><h4>'.$gbr['ket_foto'].'</h4></td>';
+		$html.='<td><img style="padding:10px" width="100%" src="'.$berkas_admin_foto.$gbr['nm_file'].'"><p><h3>'.$gbr['ket_foto'].'</h3></p></td>';
 		if($nog>1){
 			if($nog%2==0){
 				$html.='</tr><tr>';
@@ -408,18 +367,15 @@ if($sql->num_rows>0){
 	}
 	$html.='</tr>';
 }
-
 $html.='</table>';
 
 
 $html.='</body>
 </html>';
 
-include("assets/mpdf60/mpdf.php");
-
-$mpdf=new mPDF('','','10','Arial',15,10,15,10,10,10); 
-$mpdf->WriteHTML($html);
-$mpdf->Output("rekomendasi-".$row['kode_surat'].".pdf",'I');
-//$mpdf->Output("rek_files/rekomendasi-".$row['kode_surat'].".pdf",'F');  
+$mpdf = container(Mpdf::class);
+$mpdf->WriteHTML(file_get_contents(container("mpdf_css_path")), HTMLParserMode::HEADER_CSS);
+$mpdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
+$mpdf->Output("rekomendasi-{$row['kode_surat']}.pdf", 'I');
 
 exit;
