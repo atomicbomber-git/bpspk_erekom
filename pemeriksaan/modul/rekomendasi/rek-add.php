@@ -101,7 +101,7 @@ $r = $last->fetch();
 			<div class="form-group">
 				<label class="control-label col-md-2">Tanggal Surat</label>
 				<div class="col-md-4">
-					<input type="text" class="form-control datepicker" name="tgl_surat" value="<?php echo date('m/d/Y'); ?>">
+					<input type="date" class="form-control" name="tgl_surat" value="<?php echo date('m/d/Y'); ?>">
 					<small class="text-alert alert-danger">Format : Bulan/Hari/Tahun (mm/dd/yyyy)</small>
 				</div>
 			</div>
@@ -186,7 +186,15 @@ $r = $last->fetch();
 											<p><?php echo $arr_produk[$row['id_ref']]['nama']; ?><br />
 												<?php echo $arr_ikan[$row['ref_idikan']]['nama'] . " <br><strong>" . $arr_ikan[$row['ref_idikan']]['latin'] . "</strong>"; ?></p>
 										</td>
-										<td><input type="text" name="kemasan[]" class="form-control" value="<?php echo (($row['kemasan'] == '0' ? "" : $row['kemasan'])); ?>"></td>
+										<td>
+											<input
+												type="number"
+												name="kemasan[]"
+												class="form-control"
+												readonly
+												value="<?= $row['kemasan'] ?? 0 ?>"
+												>
+											</td>
 										<td>
 											<?= $satuan_barangs[$row['id_satuan_barang']] ?>
 										</td>

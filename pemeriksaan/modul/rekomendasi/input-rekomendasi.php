@@ -28,7 +28,6 @@ if(ctype_digit($idpengajuan)){
 		"Ekor"=>"Ekor"
 		);
 
-
 		$permohonan = Permohonan::find($idpengajuan);
 		$tanggal_dua_hari_kedepan = $formatter->fancyDate(Date::today()->addDay(2));
 		$tanggal_dua_minggu_kedepan = $formatter->fancyDate(Date::today()->addWeek(2));
