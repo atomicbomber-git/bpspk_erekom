@@ -1,4 +1,6 @@
 <?php
+
+use App\Models\Rekomendasi;
 use App\Services\Letter;
 use App\Services\Contracts\Template;
 
@@ -111,7 +113,11 @@ $row=$rek->fetch();
 							);
 						?> 
 					
-						<?= container(Template::class)->render("letter/table", ["records" => $dt->fetchAll()]) ?>
+						<?= container(Template::class)->render("letter/table", [
+							"records" => $dt->fetchAll(),
+							"rekomendasi" => Rekomendasi::find($row['idrek']) ?? new Rekomendasi,
+							]
+						) ?>
 						
 						<table style="width:100%">
 							<tr>
