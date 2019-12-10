@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Rekomendasi;
 use App\Services\Contracts\Template;
 use App\Services\Letter;
 use Mpdf\HTMLParserMode;
@@ -111,17 +112,25 @@ if ($rek->rowCount() > 0) {
         </table>'
     ;
     
- 
-    $dt = $sql->run("
-        SELECT thp.*, rjs.jenis_sampel, rdi.nama_latin, rdi.dilindungi FROM
-            tb_rek_hsl_periksa thp 
-                JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
-                LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
-            WHERE thp.ref_idrek='". $row['idrek'] . "' ORDER BY thp.ref_jns ASC"
-        );
+	$dt = $sql->run("SELECT 
+		thp.*, 
+		rdi.nama_latin, 
+		rdi.dilindungi,
+		satuan_barang.nama AS nama_satuan_barang
+		
+		FROM tb_rek_hsl_periksa thp 
+			LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan=thp.ref_idikan) 
+			LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
+			
+		WHERE thp.ref_idrek='" . $row['idrek'] . "' 
+		ORDER BY thp.ref_jns ASC"
+		);
 
     $html .= container(Template::class)
-        ->render("letter/table", ["records" => $dt->fetchAll()]);
+        ->render("letter/table", [
+			"records" => $dt->fetchAll(),
+			"rekomendasi" => Rekomendasi::find($row['idrek']) ?? new Rekomendasi,
+		]);
 
 	$html .= '</table>';
 	$html .= '<table style="width:100%">
