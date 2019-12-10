@@ -64,7 +64,7 @@ if ($rek->rowCount() > 0) {
 	$html .= $header;
 
 
-	$html .= '<table class="table" style="width:100%">
+	$html .= '<table style="width:100%">
 		<tr>
 			<td>Nomor</td>
 			<td>: ' . $row['no_surat'] . '</td>
@@ -315,93 +315,38 @@ $html .= '<table width="100%">
 	</tr>
 </table> <pagebreak />';
 
-//tabel hasil pemeriksaan
-$sql->get_row('tb_pemeriksaan', array('ref_idp' => $idpengajuan), array('tgl_periksa'));
-$tgl = $sql->result;
-$html .= '<table class="table">
-<tr>
-	<td width="35%">Tanggal Pemeriksaan</td>
-	<td>: ' . tanggalIndo($tgl['tgl_periksa'], 'j F Y') . '</td>
-</tr>';
+$permohonan = Permohonan::find($idpengajuan)
+	->load([
+		"pemeriksaan",
+		"petugas.pegawai",
+		"hasil_periksa",
+		"hasil_periksa.jenis_sampel",
+		"hasil_periksa.data_ikan",
+		"hasil_periksa.satuan_barang",
+	]);
 
-$pt = $sql->run("SELECT op.nm_lengkap, op.nip FROM tb_petugas_lap pl JOIN op_pegawai op ON (pl.ref_idpeg=op.idp) WHERE pl.ref_idp='$idpengajuan'");
-if ($pt->rowCount() > 0) {
-	$no = 0;
-	foreach ($pt->fetchAll() as $ptgs) {
-		$no++;
-		$html .= '<tr>
-			<td width="35%">Petugas Pemeriksa ' . $no . '</td>
-			<td>: ' . $ptgs['nm_lengkap'] . ' (' . $ptgs['nip'] . ')</td>
-		</tr>';
-	}
-}
-$html .= '</table><br/>';
-$html .= '<table style="width:100%" class="table table-bordered table-hasil">
-	<caption><h4>Tabel Hasil Pemeriksaan Sampel</h4></caption>
-	<tr>
-		<td rowspan="2">No</td>
-		<td rowspan="2">Jenis Produk</td>
-		<td rowspan="2">Jenis Ikan</td>
-		<td colspan="3">Sampel (Terkecil/Terbesar)</td>
-		<td rowspan="2">Berat Total<br>(Kg)</td>
-		<td rowspan="2">Jlh Kemasan </td>
-		<td rowspan="2">Keterangan</td>
-	</tr>
-	<tr>
-		<td>Panjang<br>(Cm)</td>
-		<td>Lebar<br>(Cm)</td>
-		<td>Berat<br>(Kg)</td>
-	</tr>';
+$html .= container(Template::class)->render("letter/bap_hasil_pemeriksaan_table", [
+	"permohonan" => $permohonan
+]);
 
-$t = $sql->run("SELECT thp.*, rdi.nama_ikan, rdi.nama_latin,rjs.jenis_sampel FROM tb_hsl_periksa thp 
-	JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
-	JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel) WHERE thp.ref_idp='" . $idpengajuan . "' ");
-if ($t->rowCount() > 0) {
-	$not = 0;
-	foreach ($t->fetchAll() as $rp) {
-		$not++;
-		$html .= '
-		<tr>
-			<td>' . $not . '</td>
-			<td>' . $rp['jenis_sampel'] . '</td>
-			<td>' . $rp['nama_ikan'] . " (<em>" . $rp['nama_latin'] . "</em>)" . '</td>
-			<td>' . $rp['pjg'] . '' . (($rp['pjg2'] != '0.00') ? " / " . $rp['pjg2'] : "") . '</td>
-			<td>' . $rp['lbr'] . '' . (($rp['lbr2'] != '0.00') ? " / " . $rp['lbr2'] : "") . '</td>
-			<td>' . $rp['berat'] . '' . (($rp['berat2'] != '0.00') ? " / " . $rp['berat2'] : "") . '</td>
-			<td>' . $rp['tot_berat'] . '</td>
-			<td>' . $rp['kuantitas'] . '</td>
-			<td>' . $rp['ket'] . '</td>
-		</tr>';
-	}
-}
-$html .= '</table><pagebreak />';
-
-//dokumentasi pemeriksaan
-$html .= '<table class="table">';
-$html .= '<caption><h4>Dokumentasi Pemeriksaan Sampel</h4></caption>';
-$sql->get_all('tb_dokumentasi', array('ref_idp' => $idpengajuan), array('nm_file', 'ket_foto', 'id_dok'));
-if ($sql->num_rows > 0) {
-	$nog = 0;
-	$html .= '<tr>';
-	foreach ($sql->result as $gbr) {
-		
-		$imagePath = $berkas_admin_foto . $gbr['nm_file'];
-		if (!file_exists($imagePath)) {
-			continue;
-		} 
-
+$html.='<table>';
+$html.='<caption><h4>Dokumentasi Pemeriksaan Sampel</h4></caption>';
+$sql->get_all('tb_dokumentasi',array('ref_idp'=>$idpengajuan),array('nm_file','ket_foto','id_dok'));
+if($sql->num_rows>0){
+	$nog=0;
+	$html.='<tr>';
+	foreach($sql->result as $gbr){
 		$nog++;
-		$html .= '<td><img style="padding:10px" width="100%" src="' . $imagePath . '"><h4>' . $gbr['ket_foto'] . '</h4></td>';
-		if ($nog > 1) {
-			if ($nog % 2 == 0) {
-				$html .= '</tr><tr>';
+		$html.='<td><img style="padding:10px" width="100%" src="'.$berkas_admin_foto.$gbr['nm_file'].'"><p><h3>'.$gbr['ket_foto'].'</h3></p></td>';
+		if($nog>1){
+			if($nog%2==0){
+				$html.='</tr><tr>';
 			}
 		}
 	}
-	$html .= '</tr>';
+	$html.='</tr>';
 }
-
-$html .= '</table>';
+$html.='</table>';
 
 
 $html .= '</body>
