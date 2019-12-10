@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Permohonan;
 use App\Models\Rekomendasi;
 use App\Services\Contracts\Template;
 use App\Services\Letter;
@@ -56,10 +57,7 @@ if (file_exists(c_BASE_UTAMA . 'assets/images/img_qrcode/' . $kdsurat . '_qr.png
 if ($rek->rowCount() > 0) {
 	$row = $rek->fetch();
 
-	if ($row['tgl_surat'] < '2017-06-04') {
-		header('location:download_o.php?surat=' . $kdsurat . '&token=' . $token);
-		exit();
-	}
+
 
 	$header = container(Letter::class)->getHeaderContentHTML($berkas_admin);
 
@@ -190,6 +188,10 @@ foreach ($qq->fetchAll() as $brg) {
 }
 $list_brg = implode(' dan ', $barang);
 
+
+$permohonan = Permohonan::find($idpengajuan);
+
+
 //load info pemohon
 $sql->get_row('tb_permohonan', array('idp' => $rowbap['ref_idp']), 'ref_iduser');
 $p = $sql->result;
@@ -264,7 +266,7 @@ $html .= '<table style="width:100%">
 	<tr>
 		<td></td>
 		<td>Alamat</td>
-		<td>: ' . ucwords($pemohon['alamat']) . '</td>
+		<td>: ' . ucwords($permohonan->user->biodata->gudang_1) . '</td>
 	</tr>
 	<tr>
 		<td colspan="3" style="text-align:justify">
