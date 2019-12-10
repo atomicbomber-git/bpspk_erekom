@@ -32,7 +32,7 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
                 <td style="text-align: center"><?php echo $record['kemasan'] . " " . $record['nama_satuan_barang']; ?></td>
                 <td style="text-align: center" width="10%">
                     <?php 
-                        $rekomendasiHasilPeriksa = RekomendasiHasilPeriksa::find($record["idtb"]);
+                        $rekomendasiHasilPeriksa = RekomendasiHasilPeriksa::find($record["idtb"]) ?? new RekomendasiHasilPeriksa;
                     ?>
                     
                     <?= 
