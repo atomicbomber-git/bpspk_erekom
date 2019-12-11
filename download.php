@@ -300,7 +300,7 @@ $html .= '<table width="100%">
 			<br>
 			<table>
 				<tr>
-					<td><img height="150px" src="' . $berkas_admin . 'cap-bpspl.png"></td>
+					<td><img height="150px" src="' . $berkas_admin . 'stamp.png"></td>
 					<td><img height="85px" src="' . $berkas_admin . $rowbap['ttd2'] . '"><p>' . $rowbap['nmp2'] . '</p></td>
 				</tr>
 			</table>
