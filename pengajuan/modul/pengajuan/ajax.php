@@ -134,7 +134,7 @@ if ($_POST) {
 				try {
 					foreach ($administratorEmails as $administratorEmailAddress => $administratorName) {
 						container(Swift_Mailer::class)->send(
-							(new Swift_Message("Verifikasi Akun - " . container("app_short_name")))
+							(new Swift_Message("Penunjukan Petugas Pemeriksa - " . container("app_short_name")))
 								->setFrom([ container("admin_email_address") => "Administrator" ])
 								->setTo([ $administratorEmailAddress => $administratorName ])
 								->setBody(
