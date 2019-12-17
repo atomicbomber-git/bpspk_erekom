@@ -17,16 +17,16 @@
         }
     },
     "require": {
-        "vlucas/phpdotenv": "^3.4",
+        "vlucas/phpdotenv": "^4.1",
         "filp/whoops": "^2.5",
-        "symfony/var-dumper": "^4.3",
-        "illuminate/database": "^6.5",
+        "symfony/var-dumper": "^5.0.1",
+        "illuminate/database": "^6.7",
         "mpdf/mpdf": "^8.0.4",
-        "phpmailer/phpmailer": "^6.0",
+        "phpmailer/phpmailer": "^6.1",
         "psy/psysh": "@stable",
         "php-di/php-di": "^6.0",
-        "endroid/qr-code": "^3.6",
-        "nesbot/carbon": "^2.25",
+        "endroid/qr-code": "^3.7.3",
+        "nesbot/carbon": "^2.27",
         "league/plates": "^3.3",
         "jenssegers/date": "^3.5"
     }
