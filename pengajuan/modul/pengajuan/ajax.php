@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\OperatorUser;
+use App\Services\Contracts\Template;
+
 include("../../engine/render.php");
 
 if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
@@ -120,42 +123,42 @@ if ($_POST) {
 						'date_input' => date('Y-m-d H:i:s')
 					]);
 				}
-				echo json_encode(array("stat" => true, "msg" => "Data Berhasil Dikirim, Akan Segera Diproses Oleh Admin."));
-				//---------------email notifikasi ke admin-------------------------
-				require '../../../assets/phpmailer/PHPMailerAutoload.php';
-				$sql->get_all('op_user', array('lvl' => 100), array('nm_lengkap', 'email'));
-				if ($sql->num_rows > 0) {
-					foreach ($sql->result as $ad) {
-						$isi = "<p>" . $ad['nm_lengkap'] . ", Terdapat Pengajuan Permohonan Rekomendasi perlu diperiksa.</p>";
-						$isi .= "<table border='0'>
-							<tr>
-								<td>Pemohon</td>
-								<td>: " . U_NAME . "</td>
-							</tr>
-							<tr>
-								<td>Ditujukan Kepada</td>
-								<td>: " . $_POST['nm_penerima'] . "</td>
-							</tr>
-							<tr>
-								<td>Alamat</td>
-								<td>: " . $_POST['alamat_penerima'] . "</td>
-							</tr>
-							<tr>
-								<td>No Antrian</td>
-								<td>: " . $format_noantrian . "</td>
-							</tr>
-						</table>";
-						$isi .= "<p>Demikian Pemberitahuan Ini kami sampaikan, atas perhatiannya kami ucapkan terima kasih.</p>";
-						$arr = array(
-							"send_to" => $ad['email'],
-							"send_to_name" => $ad['nm_lengkap'],
-							"subject_email" => "Permohonan Rekomendasi - LPSPL Serang",
-							"isi_email" => $isi
+
+				$administratorEmails = OperatorUser::query()
+					->select("email", "nm_lengkap")
+					->admin()
+					->active()
+					->pluck("nm_lengkap", "email");
+
+				$successful = true;
+				try {
+					foreach ($administratorEmails as $administratorEmailAddress => $administratorName) {
+						container(Swift_Mailer::class)->send(
+							(new Swift_Message("Verifikasi Akun - " . container("app_short_name")))
+								->setFrom([ container("admin_email_address") => "Administrator" ])
+								->setTo([ $administratorEmailAddress => $administratorName ])
+								->setBody(
+									container(Template::class)->render("email/pengajuan_rekomendasi", [
+										"nama_lengkap_admin" => $administratorName,
+										"nama_pemohon" => U_NAME,
+										"nama_penerima" => $_POST["nm_penerima"] ?? "",
+										"alamat_penerima" => $_POST["alamat_penerima"] ?? "",
+										"format_noantrian" => $format_noantrian,
+									]),
+									"text/html",
+								)
 						);
-							/* sendMail($arr) */;
 					}
 				}
-				//---------------------------------------------
+				catch (\Exception $e) {
+					dump($e->getMessage());
+					$successful = false;
+				}
+
+				echo $successful ?
+					json_encode(["stat" => $successful, "msg" => "Aksi Berhasil."]) :
+					json_encode(["stat" => $successful, "msg" => "Aksi Gagal."]);
+
 				exit();
 			} else {
 				echo json_encode(array("stat" => false, "msg" => "Aksi Gagal."));

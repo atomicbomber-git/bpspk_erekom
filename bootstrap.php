@@ -58,6 +58,8 @@ Date::setLocale("id");
 $container = (new DI\ContainerBuilder())
     ->addDefinitions([
         "app_name" => "Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang",
+        "app_short_name" => "LPSPL Serang",
+        "app_url" => getenv("APP_URL") ?: "http://default_app_url",
 
         "upt_code" => "05",
         
@@ -129,12 +131,19 @@ $container = (new DI\ContainerBuilder())
             );
         },
 
-        "smtp_host" => getenv("SMTP_HOST") ?? "default_smtp_host",
-        "smtp_username" => getenv("SMTP_USERNAME") ?? "default_smtp_username",
-        "smtp_password" => getenv("SMTP_PASSWORD") ?? "default_smtp_password",
+        "admin_email_address" => getenv('ADMIN_EMAIL_ADDRESS') ?: "admin@default.com",
+        "smtp_host" => getenv("SMTP_HOST") ?: "default_smtp_host",
+        "smtp_username" => getenv("SMTP_USERNAME") ?: "default_smtp_username",
+        "smtp_password" => getenv("SMTP_PASSWORD") ?: "default_smtp_password",
+        "smtp_port" => getenv("SMTP_PORT") ?: 587,
 
         Swift_Transport::class => function(ContainerInterface $container) {
-            return (new Swift_SmtpTransport($container->get("smtp_host")))
+            return (
+                    new Swift_SmtpTransport(
+                        $container->get("smtp_host"),
+                        $container->get("smtp_port"),
+                    )
+                )
                 ->setUsername($container->get("smtp_username"))
                 ->setPassword($container->get("smtp_password"));
         },

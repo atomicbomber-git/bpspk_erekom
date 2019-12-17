@@ -2,6 +2,10 @@
 
 require_once("../../engine/render.php");
 
+use App\Models\Pegawai;
+use App\Models\Permohonan;
+use App\Services\Contracts\Template;
+
 if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
 	die();
 }
@@ -339,6 +343,40 @@ if ($_POST) {
 				"tgl" => $tanggal_dan_waktu,
 			]);
 
+			$pegawais = Pegawai::query()
+				->whereIn("idp", $_POST['petugas'] ?? null)
+				->get();
+
+			$permohonan = Permohonan::where("idp", $id)
+				->with("user")
+				->first();
+			
+			$successful = true;
+			foreach ($pegawais as $pegawai) {
+				try {
+					container(Swift_Mailer::class)->send(
+						(new Swift_Message("Verifikasi Akun - " . container("app_short_name")))
+							->setFrom([ container("admin_email_address") => "Administrator" ])
+							->setTo([ $pegawai->email => $pegawai->nm_lengkap ])
+							->setBody(
+								container(Template::class)->render("email/penunjukan_petugas_pemeriksa", [
+									"nama_petugas" => $pegawai->nm_lengkap,
+									"nama_pemohon" => $permohonan->user->nama_lengkap,
+									"alamat_gudang" => $permohonan->user->biodata->gudang_1 ?? "",
+									"target_url" => container("app_url") . "/pemeriksaan",
+									"username" => $log_u,
+									"password" => $log_p,
+									"email_petugas" => $pegawai->email,
+								]),
+								"text/html",
+							)
+					);
+				}
+				catch (\Exception $e) {
+					$successful = false;
+				}
+			}
+
 			for ($x = 0; $x < $jlh_petugas; $x++) {
 				if ($_POST['petugas'][$x] != "") {
 					$in = array(
@@ -349,34 +387,6 @@ if ($_POST) {
 					);
 
 					$sql->insert('tb_petugas_lap', $in);
-
-					//----------email--------------------------
-					$sql->get_row('op_pegawai', array('idp' => $_POST['petugas'][$x]), array('nm_lengkap', 'nip', 'email'));
-					$rp = $sql->result;
-					$nama_petugas = $rp['nm_lengkap'];
-					$email_petugas = $rp['email'];
-
-					$up = $sql->run("SELECT p.alamat_gudang, u.nama_lengkap FROM tb_permohonan p JOIN tb_userpublic u ON(u.iduser=p.ref_iduser) WHERE p.idp='$id' LIMIT 1");
-					$ru = $up->fetch();
-					$nama_pemohon = $ru['nama_lengkap'];
-					$alamat_gudang = $ru['alamat_gudang'];
-
-
-					$isi = "<p>" . $nama_petugas . ", Anda telah ditunjuk untuk melakukan pemeriksaan sampel Ikan Pari/Hiu Milik: " . $nama_pemohon . " yang berlokasi di " . $alamat_gudang . " </p>
-                    <p>Untuk Pengisian Hasil Pemeriksaan Anda dapat mengunjungi <a href='" . c_DOMAIN_UTAMA . "pemeriksaan'>" . c_DOMAIN_UTAMA . "pemeriksaan</a> :<br>
-                    username : " . $log_u . "<br>
-                    password : " . $log_p . "<br/>
-                    email : " . $email_petugas . "</p>
-                    <p>Untuk Keterangan Lebih Lanjut dapat menghubungi Admin LPSPL Serang, atas perhatiannya diucapkan terima kasih.</p>
-                    ";
-					$arr = array(
-						"send_to" => $email_petugas,
-						"send_to_name" => $nama_petugas,
-						"subject_email" => "Penunjukan Petugas Pemeriksaan - LPSPL Serang",
-						"isi_email" => $isi
-					);
-						/* sendMail($arr) */;
-					//-----------------------------------------
 				}
 			}
 
@@ -415,39 +425,16 @@ if ($_POST) {
 							'date_insert' => date('Y-m-d H:i:s')
 						);
 						$sql->insert('tb_petugas_lap', $in);
-
-						//----------email--------------------------
-						$sql->get_row('op_pegawai', array('idp' => $_POST['petugas'][$x]), array('nm_lengkap', 'nip', 'email'));
-						$rp = $sql->result;
-						$nama_petugas = $rp['nm_lengkap'];
-						$email_petugas = $rp['email'];
-
-						$up = $sql->run("SELECT p.alamat_gudang, u.nama_lengkap FROM tb_permohonan p JOIN tb_userpublic u ON(u.iduser=p.ref_iduser) WHERE p.idp='$id' LIMIT 1");
-						$ru = $up->fetch();
-						$nama_pemohon = $ru['nama_lengkap'];
-						$alamat_gudang = $ru['alamat_gudang'];
-
-
-						$isi = "<p>" . $nama_petugas . ", Anda telah ditunjuk untuk melakukan pemeriksaan sampel Ikan Pari/Hiu Milik: " . $nama_pemohon . " yang berlokasi di " . $alamat_gudang . " </p>
-						<p>Untuk Pengisian Hasil Pemeriksaan Anda dapat mengunjungi <a href='" . c_DOMAIN_UTAMA . "pemeriksaan'>" . c_DOMAIN_UTAMA . "pemeriksaan</a> :<br>
-						username : " . $log_u . "<br>
-						password : " . $log_p . "<br/>
-						email : " . $email_petugas . "</p>
-						<p>Untuk Keterangan Lebih Lanjut dapat menghubungi Admin LPSPL Serang, atas perhatiannya diucapkan terima kasih.</p>
-						";
-						$arr = array(
-							"send_to" => $email_petugas,
-							"send_to_name" => $nama_petugas,
-							"subject_email" => "Penunjukan Petugas Pemeriksaan - LPSPL Serang",
-							"isi_email" => $isi
-						);
-							/* sendMail($arr) */;
-						//-----------------------------------------
 					}
 				}
 			} else {
 				echo json_encode(array("stat" => false, "msg" => "Aksi Gagal."));
 			}
+
+			echo $successful ?
+				json_encode(["stat" => $successful, "msg" => "Aksi Berhasil."]) :
+				json_encode(["stat" => $successful, "msg" => "Aksi Gagal."]);
+
 			break;
 
 		case 'dtlist-periksa':

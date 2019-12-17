@@ -5,6 +5,11 @@ if ($_SERVER['HTTP_X_REQUESTED_WITH'] != 'XMLHttpRequest') {
 
 include_once("../bootstrap.php");
 
+/**
+ * @var /Swift_Mailer
+ */
+$mailer = container(Swift_Mailer::class);
+
 if ($_POST) {
 	include("engine/render.php");
 	switch (trim($_POST['a'])) {
@@ -195,17 +200,29 @@ if ($_POST) {
 		case 'svk': //kirim ulang kode verifikasi ke email pengguna
 			$ver_code = strtoupper(substr(md5(time()), 0, 5));
 			$sql->update('tb_userpublic', array('verifikasi' => $ver_code), array('iduser' => U_ID));
-			require '../assets/phpmailer/PHPMailerAutoload.php';
 
-			$isi = "<p>Hi, " . U_NAME . ", Berikut Adalah Kode Verifikasi Untuk Akun Anda Adalah : </p><h4>" . $ver_code . "</h4>";
-			$arr = array(
-				"send_to" => U_EMAIL,
-				"send_to_name" => U_NAME,
-				"subject_email" => "Verifikasi Akun - LPSPL Serang",
-				"isi_email" => $isi
-			);
+			$successful = true;
 
-			if(TRUE /* sendMail($arr) */){
+			try {
+				$mailer->send(
+					(new Swift_Message("Permohonan Rekomendasi - " . container("app_short_name")))
+						->setFrom([
+							container("admin_email_address") => "Administrator",
+						])
+						->setTo([
+							U_EMAIL => U_NAME,
+						])
+						->setBody(
+							"<p>Hi, " . U_NAME . ", Berikut Adalah Kode Verifikasi Untuk Akun Anda Adalah : </p><h4>" . $ver_code . "</h4>",
+							"text/html",
+						)
+				);
+			}
+			catch (\Exception $e) {
+				$successful = false;
+			}
+
+			if ($successful) {
 				header('Content-Type: application/json');
 				echo json_encode(array("stat" => true, "msg" => "Kode Verifikasi Telah Dikirim ke email anda."));
 				exit();
@@ -214,6 +231,7 @@ if ($_POST) {
 				echo json_encode(array("stat" => false, "msg" => "Aksi gagal."));
 				exit();
 			}
+
 			break;
 
 		case 'upak': //update akun
