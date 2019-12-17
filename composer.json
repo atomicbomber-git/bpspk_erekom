@@ -28,6 +28,8 @@
         "endroid/qr-code": "^3.7.3",
         "nesbot/carbon": "^2.27",
         "league/plates": "^3.3",
-        "jenssegers/date": "^3.5"
+        "jenssegers/date": "^3.5",
+        "swiftmailer/swiftmailer": "^6.2",
+        "symfony/config": "^5.0"
     }
 }

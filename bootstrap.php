@@ -28,7 +28,8 @@ $whoops->register();
 /*
     Load environment-dependent configs
 */
-$dotenv = Dotenv::create(__DIR__);
+
+$dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 /*
@@ -126,6 +127,20 @@ $container = (new DI\ContainerBuilder())
             return new League\Plates\Engine(
                 $container->get("app_path") . "/templates"
             );
+        },
+
+        "smtp_host" => getenv("SMTP_HOST") ?? "default_smtp_host",
+        "smtp_username" => getenv("SMTP_USERNAME") ?? "default_smtp_username",
+        "smtp_password" => getenv("SMTP_PASSWORD") ?? "default_smtp_password",
+
+        Swift_Transport::class => function(ContainerInterface $container) {
+            return (new Swift_SmtpTransport($container->get("smtp_host")))
+                ->setUsername($container->get("smtp_username"))
+                ->setPassword($container->get("smtp_password"));
+        },
+
+        Swift_Mailer::class => function (ContainerInterface $container) {
+            return new Swift_Mailer($container->get(Swift_Transport::class));
         },
 
         Template::class => DI\autowire(PlatesTemplate::class),
