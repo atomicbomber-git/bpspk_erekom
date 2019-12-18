@@ -302,7 +302,7 @@ if($_POST){
 						$arr=array(
 							"send_to"=>$email_petugas,
 							"send_to_name"=>$nama_petugas,
-							"subject_email"=>"Penunjukan Petugas Pemeriksaan - LPSPL Serang",
+							"subject_email"=>"Permohonan Rekomendasian - LPSPL Serang",
 							"isi_email"=>$isi);
 						/* sendMail($arr) */;
 						//-----------------------------------------
