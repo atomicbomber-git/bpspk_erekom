@@ -368,33 +368,6 @@ $html .= '</body>
 </html>';
 
 
-// exit;
-
-// include("assets/mpdf60/mpdf.php");
-  
-// $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
-// $fontDirs = $defaultConfig['fontDir'];
-
-// $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
-// $fontData = $defaultFontConfig['fontdata'];
-
-// $mpdf = new \Mpdf\Mpdf([
-// 	'fontDir' => array_merge($fontDirs, [
-// 		__DIR__ . '/assets/fonts',
-// 	]),
-// 	'fontdata' => $fontData + [
-// 		'Arial' => [
-// 			'R' => 'arial.ttf',
-// 		]
-// 	],
-// 	'default_font' => 'Arial',
-
-// 	'tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf',
-// ]);
-
-echo $html;
-exit;
-
 $mpdf = container(Mpdf::class);
 $mpdf->WriteHTML(file_get_contents(__DIR__ . "/assets/mpdf.css"), HTMLParserMode::HEADER_CSS);
 $mpdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
