@@ -106,7 +106,7 @@ if ($_POST) {
 				'tgl_pelayanan' => $tgl_pelayanan,
 				'file_invoice' => $uploadedFileNames['invoice'] ?? null,
 				'file_packing_list' => $uploadedFileNames['packing_list'] ?? null,
-				'file_pra_bap' => $uploadedFileNames['pra_bap'] ?? null,
+                'file_pra_bap' => $uploadedFileNames['pra_bap'] ?? null,
 			);
 
 			$sql->insert('tb_permohonan', $arr_insert);

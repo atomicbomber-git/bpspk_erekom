@@ -14,11 +14,11 @@ require_once(__DIR__ . "/../../bootstrap.php");
 // Semua path menggunakan tanda "/" di akhir
 $BASE_PATH = "";
 $SCRIPTS_PATH =  app_path() . "/pengajuan/";
-$BASE_URL_UTAMA = getenv("APP_URL") . "/";
-$BASE_URL = getenv("APP_URL") . "/pengajuan/";
+$BASE_URL_UTAMA = container("app_url") . "/";
+$BASE_URL = container("app_url") . "/pengajuan/";
 $THEMES = "";
 // $PUBLIC = "public/";
-$DOMAIN =getenv("APP_URL") . "/pengajuan/";
+$DOMAIN =container("app_url") . "/pengajuan/";
 
 $SITE_CONF_AUTOLOAD['NAMA_CLIENT'] = "E-Rekomendasi";
 $SITE_CONF_AUTOLOAD['WEBSITE_CLIENT'] = "#";

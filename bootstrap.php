@@ -6,11 +6,13 @@ use App\Services\Contracts\KodeSegelGenerator as ContractsKodeSegelGenerator;
 use App\Services\Contracts\Template;
 use App\Services\KodeSegelGenerator;
 use App\Services\PlatesTemplate;
+use DI\Container;
 use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Container\ContainerInterface;
 use Jenssegers\Date\Date;
 use Mpdf\Mpdf;
+use Symfony\Component\HttpFoundation\Request;
 
 require_once(__DIR__ . "/vendor/autoload.php");
 
@@ -54,13 +56,19 @@ $capsule->bootEloquent();
 /* Set up localized date */
 Date::setLocale("id");
 
-
 $container = (new DI\ContainerBuilder())
     ->addDefinitions([
+        Request::class => function () {
+            return Request::createFromGlobals();
+        },
+
+        "app_url" => function(ContainerInterface $container) {
+            return $container->get(Request::class)
+                ->getSchemeAndHttpHost();
+        },
+
         "app_name" => "Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang",
         "app_short_name" => "LPSPL Serang",
-        "app_url" => getenv("APP_URL") ?: "http://default_app_url",
-
         "upt_code" => "05",
         
         "default_module" => ModuleNames::ADMIN,

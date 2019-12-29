@@ -26,7 +26,7 @@ include ("pemeriksaan/engine/render.php");
         <h3 class="title">Si Jawara! <br/></h3> <h4 class="title"> (Sistem Aplikasi Surat Pemanfaatan Jenis Ikan antar Wilayah dan antar Negara) </h4>
         <ul class="menu">
           <li>
-            <a href="<?= getenv("APP_URL") ?>/pengajuan/index.php?daftar">
+            <a href="<?= container("app_url") ?>/pengajuan/index.php?daftar">
               <div class="body-icon">
                 <span class="fa fa-files-o fa-2x"></span>
                 <span class="title">Pendaftaran</span>
@@ -34,7 +34,7 @@ include ("pemeriksaan/engine/render.php");
             </a>
           </li>
           <li>
-            <a href="<?= getenv("APP_URL") ?>/pengajuan/">
+            <a href="<?= container("app_url") ?>/pengajuan/">
               <div class="body-icon">
                 <span class="fa fa-sign-in fa-2x"></span>
                 <span class="title">Pengajuan</span>
@@ -50,7 +50,7 @@ include ("pemeriksaan/engine/render.php");
             </a>
           </li> -->
           <li>
-            <a href="<?= getenv("APP_URL") ?>/pemeriksaan/">
+            <a href="<?= container("app_url") ?>/pemeriksaan/">
               <div class="body-icon">
                 <span class="fa fa-search fa-2x"></span>
                 <span class="title">Pemeriksaan</span>
@@ -58,7 +58,7 @@ include ("pemeriksaan/engine/render.php");
             </a>
           </li>
           <li>
-            <a href="<?= getenv("APP_URL") ?>/admin/">
+            <a href="<?= container("app_url") ?>/admin/">
               <div class="body-icon">
                 <span class="fa fa-user fa-2x"></span>
                 <span class="title">Admin</span>
@@ -67,7 +67,7 @@ include ("pemeriksaan/engine/render.php");
           </li>
           <!-- <li>
             <a 
-                href="<?= getenv("APP_URL") ?>/guest/"
+                href="<?= container("app_url") ?>/guest/"
                 >
               <div class="body-icon">
                 <span class="fa fa-user fa-2x"></span>

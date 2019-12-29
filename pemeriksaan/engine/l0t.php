@@ -15,10 +15,10 @@ require_once(__DIR__ . "/../../bootstrap.php");
 $BASE_PATH 				= "";
 $SCRIPTS_PATH 			= app_path() . "/pemeriksaan/";
 $SCRIPTS_PATH_UTAMA 	= app_path() . "/";
-$BASE_URL_UTAMA 		= getenv("APP_URL") . "/";
-$BASE_URL 				= getenv("APP_URL") . "/pemeriksaan/";
+$BASE_URL_UTAMA 		= container("app_url") . "/";
+$BASE_URL 				= container("app_url") . "/pemeriksaan/";
 $THEMES 				= "";
-$DOMAIN 				= getenv("APP_URL") . "/pemeriksaan/";
+$DOMAIN 				= container("app_url") . "/pemeriksaan/";
 
 $SITE_CONF_AUTOLOAD['NAMA_CLIENT'] = "E-Rekomendasi";
 $SITE_CONF_AUTOLOAD['WEBSITE_CLIENT'] = "#";

@@ -15,11 +15,11 @@ require_once(__DIR__ . "/../../bootstrap.php");
 $BASE_PATH = "";
 $SCRIPTS_PATH = app_path() . "/admin/";
 $SCRIPTS_PATH_UTAMA = app_path() . "/";
-$BASE_URL_UTAMA = getenv("APP_URL") . "/";
-$BASE_URL = getenv("APP_URL") . "/admin/";
+$BASE_URL_UTAMA = container("app_url") . "/";
+$BASE_URL = container("app_url") . "/admin/";
 $THEMES = "";
 //$PUBLIC = "public/";
-$DOMAIN =getenv("APP_URL") . "/admin/";
+$DOMAIN =container("app_url") . "/admin/";
 
 $SITE_CONF_AUTOLOAD['NAMA_CLIENT'] = "E-Rekomendasi";
 $SITE_CONF_AUTOLOAD['WEBSITE_CLIENT'] = "";

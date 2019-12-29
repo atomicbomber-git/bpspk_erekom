@@ -74,7 +74,7 @@ if ($_POST) {
 					$data['nama_lengkap'] . $stat,
 					tanggalIndo($data['tgl_pengajuan'], 'j F Y H:i'),
 					$data['penerima'] . "<br/>" . $data['tujuan'],
-					format_noantrian($data['tgl_pelayanan'], $data['no_antrian']),
+                    tanggalIndo($data['tgl_pelayanan'], 'dm') . "-" . sprintf("%03d", $data['no_antrian']),
 					$verifikasi
 				);
 				$output['data'][] = $users;
