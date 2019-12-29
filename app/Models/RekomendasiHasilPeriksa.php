@@ -51,6 +51,6 @@ class RekomendasiHasilPeriksa extends Model
 
     public function packageCode()
     {
-        return $this->no_segel ?? "0000" . "/" . $this->no_segel_akhir ?? "0000";
+        return ($this->no_segel ?? "0000") . "/" . ($this->no_segel_akhir ?? "0000");
     }
 }
