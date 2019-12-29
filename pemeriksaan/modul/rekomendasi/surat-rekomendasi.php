@@ -117,8 +117,7 @@ $row=$rek->fetch();
 							"records" => $dt->fetchAll(),
 							"rekomendasi" => Rekomendasi::find($row['idrek']) ?? new Rekomendasi,
 							]
-						) ?>
-						
+                        ) ?>						
 						<table style="width:100%">
 							<tr>
 								<td><br><p><?php echo $row['redaksi'];?></p></td>

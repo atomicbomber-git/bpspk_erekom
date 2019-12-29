@@ -128,7 +128,10 @@ if ($rek->rowCount() > 0) {
         ->render("letter/table", [
 			"records" => $dt->fetchAll(),
 			"rekomendasi" => Rekomendasi::find($row['idrek']) ?? new Rekomendasi,
-		]);
+        ]);
+    
+    // dd($dt->fetchAll());
+    // exit;
 
 	$html .= '</table>';
 	$html .= '<table style="width:100%">
@@ -139,7 +142,8 @@ if ($rek->rowCount() > 0) {
 			<td><p>Demikian disampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p></td>
 		</tr>
 	</table>';
-	$tmb = $sql->run("SELECT rbk.nama FROM tb_rekomendasi tr JOIN ref_balai_karantina rbk ON(rbk.idbk=tr.ref_bk) WHERE tr.ref_idp='" . $row['ref_idp'] . "' LIMIT 1");
+    $tmb = $sql->run("SELECT rbk.nama FROM tb_rekomendasi tr JOIN ref_balai_karantina rbk ON(rbk.idbk=tr.ref_bk) WHERE tr.ref_idp='" . $row['ref_idp'] . "' LIMIT 1");
+
 	$karantina = $tmb->fetch();
 	$html .= '<table style="width:100%">
 		<tr>
@@ -279,8 +283,18 @@ $html .= '<table style="width:100%">
 </table>';
 
 $file_berkas_pemohon = $berkas_pemohon . $pemohon['nama_file'];
+
 $file_berkas_pemohon = file_exists($file_berkas_pemohon) ?
-	$file_berkas_pemohon : "";
+    $file_berkas_pemohon : "";
+    
+$berkas_admin = file_exists($berkas_admin) ?
+    $berkas_admin : "";
+
+$berkas_ttd_1 = file_exists($berkas_admin . $rowbap['ttd1']) ?
+    $berkas_admin . $rowbap['ttd1'] : "";
+
+$berkas_ttd_2 = file_exists($berkas_admin . $rowbap['ttd2']) ?
+    $berkas_admin . $rowbap['ttd2'] : "";
 
 $html .= '<table width="100%">
 	<tr>
@@ -329,6 +343,7 @@ $html .= container(Template::class)->render("letter/bap_hasil_pemeriksaan_table"
 	"permohonan" => $permohonan
 ]);
 
+
 $html.='<table>';
 $html.='<caption><h4>Dokumentasi Pemeriksaan Sampel</h4></caption>';
 $sql->get_all('tb_dokumentasi',array('ref_idp'=>$idpengajuan),array('nm_file','ket_foto','id_dok'));
@@ -352,45 +367,35 @@ $html.='</table>';
 $html .= '</body>
 </html>';
 
-include("assets/mpdf60/mpdf.php");
 
-// $mpdf=new mPDF(
-// 	'',  // mode
-// 	'',  // format
-// 	'10', // default font size
-// 	'Arial', // default font
-// 	15, // mgl
-// 	10, // mgr
-// 	15, // mgt
-// 	10, // mgb
-// 	10, // mgh
-// 	10,  // mgf
-// ); 
-// $mpdf->WriteHTML($html);
-// $mpdf->Output("rekomendasi-".$row['kode_surat'].".pdf",'I');
-// $mpdf->Output("rek_files/rekomendasi-".$row['kode_surat'].".pdf",'F');  
+// exit;
 
+// include("assets/mpdf60/mpdf.php");
+  
+// $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
+// $fontDirs = $defaultConfig['fontDir'];
 
-$defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
-$fontDirs = $defaultConfig['fontDir'];
+// $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
+// $fontData = $defaultFontConfig['fontdata'];
 
-$defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
-$fontData = $defaultFontConfig['fontdata'];
+// $mpdf = new \Mpdf\Mpdf([
+// 	'fontDir' => array_merge($fontDirs, [
+// 		__DIR__ . '/assets/fonts',
+// 	]),
+// 	'fontdata' => $fontData + [
+// 		'Arial' => [
+// 			'R' => 'arial.ttf',
+// 		]
+// 	],
+// 	'default_font' => 'Arial',
 
-$mpdf = new \Mpdf\Mpdf([
-	'fontDir' => array_merge($fontDirs, [
-		__DIR__ . '/assets/fonts',
-	]),
-	'fontdata' => $fontData + [
-		'Arial' => [
-			'R' => 'arial.ttf',
-		]
-	],
-	'default_font' => 'Arial',
+// 	'tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf',
+// ]);
 
-	'tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf',
-]);
+echo $html;
+exit;
 
+$mpdf = container(Mpdf::class);
 $mpdf->WriteHTML(file_get_contents(__DIR__ . "/assets/mpdf.css"), HTMLParserMode::HEADER_CSS);
 $mpdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
 $mpdf->Output("rekomendasi-{$row['kode_surat']}.pdf", 'I');

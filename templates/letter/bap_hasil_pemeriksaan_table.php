@@ -11,7 +11,7 @@ use Jenssegers\Date\Date;
 			<td> <?= Date::create($permohonan->pemeriksaan->tgl_periksa)->format("j F Y") ?> </td>
 		</tr>
 
-		<?php foreach($permohonan->petugas as $index => $petugas): ?>
+		<?php foreach($permohonan->petugas ?? [] as $index => $petugas): ?>
 			<tr>
 				<td width="35%"> Petugas Pemeriksa <?= $index + 1 ?> </td>
 				<td>
