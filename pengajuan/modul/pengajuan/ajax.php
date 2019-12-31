@@ -107,6 +107,7 @@ if ($_POST) {
 				'file_invoice' => $uploadedFileNames['invoice'] ?? null,
 				'file_packing_list' => $uploadedFileNames['packing_list'] ?? null,
                 'file_pra_bap' => $uploadedFileNames['pra_bap'] ?? null,
+                'no_antrian' => $no_antrian,
 			);
 
 			$sql->insert('tb_permohonan', $arr_insert);
