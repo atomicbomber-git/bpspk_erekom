@@ -34,6 +34,10 @@ $whoops->register();
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+/* Load bugsnag error tracker */
+$bugsnag = Bugsnag\Client::make(getenv("BUGSNAG_API_KEY"));
+Bugsnag\Handler::register($bugsnag);
+
 /*
     Eloquent setup
 */

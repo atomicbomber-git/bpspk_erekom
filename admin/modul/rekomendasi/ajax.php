@@ -1062,19 +1062,29 @@ if ($_POST) {
 					$sql->insert('tb_log_tahapan', array('ref_idp' => $r['ref_idp'], 'tahapan' => '2', 'tanggal' => $tgl_));
 				}
 
-				//---------------email--------------------------
-				require '../../../assets/phpmailer/PHPMailerAutoload.php';
+                //---------------email--------------------------
+
 				$isi = "<p>" . $r['nm_lengkap'] . ", Terdapat Permohonan Rekomendasi perlu diperiksa dan disahkan.</p>";
 				$isi .= "<p>Silakan Buka Tautan <a target='_blank' href='" . c_DOMAIN . "modul/rekomendasi/persetujuan.php?token=" . md5($r['ref_idp'] . $r['idp'] . "confirm") . "&data=" . base64_encode($r['ref_idp']) . "'>Berikut Ini</a></p>";
 				$isi .= "<p>Demikian Pemberitahuan Ini kami sampaikan, atas perhatiannya kami ucapkan terima kasih.</p>";
-				$arr = array(
-					"send_to" => $r['email'],
-					"send_to_name" => $r['nm_lengkap'],
-					"subject_email" => "Pengesahan Permohonan Rekomendasi - LPSPL Serang",
-					"isi_email" => $isi
-				);
-					/* sendMail($arr) */;
-				//---------------------------------------------
+
+                try {
+					container(Swift_Mailer::class)->send(
+						(new Swift_Message("Pengesahan Permohonan Rekomendasi - " . container("app_short_name")))
+							->setFrom([ container("admin_email_address") => "Administrator" ])
+							->setTo([ $r['email'] => $r['nm_lengkap'] ])
+							->setBody(
+								$isi,
+								"text/html",
+							)
+                    );
+
+                    json_encode(array("stat" => true, "msg" => "Data Berhasil Disimpan."));
+				}
+				catch (\Exception $e) {
+					echo json_encode(array("stat" => false, "msg" => "Aksi Gagal"));
+				}
+
 				echo json_encode(array("stat" => true, "msg" => "Data Berhasil Disimpan."));
 			} else {
 				echo json_encode(array("stat" => false, "msg" => "Aksi Gagal"));
