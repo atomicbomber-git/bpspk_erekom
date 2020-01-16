@@ -75,7 +75,7 @@ $(document).ready(function(){
                                                     		<option value="1">Menunggu Verifiaksi Admin</option>
                                                     		<option value="2">Proses Pemeriksaan Oleh Pemeriksa / Verifikator</option>
                                                     		<option value="3">Permohonan Ditolak, Berkas Tidak Lengkap</option>
-                                                    		<option value="4">Menunggu Persetujuan Kepala Balai</option>
+                                                    		<option value="4">Menunggu Persetujuan Kepala Loka</option>
                                                     		<option value="5">Rekomendasi Sudah Diterbitkan</option>
                                                     	</select>
                                                     </div>
