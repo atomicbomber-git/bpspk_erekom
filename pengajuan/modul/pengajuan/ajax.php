@@ -58,7 +58,6 @@ if ($_POST) {
 			$uploadedFileNames = [];
 
 			foreach (["invoice", "packing_list", "pra_bap"] as $field) {
-				
 				/* Allow pra_bap field to be empty */
 				if (($field === "pra_bap") && !isset($_FILES[$field]['name'])) {
 					continue;
