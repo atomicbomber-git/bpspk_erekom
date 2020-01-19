@@ -914,7 +914,9 @@ if ($_POST) {
             );
             $sql->insert('tb_rekomendasi', $arr_insert);
             if ($sql->error == null) {
-                $idrek = $sql->insert_id;
+				$idrek = $sql->insert_id;
+				
+				$errors = [];
                 for ($x = 0; $x < count($_POST['jenis_sampel']); $x++) {
                     $arr_insert2 = array(
                         "ref_idrek" => $idrek,
@@ -932,8 +934,8 @@ if ($_POST) {
 						"kondisi_produk" => $_POST['kondisi_produk'][$x],
 						"jenis_produk" => $_POST['jenis_produk'][$x],
                     );
-
-                    $sql->insert('tb_rek_hsl_periksa', $arr_insert2);
+					$sql->insert('tb_rek_hsl_periksa', $arr_insert2);
+					$errors[] = $sql->error;
                 }
                 echo json_encode(array("stat" => true, "msg" => "Data Berhasil Disimpan."));
             } else {
@@ -968,10 +970,12 @@ if ($_POST) {
                 "redaksi" => $_POST['redaksi_rek'],
                 "pnttd" => $_POST['penandatgn'],
             );
-            $sql->update('tb_rekomendasi', $arr_update, array('idrek' => $idrek));
+			$sql->update('tb_rekomendasi', $arr_update, array('idrek' => $idrek));
+			
             if ($sql->error == null) {
-                $sql->delete('tb_rek_hsl_periksa', array('ref_idrek' => $idrek));
-                for ($x = 0; $x < count($_POST['jenis_sampel']); $x++) {
+				$sql->delete('tb_rek_hsl_periksa', array('ref_idrek' => $idrek));
+				
+                for ($x = 0; $x < count($_POST['jenis_ikan']); $x++) {
                     $arr_insert2 = array(
                         "ref_idrek" => $idrek,
 						"ref_idikan" => $_POST['jenis_ikan'][$x],
