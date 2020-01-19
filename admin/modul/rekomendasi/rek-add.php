@@ -1,73 +1,82 @@
 <?php 
 	//redaksi isi surat
-	$l=$sql->run("SELECT thp.ref_idp, thp.ref_idikan, thp.ref_jns_sampel, rdi.nama_ikan,rdi.nama_latin,rdi.dilindungi,rdi.peredaran,rdi.ket_dasarhukum, rjs.jenis_sampel
+
+use App\Models\Permohonan;
+use App\Models\SatuanBarang;
+
+$l = $sql->run("SELECT thp.ref_idp, thp.ref_idikan, thp.ref_jns_sampel, rdi.nama_ikan,rdi.nama_latin,rdi.dilindungi,rdi.peredaran,rdi.ket_dasarhukum, rjs.jenis_sampel
 		FROM tb_hsl_periksa thp
 		LEFT JOIN ref_data_ikan rdi ON (rdi.id_ikan = thp.ref_idikan)
 		LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref = thp.ref_jns_sampel)
 		WHERE ref_idp ='$idpengajuan'
 		ORDER BY rdi.dilindungi DESC, rdi.nama_ikan ASC  ");
-	$produk=array();
+$produk = array();
+$permohonan = Permohonan::where("idp", $idpengajuan)
+	->with("rekomendasi")
+	->get();
 	
-	foreach($l->fetchAll() as $prd){
-		$dasar_hukum="";
-		if($prd['dilindungi']=='1'){
-			if($prd['ket_dasarhukum']!=""){
+foreach($l->fetchAll() as $prd){
+	$dasar_hukum="";
+	if($prd['dilindungi']=='1'){
+		if($prd['ket_dasarhukum']!=""){
 				$dasar_hukum="sesuai dengan ".$prd['ket_dasarhukum'];
-			}
-			$produk['ikan_dilindungi'][$prd['peredaran']][]=$prd['nama_ikan']."(".$prd['nama_latin'].") ".$dasar_hukum;
-		}else{
-			$produk['ikan_takdilindungi'][$prd['peredaran']][]=$prd['nama_ikan']."(".$prd['nama_latin'].")";
 		}
-		
-		$produk['jns_produk'][]=$prd['jenis_sampel'];
-	}
-
-	$sampel=array_unique($produk['jns_produk'] ?? []);
-	$nama_produk = implode(', ', $sampel);
-
-	$list_tidakdilindungi = array_unique($produk['ikan_takdilindungi'][1] ?? []);
-	$list_dilindungi_dilarang_ekspor = array_unique($produk['ikan_dilindungi'][2] ?? []);
-	$list_dilindungi_penuh = array_unique($produk['ikan_dilindungi'][3] ?? []);
-
-
-	if(isset($list_tidakdilindungi) && count($list_tidakdilindungi ?? []) > 0){
-		$text_hiupari = implode(', ', $list_tidakdilindungi);
-		$text_tidakdilindungi = " ".$text_hiupari." tidak termasuk kedalam jenis hiu/pari yang dilindungi sehingga dapat direkomendasikan peredarannya" ;
+		$produk['ikan_dilindungi'][$prd['peredaran']][]=$prd['nama_ikan']."(".$prd['nama_latin'].") ".$dasar_hukum;
 	}else{
-		$text_tidakdilindungi = "";
+		$produk['ikan_takdilindungi'][$prd['peredaran']][]=$prd['nama_ikan']."(".$prd['nama_latin'].")";
 	}
+	$produk['jns_produk'][]=$prd['jenis_sampel'];
+}
 
-	if(isset($list_dilindungi_dilarang_ekspor) && count($list_dilindungi_dilarang_ekspor)> 0 ){
-		$text_dilindungi_dilarangekspor ="";
-		$text_hiupari2 = implode(', ', $list_dilindungi_dilarang_ekspor);
-		if($text_tidakdilindungi!=""){
-			$text_dilindungi_dilarangekspor .=". Sedangkan ";
-		}
-		$text_dilindungi_dilarangekspor .= " ".$text_hiupari2.", termasuk kedalam jenis yang perizinannya terbatas hanya untuk peredaran dalam negeri";
-	}else{
-		$text_dilindungi_dilarangekspor ="";
+$sampel=array_unique($produk['jns_produk'] ?? []);
+$nama_produk = implode(', ', $sampel);
+
+$list_tidakdilindungi = ($produk['ikan_takdilindungi'][1]);
+$list_dilindungi_dilarang_ekspor = ($produk['ikan_dilindungi'][2]);
+$list_dilindungi_penuh = ($produk['ikan_dilindungi'][3]);
+if (count($produk['ikan_takdilindungi'][1] ?? []) > 0) {
+	$list_tidakdilindungi = array_unique($produk['ikan_takdilindungi'][1]);
+}
+if (count($produk['ikan_dilindungi'][2] ?? []) > 0) {
+	$list_dilindungi_dilarang_ekspor = array_unique($produk['ikan_dilindungi'][2]);
+}
+if (count($produk['ikan_dilindungi'][3] ?? []) > 0) {
+	$list_dilindungi_dilarang_ekspor = array_unique($produk['ikan_dilindungi'][2]);
+}
+
+if (isset($list_tidakdilindungi) && count($list_tidakdilindungi) > 0) {
+	$text_hiupari = implode(', ', $list_tidakdilindungi);
+	$text_tidakdilindungi = " " . $text_hiupari . " tidak termasuk kedalam jenis hiu/pari yang dilindungi sehingga dapat direkomendasikan peredarannya";
+} else {
+	$text_tidakdilindungi = "";
+}
+
+if (isset($list_dilindungi_dilarang_ekspor) && count($list_dilindungi_dilarang_ekspor) > 0) {
+	$text_dilindungi_dilarangekspor = "";
+	$text_hiupari2 = implode(', ', $list_dilindungi_dilarang_ekspor);
+	if ($text_tidakdilindungi != "") {
+		$text_dilindungi_dilarangekspor .= ". Sedangkan ";
 	}
+	$text_dilindungi_dilarangekspor .= " " . $text_hiupari2 . ", termasuk kedalam jenis yang perizinannya terbatas hanya untuk peredaran dalam negeri";
+} else {
+	$text_dilindungi_dilarangekspor = "";
+}
 
-	if(isset($list_dilindungi_penuh) && count($list_dilindungi_penuh)> 0 ){
-		$text_dilindungi_penuh ="";
-		$text_hiupari3 = implode(', ', $list_dilindungi_penuh);
-		if($text_tidakdilindungi!="" OR $text_dilindungi_dilarangekspor!=""){
-			$text_dilindungi_penuh .=". Sedangkan ";
-		}
-		$text_dilindungi_penuh = " ".$text_hiupari3.", termasuk kedalam jenis yang dilindungi penuh sehingga peredarannya dilarang";
-	}else{
-		$text_dilindungi_penuh ="";
+if (isset($list_dilindungi_penuh) && count($list_dilindungi_penuh) > 0) {
+	$text_dilindungi_penuh = "";
+	$text_hiupari3 = implode(', ', $list_dilindungi_penuh);
+	if ($text_tidakdilindungi != "" or $text_dilindungi_dilarangekspor != "") {
+		$text_dilindungi_penuh .= ". Sedangkan ";
 	}
+	$text_dilindungi_penuh = " " . $text_hiupari3 . ", termasuk kedalam jenis yang dilindungi penuh sehingga peredarannya dilarang";
+} else {
+	$text_dilindungi_penuh = "";
+}
 
-	$redaksi = $text_tidakdilindungi." ".$text_dilindungi_dilarangekspor." ".$text_dilindungi_penuh;
+$redaksi = $text_tidakdilindungi . " " . $text_dilindungi_dilarangekspor . " " . $text_dilindungi_penuh;
 
-	$c=$sql->run("SELECT DATE(date_insert) as tgl FROM tb_hsl_periksa WHERE ref_idp ='".$idpengajuan."' ORDER BY date_insert ASC LIMIT 1");
-	if($c->rowCount()>0){
-		$rc=$c->fetch();
-		$tgl_berlaku=tanggalIndo(date('Y-m-d',strtotime($rc['tgl'] ."+7 days")),'j F Y');
-	}else{
-		$tgl_berlaku="...";
-	}
+$c = $sql->run("SELECT DATE(date_insert) as tgl FROM tb_hsl_periksa WHERE ref_idp ='" . $idpengajuan . "' ORDER BY date_insert ASC LIMIT 1");
+
 	//---------------
 
 	$last=$sql->run("SELECT no_surat_rek  as no_surat FROM tb_nosurat WHERE ref_idp='".$idpengajuan."' LIMIT 1");
@@ -97,7 +106,7 @@
 					<div class="form-group">
 						<label class="control-label col-md-2">Tanggal Surat</label>
 						<div class="col-md-4">
-							<input type="text" class="form-control" name="tgl_surat" data-plugin-datepicker data-date-orientation="top">
+						<input type="text" class="form-control" data-plugin-datepicker data-date-orientation="top" name="tgl_surat" value="<?php echo date('m/d/Y'); ?>">
 						</div>
 					</div>
 					<div class="form-group">
@@ -126,35 +135,101 @@
 										<td>Produk</td>
 										<td width="7%">Kemasan</td>
 										<td width="12%">Satuan<br>Kemasan</td>
-										<td width="12%">No.BAP</td>
+										<td width="12%">No. Segel</td>
 										<td width="10%">Berat(Kg)</td>
 										<td>Keterangan</td>
 									</tr>
 									<tbody>
 										<?php
-										$dt=$sql->run("SELECT thp.tot_berat as berat,thp.kuantitas as kemasan, thp.ref_idikan, rjs.id_ref,rjs.jenis_sampel,rdi.nama_ikan,rdi.nama_latin FROM tb_hsl_periksa thp
-											JOIN ref_jns_sampel rjs ON(rjs.id_ref=thp.ref_jns_sampel)
-											JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
-											WHERE thp.ref_idp='$idpengajuan' 
-											ORDER BY ref_jns_sampel ASC");
+										$dt = $sql->run("SELECT 
+										thp.id_satuan_barang, 
+										thp.tot_berat as berat, 
+										thp.kuantitas as kemasan, 
+										thp.ref_idikan, 
+										thp.produk,
+										thp.kondisi_produk,
+										thp.jenis_produk,
+										rdi.nama_ikan,
+										rdi.nama_latin 
+										FROM tb_hsl_periksa thp
+												LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan)
+												WHERE thp.ref_idp='$idpengajuan' 
+												ORDER BY ref_jns_sampel ASC");
+			
+										$satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 										if($dt->rowCount()>0){
 											foreach($dt->fetchAll() as $row){
 											?>
 											<tr class="dt">
 												<td>
-													<input type="hidden" name="jenis_ikan[]" value="<?php echo $row['ref_idikan'];?>">
-													<input type="hidden" name="jenis_sampel[]" value="<?php echo $row['id_ref'];?>">
+													<input 
+															type="hidden" 
+															name="jenis_ikan[]" 
+															value="<?php echo $row['ref_idikan'];?>">
+														<input 
+															type="hidden" 
+															name="jenis_sampel[]" 
+															value="<?php echo $row['id_ref'];?>">
+														<input 
+															type="hidden"
+															name="produk[]"
+															value="<?= $row['produk']; ?>">
+														<input 
+															type="hidden"
+															name="kondisi_produk[]"
+															value="<?= $row['kondisi_produk']; ?>">
+														<input 
+															type="hidden"
+															name="jenis_produk[]"
+															value="<?= $row['jenis_produk']; ?>">
 													<p><?php echo $arr_produk[$row['id_ref']]['nama'];?><br/>
 													<?php echo $arr_ikan[$row['ref_idikan']]['nama']." <br><strong>".$arr_ikan[$row['ref_idikan']]['latin']."</strong>";?></p>
 												</td>
-												<td><input type="text" name="kemasan[]" class="form-control" value="<?php echo $row['kemasan'];?>"></td>
-												<td><?php echo pilihan("satuan[]",$arr_satuan,$row['satuan'],"class='form-control' id='satuan'");?></td>
-												<td><input type="text" name="nosegel[]" class="form-control"></td>
+												<td>
+													<input
+														type="number"
+														name="kemasan[]"
+														class="form-control"
+														readonly
+														value="<?= $row['kemasan'] ?? 0 ?>"
+														>
+													</td>
+												<td>
+													<?= $satuan_barangs[$row['id_satuan_barang']] ?>
+												</td>
+												<td>
+														<input
+															style="display: inline-block;"
+															class="nosegel form-control"
+															type="text"
+															name="nosegel[]"
+															class="form-control"
+															value="<?= $row["no_segel"] ?? "" ?>"
+															>
+
+														<div
+															style="
+																display: inline-block;
+																text-align: center;
+															"
+															>
+															s/d
+														</div>
+
+														<input
+															style="display: inline-block;"
+															class="nosegel form-control"
+															type="text"
+															name="nosegel_akhir[]"
+															class="form-control"
+															value="<?= $row["no_segel_akhir"] ?? "" ?>"
+															>
+													</td>
 												<td>
 													<?php echo floatval($row['berat']);?> Kg
 													<input type="hidden" name="berat[]" value="<?php echo floatval($row['berat']);?>">
 												</td>
-												<td><input type="text" name="keterangan[]" class="form-control" value="<?php echo $arr_produk[$row['id_ref']]['nama'];?>"></td>
+												<td><input type="text" name="keterangan[]" rows="5" class="form-control" value="<?php echo $row['keterangan']; ?>"></td>
 											</tr>
 											<?php
 											}
@@ -166,17 +241,76 @@
 											<td colspan="6">
 												<p>catatan : <span class="text-alert alert-danger">Angka Desimal Menggunakan . <strong>(titik) cth: 90.2Kg</strong></span></p>
 												<!-- <a id="btn_add_data" class="btn btn-sm btn-default">Tambah Data (+)</a> -->
-												</td>
+												<p>
+												<span class="text-alert alert-danger">
+													Nomor segel harus diisi 4 digit. Cth: 0001
+												</span>
+												</p>
+											</td>
 										</tr>
 									</tfoot>
 								</thead>
 							</table>
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2"> Masa Berlaku Rekomendasi </label>
+						<div class="col-md-8">
+							<select class="form-control" name="masa_berlaku_rekomendasi" id="masa_berlaku_rekomendasi">
+								<option value="<?= $tanggal_dua_hari_kedepan ?>"> Dua Hari Kedepan </option>
+								<option value="<?= $tanggal_dua_minggu_kedepan ?>"> Dua Minggu Kedepan </option>
+							</select>
+						</div>
+					</div>
+
+					<script>
+						window.onload = () => {
+							var teks_surat_rekomendasi = "Bahwa sebagian sampel <?php echo $nama_produk; ?> yang terindikasi <?php echo $redaksi; ?>.\n Rekomendasi ini berlaku untuk satu kali pengiriman sampai tanggal "
+							var select_masa_berlaku_rekomendasi = document.querySelector("#masa_berlaku_rekomendasi")
+							var teks_masa_berlaku_rekomendasi = select_masa_berlaku_rekomendasi.value
+
+							CKEDITOR.instances["redaksi_rek"].setData(
+								teks_surat_rekomendasi +
+								" " +
+								teks_masa_berlaku_rekomendasi +
+								".\n"
+							)
+
+							{
+									document.querySelectorAll('input.nosegel')
+										.forEach(nosegel_input => {
+											new Cleave(nosegel_input, {
+												numeral: true,
+												stripLeadingZeroes: false,
+												numeralDecimalMark: '',
+												delimiter: '',
+												numeralIntegerScale: 4,
+												numeralDecimalScale: 0
+											});
+										})
+						}
+
+							select_masa_berlaku_rekomendasi.onchange = () => {
+								teks_masa_berlaku_rekomendasi = select_masa_berlaku_rekomendasi.value
+								CKEDITOR.instances["redaksi_rek"].setData(
+									teks_surat_rekomendasi +
+									" " +
+									teks_masa_berlaku_rekomendasi +
+									".\n"
+								)
+							}
+						}
+					
+					</script>
+
+
 					<div class="form-group">
 						<label class="control-label col-md-2">Redaksi<br>Surat Rekomendasi</label>
 						<div class="col-md-8">
-							<textarea name="redaksi_rek" rows="5" class="form-control editor">Bahwa sebagian sampel <?php echo $nama_produk;?> yang terindikasi <?php echo $redaksi;?>. Rekomendasi ini berlaku untuk satu kali pengiriman, berlaku sampai tanggal <?php echo $tgl_berlaku;?>.</textarea>
+							<textarea name="redaksi_rek" rows="5" class="form-control editor">
+							
+							</textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -195,19 +329,36 @@
 							</select>
 						</div>
 					</div>
+
+					<?php
+						$sql->get_all('ref_balai_karantina', array(), array('idbk', 'nama'));
+					?>
+
 					<div class="form-group">
-						<label class="control-label col-md-2">Tembusan Balai Karantina</label>
+						<label class="control-label col-md-2">Tembusan Balai Karantina I</label>
 						<div class="col-md-4">
 							<select name="tembusan_bk" class="form-control sl2">
 								<option value="">-Pilih-</option>
-								<?php 
-								$sql->get_all('ref_balai_karantina',array(),array('idbk','nama'));
-								if($sql->num_rows>0){
-									foreach($sql->result as $b){
-										echo '<option value="'.$b['idbk'].'">'.$b['nama'].'</option>';
-									}
-								}
-								?>
+
+								<?php foreach ($sql->result as $balai_karantina) : ?>
+									<option value="<?= $balai_karantina['idbk'] ?> ">
+										<?= $balai_karantina['nama'] ?>
+									</option>
+								<?php endforeach ?>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-md-2">Tembusan Balai Karantina II</label>
+						<div class="col-md-4">
+							<select name="tembusan_bk_2" class="form-control sl2">
+								<option value="">-Pilih-</option>
+								<?php foreach ($sql->result as $balai_karantina) : ?>
+									<option value="<?= $balai_karantina['idbk'] ?> ">
+										<?= $balai_karantina['nama'] ?>
+									</option>
+								<?php endforeach ?>
 							</select>
 						</div>
 					</div>
