@@ -149,6 +149,7 @@ $satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 														value="<?= $row["no_segel_akhir"] ?? "" ?>"
 														>
 												<td> <?php echo floatval($row['berat']); ?> Kg
+												<input type="hidden" name="berat[]" value="<?php echo floatval($row['berat']); ?>">
 
 												
 												<td><input type="text" name="keterangan[]" class="form-control" value="<?php echo $row['keterangan'];?>"></td>
