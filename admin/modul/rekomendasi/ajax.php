@@ -361,6 +361,7 @@ if ($_POST) {
 							->setBody(
 								container(Template::class)->render("email/penunjukan_petugas_pemeriksa", [
 									"nama_petugas" => $pegawai->nm_lengkap,
+									"tanggal_pemeriksaan" => $tanggal,
 									"nama_pemohon" => $permohonan->user->nama_lengkap,
 									"alamat_gudang" => $permohonan->user->biodata->gudang_1 ?? "",
 									"target_url" => container("app_url") . "/pemeriksaan",
