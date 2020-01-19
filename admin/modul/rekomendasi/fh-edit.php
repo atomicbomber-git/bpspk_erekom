@@ -1,5 +1,5 @@
 <?php
-include ("config.php");
+include("config.php");
 $idpengajuan=base64_decode($_GET['data']);
 $idhslperiksa=base64_decode($_GET['hsl']);
 if(!ctype_digit($idpengajuan)){
@@ -127,33 +127,163 @@ $dtrow=$sql->result;
 								<input type="text" style="display:none" name="asal_komoditas" class="form-control custom_ak">
 							</div>
 						</div>
+
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Kemasan (Colly)</label>
+							<label class="col-sm-3 control-label"> Jumlah Kemasan </label>
 							<div class="col-md-2">
-								<input type="text" name="kemasan" class="form-control" value="<?php echo $dtrow['kuantitas'];?>">
+								<input 
+									value="<?= $dtrow['kuantitas'] ?>"
+									type="number" step="any" name="kemasan" class="form-control">
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">Jenis Produk</label>
-							<div class="col-md-6">
-								<select class="form-control jns_produk" name="jenis_sampel">
-									<option value="">-Pilih-</option>
-									<?php
-									$sql->get_all('ref_jns_sampel');
-									echo $sql->sql;
-									if($sql->num_rows>0){
-										foreach($sql->result as $r){
-											if($dtrow['ref_jns_sampel']==$r['id_ref']){
-												echo '<option selected value="'.$r['id_ref'].'">'.$r['jenis_sampel'].'</option>';
-											}else{
-												echo '<option value="'.$r['id_ref'].'">'.$r['jenis_sampel'].'</option>';
+
+						<?php 
+							$satuan_barangs = App\Models\SatuanBarang::all();
+						?>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label"> Satuan Kemasan </label>
+								<div class="col-md-2">
+									<select 
+										class="form-control"
+										name="id_satuan_barang"
+										id="id_satuan_barang"
+										>
+										<?php foreach($satuan_barangs as $satuan_barang): ?>
+										<option 
+											<?= $dtrow["id_satuan_barang"] == $satuan_barang->id ? 'selected' : '' ?>
+											value="<?= $satuan_barang->id ?>">
+											<?= $satuan_barang->nama ?>
+										</option>
+										<?php endforeach ?>
+									</select>
+								</div>
+							</div>
+
+						<script>
+							window.onload = function() {
+								new Vue({
+									el: "#app",
+
+									props: {
+									},
+
+									data: {
+										product_classification: JSON.parse('<?= json_encode(App\Constants\ProductClassification::get()) ?>'),
+										product_type: '<?= $dtrow['produk'] ?>',
+										product_condition: '<?= $dtrow['kondisi_produk'] ?>',
+										product_category: '<?= $dtrow['jenis_produk'] ?>',
+									},
+
+									watch: {
+										product_type: function() {
+											this.product_condition = null
+											this.product_category = null
+										},
+										
+										product_condition: function() {
+											this.product_category = null
+										},
+									},
+
+									computed: {
+										product_condition_options() {
+											if (!this.product_type) {
+												return []
 											}
+
+											return this.product_classification[this.product_type].items
+										},
+
+										product_category_options() {
+											if (!this.product_condition) {
+												return []
+											}
+
+											return this.product_classification[this.product_type].items
+												[this.product_condition].items
 										}
+
 									}
-									?>
-								</select>
+								})
+							}
+						</script>
+
+						<div id="app">
+							<div class="form-group">
+								<label 
+									class="control-label col-sm-3"
+									for="product_type">
+									Produk:
+								</label>
+
+								<div class="col-md-6">
+									<select 
+										class="form-control"
+										name="product_type"
+										id="product_type"
+										v-model="product_type"
+										>
+
+										<option 
+											v-for="(product_type_data, product_type_name) in product_classification"
+											>
+											{{ product_type_name }}
+										</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label 
+									class="control-label col-sm-3"
+									for="product_condition">
+									Kondisi:
+								</label>
+
+								<div class="col-md-6">
+									<select 
+										class="form-control"
+										name="product_condition"
+										id="product_condition"
+										v-model="product_condition"
+										>
+
+										<option 
+											v-for="(product_condition_data, product_condition_name) in product_condition_options"
+											>
+											{{ product_condition_name }}
+										</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label 
+									class="control-label col-sm-3"
+									for="product_category">
+									Jenis Produk:
+								</label>
+
+								<div class="col-md-6">
+									<select 
+										class="form-control"
+										name="product_category"
+										id="product_category"
+										v-model="product_category"
+										>
+
+										<option 
+											v-for="(product_category_data, product_category_name) in product_category_options"
+											>
+											{{ product_category_name }}
+										</option>
+									</select>
+								</div>
 							</div>
 						</div>
+
+
 						<div class="form-group">
 							<label class="control-label col-md-4">-- Sampel Terkecil --</label>
 						</div>

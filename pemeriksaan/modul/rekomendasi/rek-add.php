@@ -101,7 +101,7 @@ $r = $last->fetch();
 			<div class="form-group">
 				<label class="control-label col-md-2">Tanggal Surat</label>
 				<div class="col-md-4">
-					<input type="date" class="form-control" name="tgl_surat" value="<?php echo date('m/d/Y'); ?>">
+					<input type="text" class="form-control datepicker" name="tgl_surat" value="<?php echo date('m/d/Y'); ?>">
 					<small class="text-alert alert-danger">Format : Bulan/Hari/Tahun (mm/dd/yyyy)</small>
 				</div>
 			</div>

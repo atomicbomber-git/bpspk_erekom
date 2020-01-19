@@ -1,4 +1,9 @@
 <?php
+
+use App\Models\Permohonan;
+use App\Services\Formatter;
+use Jenssegers\Date\Date;
+
 require_once("config.php");
 $SCRIPT_FOOT = "
 <script>
@@ -26,6 +31,8 @@ $('.sl2').select2();
 <script src=\"js-rekomendasi.js\"></script>
 ";
 
+$formatter = container(Formatter::class);
+
 $idpengajuan=base64_decode($_GET['data']);
 if(ctype_digit($idpengajuan)){
 	include "function.php";
@@ -36,8 +43,19 @@ if(ctype_digit($idpengajuan)){
 		"Truk"=>"Truk",
 		"Ekor"=>"Ekor"
 		);
+
+		$permohonan = Permohonan::find($idpengajuan);
+		$tanggal_dua_hari_kedepan = $formatter->fancyDate(Date::today()->addDay(2));
+		$tanggal_dua_minggu_kedepan = $formatter->fancyDate(Date::today()->addWeek(2));
 ?>
+
+<script>
+	var tanggal_dua_hari_kedepan =  "<?= $tanggal_dua_hari_kedepan; ?>"
+	var tanggal_dua_minggu_kedepan =  "<?= $tanggal_dua_minggu_kedepan; ?>"
+</script>
+
 <section role="main" class="content-body">
+
 	<header class="page-header">
 		<h2>Draft Surat Rekomendasi</h2>
 	
@@ -54,30 +72,30 @@ if(ctype_digit($idpengajuan)){
 			<a class="sidebar-right-toggle" ><i class="fa fa-chevron-left"></i></a>
 		</div>
 	</header>
-	<?php
 
-	$sql->get_all('ref_data_ikan');
-	$arr_ikan=array();
-	foreach ($sql->result as $ik) {
-		$arr_ikan[$ik['id_ikan']]=array(
-			"nama"=>$ik['nama_ikan'],
-			"latin"=>$ik['nama_latin']);
-	}
-	$sql->get_all('ref_jns_sampel');
-	$arr_produk=array();
-	foreach ($sql->result as $pr) {
-		$arr_produk[$pr['id_ref']]=array(
-			"nama"=>$pr['jenis_sampel']);
-	}
-	
-	$found=$sql->get_count('tb_rekomendasi',array('ref_idp'=>$idpengajuan));
-	if($found>0){
-		include ("rek-edit.php");
-	}else{
-		include ("rek-add.php");
-	}
-	
-	?>
+
+		<?php
+			$sql->get_all('ref_data_ikan');
+			$arr_ikan=array();
+			foreach ($sql->result as $ik) {
+				$arr_ikan[$ik['id_ikan']]=array(
+					"nama"=>$ik['nama_ikan'],
+					"latin"=>$ik['nama_latin']);
+			}
+			$sql->get_all('ref_jns_sampel');
+			$arr_produk=array();
+			foreach ($sql->result as $pr) {
+				$arr_produk[$pr['id_ref']]=array(
+					"nama"=>$pr['jenis_sampel']);
+			}
+			
+			$found=$sql->get_count('tb_rekomendasi',array('ref_idp'=>$idpengajuan));
+			if($found>0){
+				include ("rek-edit.php");
+			}else{
+				include ("rek-add.php");
+			}
+		?>
 </section>
 
 <div id="DelModal" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
