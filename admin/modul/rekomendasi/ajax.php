@@ -921,6 +921,7 @@ if ($_POST) {
                         "ref_idikan" => $_POST['jenis_ikan'][$x],
                         "kemasan" => $_POST['kemasan'][$x],
                         "satuan" => $_POST['satuan'][$x],
+                        "id_satuan_barang" => $_POST['id_satuan_barang'][$x],
                         "no_segel" => $_POST['nosegel'][$x],
                         "berat" => $_POST['berat'][$x],
                         "keterangan" => $_POST['keterangan'][$x],

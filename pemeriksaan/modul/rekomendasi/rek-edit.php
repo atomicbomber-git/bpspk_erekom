@@ -118,7 +118,7 @@ $satuan_barangs = SatuanBarang::all()->pluck("nama", "id");
 												name="kemasan[]"
 												value="<?= $row['kemasan'] ?>">
 
-											<?= $row['kemasan'] ?? '-' ?>
+											<?= $row['kemasan'] ?? '' ?>
 										<td>
 											<input 
 												type="hidden"

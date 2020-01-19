@@ -196,6 +196,12 @@ $r = $last->fetch();
 												>
 											</td>
 										<td>
+                                            <input
+												type="hidden"
+												name="id_satuan_barang[]"
+												value="<?= $row['id_satuan_barang'] ?>"
+												>
+
 											<?= $satuan_barangs[$row['id_satuan_barang']] ?>
 										</td>
 										<td>
