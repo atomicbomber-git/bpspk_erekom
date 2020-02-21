@@ -75,7 +75,10 @@ $(document).ready(function(){
 			},
 			jenis_sampel:{
 				required:true
-			}
+			},
+			product_type: { required: true },
+            product_condition: { required: true },
+            product_category: { required: true },
 		},
 		messages:{
 			jenis_ikan:{
@@ -92,7 +95,10 @@ $(document).ready(function(){
 			},
 			jenis_sampel:{
 				required:"Jenis Produk Harus Dipilih."
-			}
+			},
+			product_type: { required: "Data harus diisi." },
+            product_condition: { required: "Data harus diisi." },
+            product_category: { required: "Data harus diisi." },
 		},
 		errorPlacement: function (error, element) {
             error.insertAfter(element);
@@ -165,7 +171,11 @@ $(document).ready(function(){
 			},
 			jenis_sampel:{
 				required:true
-			}
+			},
+
+			product_type: { required: true },
+            product_condition: { required: true },
+            product_category: { required: true },
 		},
 		messages:{
 			jenis_ikan:{
@@ -182,7 +192,10 @@ $(document).ready(function(){
 			},
 			jenis_sampel:{
 				required:"Jenis Produk Harus Dipilih."
-			}
+			},
+			product_type: { required: "Data harus diisi." },
+            product_condition: { required: "Data harus diisi." },
+            product_category: { required: "Data harus diisi." },
 		},
 		errorPlacement: function (error, element) {
             error.insertAfter(element);
