@@ -62,7 +62,7 @@ $letter = container(Letter::class);
 		<div class="right-wrapper pull-right">
 			<ol class="breadcrumbs">
 				<li>
-					<a href="<?php echo c_MODULE;?>">
+					<a href="">
 						<i class="fa fa-home"></i>
 					</a>
 				</li>
@@ -109,6 +109,10 @@ $letter = container(Letter::class);
 						<tr>
 							<td>Alamat Pemeriksaan</td>
 							<td><?php echo $p['alamat_gudang'];?></td>
+						</tr>
+						<tr>
+							<td>Tanggal Pemeriksaan</td>
+							<td><?php echo tanggalIndo($p['tanggal_pemeriksaan'],'j F Y');?></td>
 						</tr>
 						<tr>
 							<td>Keterangan Tambahan</td>

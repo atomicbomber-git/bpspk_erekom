@@ -19,7 +19,7 @@ $(document).ready(function(){
 		<div class="right-wrapper pull-right">
 			<ol class="breadcrumbs">
 				<li>
-					<a href="<?php echo c_MODULE;?>">
+					<a href="">
 						<i class="fa fa-home"></i>
 					</a>
 				</li>
@@ -99,14 +99,16 @@ $(document).ready(function(){
 							<tr>
 								<th width="5%">No</th>
 								<th width="25%">Nama Perusahaan/Perseorangan</th>
+								<th>No Antrian</th>
 								<th width="17%">Tanggal Pengajuan</th>
+								<th>Tanggal Pemeriksaan</th>
 								<th>Tujuan</th>
 								<th width="7%" style="text-align: center">Verifikasi Admin</th>
 								<th width="7%" style="text-align: center">Pemeriksaan</th>
 								<th width="7%" style="text-align: center">Kepala Sub Seksi PP</th>
 								<th width="7%" style="text-align: center">Kepala Loka</th>
 								<th width="7%" style="text-align: center">Selesai</th>
-								<th width="15%" style="text-align: center">Aksi</th>
+								<th width="7%" style="text-align: center">Aksi</th>
 							</tr>
 						</thead>
 					</table>
