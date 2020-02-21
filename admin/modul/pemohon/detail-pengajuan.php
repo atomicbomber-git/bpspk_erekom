@@ -213,7 +213,7 @@ $letter = container(Letter::class);
 										<td style="width: 5rem;"> Nomor </td>
 										<td>  </td>
 										<td> : </td>
-										<td> B.<?= $permohonan->nomor_surat->no_surat_rek?? '-' ?> </td>
+										<td> <?= $permohonan->nomor_surat->no_surat_rek?? '-' ?>.B </td>
 										<td style="text-align: right">
 											<?= Formatter::fancyDate(Date::today()) ?>
 										</td>

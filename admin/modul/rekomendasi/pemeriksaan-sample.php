@@ -51,7 +51,9 @@ $(document).ready(function(){
 							<tr>
 								<th width="5%">No</th>
 								<th>Nama Perusahaan/Perseorangan</th>
+								<th> Nomor Antrian</th>
 								<th width="20%">Tanggal Pengajuan</th>
+								<th width="20%">Tanggal Pemeriksaan</th>
 								<th>Tujuan</th>
 								<th width="20%">Aksi</th>
 							</tr>
