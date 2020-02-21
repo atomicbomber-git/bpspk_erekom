@@ -480,7 +480,7 @@ if ($_POST) {
             $filtertotal = $dbfiltot['total'];
 
             //data
-            $q = $sql->run("SELECT c.nama_lengkap,p.tujuan,p.penerima,p.tgl_pengajuan,p.idp FROM $Table " . $Where . $sSearch . $sCustomFilter . $Orders . $Limit);
+            $q = $sql->run("SELECT c.nama_lengkap,p.tujuan,p.penerima,p.no_antrian,p.tgl_pelayanan,p.tgl_pengajuan,p.tanggal_pemeriksaan,p.idp FROM $Table " . $Where . $sSearch . $sCustomFilter . $Orders . $Limit);
 
             $output = array(
                 "draw" => intval($_POST['draw']),
@@ -509,7 +509,9 @@ if ($_POST) {
                 $users = array(
                     $no,
                     $data['nama_lengkap'] . $notif,
+                    format_noantrian($data['tgl_pelayanan'],$data['no_antrian']),
                     tanggalIndo($data['tgl_pengajuan'], 'j F Y H:i'),
+                    tanggalIndo($data['tanggal_pemeriksaan'], 'j F Y'),
                     $data['penerima'] . "<br/>" . $data['tujuan'],
                     $aksi
                 );
@@ -1147,7 +1149,7 @@ if ($_POST) {
             $filtertotal = $dbfiltot['total'];
 
             //data
-            $q = $sql->run("SELECT c.nama_lengkap,p.tujuan,p.penerima,p.tgl_pengajuan,p.idp FROM $Table " . $Where . $sSearch . $sCustomFilter . $Orders . $Limit);
+            $q = $sql->run("SELECT c.nama_lengkap,p.tujuan,p.penerima,p.tgl_pelayanan,p.no_antrian,p.tgl_pengajuan,p.tanggal_pemeriksaan,p.idp FROM $Table " . $Where . $sSearch . $sCustomFilter . $Orders . $Limit);
 
             $output = array(
                 "draw" => intval($_POST['draw']),
@@ -1164,8 +1166,10 @@ if ($_POST) {
 
                 $users = array(
                     $no,
+                    format_noantrian($data['tgl_pelayanan'],$data['no_antrian']),
                     $data['nama_lengkap'],
                     tanggalIndo($data['tgl_pengajuan'], 'j F Y H:i'),
+                    tanggalIndo($data['tanggal_pemeriksaan'], 'j F Y'),
                     $data['penerima'] . "<br/>" . $data['tujuan'],
                     $aksi
                 );

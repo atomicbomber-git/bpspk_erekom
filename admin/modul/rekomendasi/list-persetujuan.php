@@ -51,8 +51,10 @@ $(document).ready(function(){
 						<thead>
 							<tr>
 								<th width="5%">No</th>
+								<th>No Antrian</th>
 								<th>Nama Perusahaan/Perseorangan</th>
 								<th width="20%">Tanggal Pengajuan</th>
+								<th width="20%">Tanggal Pemeriksaan</th>
 								<th>Tujuan</th>
 								<th width="17%">Aksi</th>
 							</tr>
