@@ -85,6 +85,7 @@ if ($_POST) {
 
 			$tgl_pengajuan = date('Y-m-d H:i:s');
 			$tgl_pelayanan = get_tgl_pelayanan($tgl_pengajuan);
+			$tanggal_pemeriksaan = get_tanggal_pemeriksaan($tanggal_pemeriksaan);
 
 			$no_antrian = $sql->get_count('tb_permohonan', array('tgl_pelayanan' => $tgl_pelayanan)) + 1;
 			$format_noantrian = tanggalIndo($tgl_pelayanan, 'dm') . "-" . sprintf("%03d", $no_antrian);
@@ -144,6 +145,7 @@ if ($_POST) {
 										"nama_penerima" => $_POST["nm_penerima"] ?? "",
 										"alamat_penerima" => $_POST["alamat_penerima"] ?? "",
 										"format_noantrian" => $format_noantrian,
+										"tanggal_pemeriksaan" => $tanggal_pemeriksaan,
 									]),
 									"text/html",
 								)
