@@ -13,6 +13,7 @@ function ITEM_HEAD ($ITEM_HEAD) {
     $pecah = explode (",", $ITEM_HEAD);
 
     $base = array (
+        
         "isotope.css"               => "\n<link rel=\"stylesheet\" href=\"".VENDOR."isotope/jquery.isotope.css\">",
 
         "bootstrap.css"             => "\n<link rel=\"stylesheet\" href=\"".VENDOR."bootstrap/css/bootstrap.css\" />", 
@@ -42,6 +43,7 @@ function ITEM_HEAD ($ITEM_HEAD) {
         "theme-custom.css"          => "\n<link rel=\"stylesheet\" href=\"".CSS."theme-custom.css\" />",                    
         //JS
         "modernizr.js"              => "\n<script src=\"".VENDOR."modernizr/modernizr.js\"></script>",
+        
 
         "fileinput.min.css"         => "\n<link rel=\"stylesheet\" href=\"".VENDOR."file-input/fileinput.min.css\" />"
 
@@ -63,6 +65,8 @@ function ITEM_FOOT ($ITEM_FOOT) {
 
     $FOOT_base = array (
         //VENDOR
+        "vue.js"                    => "\n<script src=\"".VENDOR."vue.js\"></script>",
+        "cleave.js"                 => "\n<script src=\"".VENDOR."cleave.min.js\"></script>",
         "isotope.js"                => "\n<script src=\"".VENDOR."isotope/jquery.isotope.js\"></script>",
 
         "jquery.js"                 => "\n<script src=\"".VENDOR."jquery/jquery.js\"></script>",
@@ -74,6 +78,7 @@ function ITEM_FOOT ($ITEM_FOOT) {
         "jquery.placeholder.js"     => "\n<script src=\"".VENDOR."jquery-placeholder/jquery.placeholder.js\"></script>",
 
         //Tambahan
+        
         "jquery-ui.min.js"          => "\n<script src=\"".VENDOR."jquery-ui/js/jquery-ui.min.js\"></script>",
         "jquery.easypiechart.js"    => "\n<script src=\"".VENDOR."jquery-easypiechart/jquery.easypiechart.js\"></script>",
         "pnotify.custom.js"         => "\n<script src=\"".VENDOR."pnotify/pnotify.custom.js\"></script>",
