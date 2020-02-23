@@ -596,13 +596,21 @@ if ($_POST) {
                 'ref_idperiksa' => $idperiksa,
                 'ref_jns_sampel' => $_POST['jenis_sampel'],
                 'pjg' => $_POST['pjg'],
-                'lbr' => $_POST['lbr'],
-                'berat' => $_POST['berat'],
-                'tot_berat' => $_POST['berat_tot'],
-                'ket' => $_POST['ket'],
-                'date_insert' => $tgl_,
-                'asal_komoditas' => $asal_komoditas,
-                'kuantitas' => $_POST['kemasan']
+				'lbr' => $_POST['lbr'],
+				'berat' => $_POST['berat'],
+				'pjg2' => $_POST['pjg2'],
+				'lbr2' => $_POST['lbr2'],
+				'berat2' => $_POST['berat2'],
+				'tot_berat' => $_POST['berat_tot'],
+				'ket' => $_POST['ket'],
+				'date_insert' => $tgl_,
+				'asal_komoditas' => $asal_komoditas,
+				'kuantitas' => $_POST['kemasan'],
+
+				'id_satuan_barang' => $_POST['id_satuan_barang'],
+				'produk' => $_POST['product_type'],
+				'kondisi_produk' => $_POST['product_condition'],
+				'jenis_produk' => $_POST['product_category'],
             );
             $sql->insert('tb_hsl_periksa', $arr_insert2);
             if ($sql->error == null) {
@@ -671,12 +679,20 @@ if ($_POST) {
                 'ref_idikan' => $_POST['jenis_ikan'],
                 'ref_jns_sampel' => $_POST['jenis_sampel'],
                 'pjg' => $_POST['pjg'],
-                'lbr' => $_POST['lbr'],
-                'berat' => $_POST['berat'],
-                'tot_berat' => $_POST['berat_tot'],
-                'ket' => $_POST['ket'],
-                'asal_komoditas' => $asal_komoditas,
-                'kuantitas' => $_POST['kemasan']
+				'lbr' => $_POST['lbr'],
+				'berat' => $_POST['berat'],
+				'pjg2' => $_POST['pjg2'],
+				'lbr2' => $_POST['lbr2'],
+				'berat2' => $_POST['berat2'],
+				'tot_berat' => $_POST['berat_tot'],
+				'ket' => $_POST['ket'],
+				'asal_komoditas' => $asal_komoditas,
+				'kuantitas' => $_POST['kemasan'],
+
+				'id_satuan_barang' => $_POST['id_satuan_barang'],
+				'produk' => $_POST['product_type'],
+				'kondisi_produk' => $_POST['product_condition'],
+				'jenis_produk' => $_POST['product_category'],
             );
             $sql->update('tb_hsl_periksa', $arr_update, array('id_per' => $idhsl));
 
