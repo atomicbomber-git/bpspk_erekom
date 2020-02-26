@@ -19,10 +19,6 @@
          <td>No Antrian</td>
          <td>: <?= $format_noantrian ?> </td>
      </tr>
-     <tr>
-         <td>Tanggal Pemeriksaan</td>
-         <td>: <?= $tanggal_pemeriksaan ?> </td>
-     </tr>
 </table>
 
 <p>
