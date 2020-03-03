@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\RekomendasiHasilPeriksa;
+use App\Models\Permohonan;
 use App\Services\Contracts\KodeSegelGenerator;
 use Jenssegers\Date\Date;
 
@@ -41,7 +42,7 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
                             Date::today()->format("Y"),
                             container("upt_code"),
                             $rekomendasiHasilPeriksa->productCode(),
-                            $rekomendasiHasilPeriksa->packageCode(),
+                            $rekomendasiHasilPeriksa->packageCode()
                         )
                     ?>
                 </td>
@@ -54,7 +55,7 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
     <tfoot>
         <tr>
             <td style="text-align: center; font-weight: bold" colspan="3">
-                Total Berat:
+                Total Berat
             </td>
             <td style="text-align: center">
                 <?=
@@ -68,6 +69,29 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
             <td> </td>
             <td> </td>
             <td> </td>
+        </tr>       
+        <tr>
+        
+            <td style="text-align: center; font-weight: bold" colspan="3">
+                Tujuan
+            </td>
+            <td style="text-align: center" colspan="4">
+            
+                //panggil tujuan
+            
+            </td>
+            
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold" colspan="3">
+                Transportasi
+            </td>
+            <td style="text-align: center" colspan="4">
+                
+                 //panggil alamat
+                
+            </td>
+            
         </tr>
     </tfoot>
 </table>

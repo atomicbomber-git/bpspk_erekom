@@ -139,7 +139,7 @@ if ($rek->rowCount() > 0) {
 			<td style="text-align:justify;"><br><p>' . $row['redaksi'] . '</p></td>
 		</tr>
 		<tr>
-			<td><p>Demikian disampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p></td>
+			<td><p>Demikian kami sampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p></td>
 		</tr>
 	</table>';
     $tmb = $sql->run("SELECT rbk.nama FROM tb_rekomendasi tr JOIN ref_balai_karantina rbk ON(rbk.idbk=tr.ref_bk) WHERE tr.ref_idp='" . $row['ref_idp'] . "' LIMIT 1");
