@@ -9,6 +9,8 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
 
 ?>
 
+
+
 <table style="width:100%" class="table table-bordered">
     <thead style="background: rgba(0, 0, 0, 0.1)">
         <tr>
@@ -70,14 +72,20 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
             <td> </td>
             <td> </td>
         </tr>       
+       
         <tr>
         
             <td style="text-align: center; font-weight: bold" colspan="3">
                 Tujuan
             </td>
             <td style="text-align: center" colspan="4">
-            
-                //panggil tujuan
+
+                <?php
+                $permohonan = Permohonan::whereIn('status', [1, 3])->where('idp' , $idpengajuan)->take(1)->get();
+              
+                
+                    echo $permohonan['tujuan'];
+                ?>
             
             </td>
             
@@ -88,10 +96,18 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
             </td>
             <td style="text-align: center" colspan="4">
                 
-                 //panggil alamat
+                <?php
+                $arr_alatangkut=array(
+                    'udara'=>"Pesawat Udara",
+                    'laut'=>"Kapal Laut",
+                    'darat'=>"Kendaraan Darat");
+
+                echo $arr_alatangkut[$permohonan['jenis_angkutan']];
+                ?>
                 
             </td>
             
         </tr>
     </tfoot>
 </table>
+
