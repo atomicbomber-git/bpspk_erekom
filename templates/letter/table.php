@@ -4,6 +4,7 @@ use App\Models\RekomendasiHasilPeriksa;
 use App\Models\Permohonan;
 use App\Services\Contracts\KodeSegelGenerator;
 use Jenssegers\Date\Date;
+use App\Models\Letter;
 
 $kodeSegelGenerator = container(KodeSegelGenerator::class);
 
@@ -36,6 +37,7 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
                 <td style="text-align: center" width="10%">
                     <?php 
                         $rekomendasiHasilPeriksa = RekomendasiHasilPeriksa::find($record["idtb"]) ?? new RekomendasiHasilPeriksa;
+                        
                     ?>
                     
                     <?= 
@@ -81,10 +83,12 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
             <td style="text-align: center" colspan="4">
 
                 <?php
-                $permohonan = Permohonan::whereIn('status', [1, 3])->where('idp' , $idpengajuan)->take(1)->get();
-              
+                       
+                $permohonan = Permohonan::whereIn('status', [1, 3])->where('idp' , $idpengajuan)->first();
                 
-                    echo $permohonan['tujuan'];
+                
+                     $permohonan->tujuan;
+                    
                 ?>
             
             </td>
@@ -102,7 +106,7 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
                     'laut'=>"Kapal Laut",
                     'darat'=>"Kendaraan Darat");
 
-                echo $arr_alatangkut[$permohonan['jenis_angkutan']];
+                $arr_alatangkut[$permohonan->jenis_angkutan];
                 ?>
                 
             </td>
