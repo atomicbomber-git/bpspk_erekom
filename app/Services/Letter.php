@@ -32,6 +32,6 @@ class Letter
 
     public function getOpeningText($tanggal_pengajuan, $tujuan, $jenis_angkutan, $no_bap, $tanggal_bap)
     {
-        return "Menindaklanjuti Surat Saudara tanggal $tanggal_pengajuan perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke $tujuan melalui jalur $jenis_angkutan, dengan ini disampaikan bahwa Petugas $this->app_name telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor: $no_bap tanggal $tanggal_bap dengan hasil:";
+        return "Menindaklanjuti Surat Saudara tanggal $tanggal_pengajuan perihal Permohonan Rekomendasi lalu lintas Hiu dan Pari, maka telah dilakukan pemeriksaan dan identifikasi oleh petugas $this->app_name dengan hasil yang tercantum dalam berita acara nomor $no_bap tanggal $tanggal_bap, bahwa produk sebagai berikut";
     }
 }

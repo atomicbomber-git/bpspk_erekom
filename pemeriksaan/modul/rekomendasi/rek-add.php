@@ -46,30 +46,30 @@ if (count($produk['ikan_dilindungi'][3] ?? []) > 0) {
 }
 
 if (isset($list_tidakdilindungi) && count($list_tidakdilindungi) > 0) {
-	$text_hiupari = implode(', ', $list_tidakdilindungi);
-	$text_tidakdilindungi = " " . $text_hiupari . " tidak termasuk kedalam jenis hiu/pari yang dilindungi sehingga dapat direkomendasikan peredarannya";
+	// $text_hiupari = implode(', ', $list_tidakdilindungi);
+	$text_tidakdilindungi = " adalah tidak termasuk jenis dilindungi Peraturan Perundangan, tidak termasuk jenis daftar Appendiks CITES, dan tidak termasuk jenis yang dilarang ke luar Wilayah Negara Republik Indonesia sehingga dapat direkomendasikan perizinan peredarannya untuk proses lebih lanjut sesuai dengan ketentuan yang berlaku.";
 } else {
 	$text_tidakdilindungi = "";
 }
 
 if (isset($list_dilindungi_dilarang_ekspor) && count($list_dilindungi_dilarang_ekspor) > 0) {
 	$text_dilindungi_dilarangekspor = "";
-	$text_hiupari2 = implode(', ', $list_dilindungi_dilarang_ekspor);
-	if ($text_tidakdilindungi != "") {
-		$text_dilindungi_dilarangekspor .= ". Sedangkan ";
-	}
-	$text_dilindungi_dilarangekspor .= " " . $text_hiupari2 . ", termasuk kedalam jenis yang perizinannya terbatas hanya untuk peredaran dalam negeri";
+	// $text_hiupari2 = implode(', ', $list_dilindungi_dilarang_ekspor);
+	// if ($text_tidakdilindungi != "") {
+	// 	$text_dilindungi_dilarangekspor .= ". Sedangkan ";
+	// } 
+	// $text_dilindungi_dilarangekspor .= " " . $text_hiupari2 . ", termasuk kedalam jenis yang perizinannya terbatas hanya untuk peredaran dalam negeri";
 } else {
 	$text_dilindungi_dilarangekspor = "";
 }
 
 if (isset($list_dilindungi_penuh) && count($list_dilindungi_penuh) > 0) {
 	$text_dilindungi_penuh = "";
-	$text_hiupari3 = implode(', ', $list_dilindungi_penuh);
-	if ($text_tidakdilindungi != "" or $text_dilindungi_dilarangekspor != "") {
-		$text_dilindungi_penuh .= ". Sedangkan ";
-	}
-	$text_dilindungi_penuh = " " . $text_hiupari3 . ", termasuk kedalam jenis yang dilindungi penuh sehingga peredarannya dilarang";
+	// $text_hiupari3 = implode(', ', $list_dilindungi_penuh);
+	// if ($text_tidakdilindungi != "" or $text_dilindungi_dilarangekspor != "") {
+	// 	$text_dilindungi_penuh .= ". Sedangkan ";
+	// }
+	// $text_dilindungi_penuh = " " . $text_hiupari3 . ", termasuk kedalam jenis yang dilindungi penuh sehingga peredarannya dilarang";
 } else {
 	$text_dilindungi_penuh = "";
 }
@@ -273,9 +273,11 @@ $r = $last->fetch();
 
 			<script>
 				window.onload = () => {
-					var teks_surat_rekomendasi = "Bahwa sebagian sampel <?php echo $nama_produk; ?> yang terindikasi <?php echo $redaksi; ?>.\n Rekomendasi ini berlaku untuk satu kali pengiriman sampai tanggal "
+					var teks_surat_rekomendasi = <?php echo $redaksi; ?>"\n Rekomendasi ini berlaku untuk satu kali pengiriman sampai tanggal "
+					
 					var select_masa_berlaku_rekomendasi = document.querySelector("#masa_berlaku_rekomendasi")
 					var teks_masa_berlaku_rekomendasi = select_masa_berlaku_rekomendasi.value
+					
 
 					CKEDITOR.instances["redaksi_rek"].setData(
 						teks_surat_rekomendasi +

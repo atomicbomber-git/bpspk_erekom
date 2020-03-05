@@ -45,7 +45,7 @@ class RekomendasiHasilPeriksa extends Model
             "%s%s%s",
             $product_code,
             $product_condition_code,
-            $product_type_code,
+            $product_type_code
         );
     }
 
