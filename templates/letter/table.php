@@ -7,6 +7,10 @@ use Jenssegers\Date\Date;
 use App\Models\Letter;
 
 $kodeSegelGenerator = container(KodeSegelGenerator::class);
+$arr_alatangkut=array(
+	'udara'=>"Pesawat Udara",
+	'laut'=>"Kapal Laut",
+	'darat'=>"Kendaraan Darat");
 
 ?>
 
@@ -102,7 +106,7 @@ $kodeSegelGenerator = container(KodeSegelGenerator::class);
         </td>
         <td style="text-align: center"
             colspan="4">
-            <?= $jenis_angkutan ?>
+            <?= $arr_alatangkut[$jenis_angkutan] ?>
         </td>
     </tr>
     </tfoot>

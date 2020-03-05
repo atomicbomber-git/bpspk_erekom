@@ -128,6 +128,8 @@ if ($rek->rowCount() > 0) {
         ->render("letter/table", [
 			"records" => $dt->fetchAll(),
 			"rekomendasi" => Rekomendasi::find($row['idrek']) ?? new Rekomendasi,
+            "tujuan" => $row["tujuan"] ?? null,
+            "jenis_angkutan" => $row["jenis_angkutan"] ?? null
         ]);
     
     // dd($dt->fetchAll());

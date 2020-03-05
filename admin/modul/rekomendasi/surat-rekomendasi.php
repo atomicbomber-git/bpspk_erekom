@@ -110,18 +110,21 @@ $row=$rek->fetch();
 								);
 							?> 
 						
-							<?= container(Template::class)->render(
-								"letter/table", [
+							<?= container(Template::class)->render("letter/table", [
 									"records" => $dt->fetchAll(),
-									"rekomendasi" => $rekomendasi,
+									"rekomendasi" => Rekomendasi::find($row['idrek']) ?? new Rekomendasi,
+									"tujuan" => $row["tujuan"] ?? null,
+                                	"jenis_angkutan" => $row["jenis_angkutan"] ?? null
 								]
 							) ?>
 					<table style="width:100%">
 						<tr>
-							<td><br><p><?php echo $row['redaksi'];?></p></td>
+							<td>
+								<br>
+								<p><?php echo $row['redaksi'];?></p></td>
 						</tr>
 						<tr>
-							<td><p>Demikian disampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p></td>
+							<td><p>Demikian kami sampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p></td>
 						</tr>
 					</table>
 					<?php

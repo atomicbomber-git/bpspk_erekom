@@ -150,7 +150,7 @@ $row = $rek->fetch();
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Demikian disampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p>
+                                    <p>Demikian kami sampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p>
                                 </td>
                             </tr>
                         </table>
