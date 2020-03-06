@@ -15,11 +15,11 @@ $permohonan = Permohonan::where("idp", $idpengajuan)
 	->with("rekomendasi")
 	->get();
 
-foreach ($l->fetchAll() as $prd) {
-	$dasar_hukum = "";
-	if ($prd['dilindungi'] == '1') {
-		if ($prd['ket_dasarhukum'] != "") {
-			$dasar_hukum = "sesuai dengan " . $prd['ket_dasarhukum'];
+foreach($l->fetchAll() as $prd){
+	$dasar_hukum="";
+	if($prd['dilindungi']=='1'){
+		if($prd['ket_dasarhukum']!=""){
+				$dasar_hukum="sesuai dengan ".$prd['ket_dasarhukum'];
 		}
 		$produk['ikan_dilindungi'][$prd['peredaran']][] = $prd['nama_ikan'] . "(" . $prd['nama_latin'] . ") " . $dasar_hukum;
 	} else {
@@ -29,7 +29,7 @@ foreach ($l->fetchAll() as $prd) {
 	$produk['jns_produk'][] = $prd['jenis_sampel'];
 }
 
-$sampel = array_unique($produk['jns_produk'] ?? []);
+$sampel=array_unique($produk['jns_produk'] ?? []);
 $nama_produk = implode(', ', $sampel);
 
 $list_tidakdilindungi = ($produk['ikan_takdilindungi'][1]);
@@ -45,6 +45,8 @@ if (count($produk['ikan_dilindungi'][3] ?? []) > 0) {
 	$list_dilindungi_dilarang_ekspor = array_unique($produk['ikan_dilindungi'][2]);
 }
 
+var_dump($list_tidakdilindungi);
+
 if (isset($list_tidakdilindungi) && count($list_tidakdilindungi) > 0) {
 	$text_hiupari = implode(', ', $list_tidakdilindungi);
 	$text_tidakdilindungi = " adalah tidak termasuk jenis dilindungi Peraturan Perundangan, tidak termasuk jenis daftar Appendiks CITES, dan tidak termasuk jenis yang dilarang ke luar Wilayah Negara Republik Indonesia sehingga dapat direkomendasikan perizinan peredarannya untuk proses lebih lanjut sesuai dengan ketentuan yang berlaku.";
@@ -57,7 +59,7 @@ if (isset($list_dilindungi_dilarang_ekspor) && count($list_dilindungi_dilarang_e
 	$text_hiupari2 = implode(', ', $list_dilindungi_dilarang_ekspor);
 	if ($text_tidakdilindungi != "") {
 		$text_dilindungi_dilarangekspor .= ". Sedangkan ";
-	} 
+	}
 	$text_dilindungi_dilarangekspor .= " " . $text_hiupari2 . ", termasuk kedalam jenis yang perizinannya terbatas hanya untuk peredaran dalam negeri";
 } else {
 	$text_dilindungi_dilarangekspor = "";
@@ -86,6 +88,7 @@ $r = $last->fetch();
 <form method="post" class="form-horizontal" id="rek_add" action="">
 	<input type="hidden" name="a" value="reksv" />
 	<input type="hidden" name="token" value="<?php echo md5($idpengajuan . U_ID . "rek"); ?>">
+	
 	<div class="box">
 		<div class="box-header with-border">
 			<h3 class="box-title">Draft Surat Rekomendasi</h3>
@@ -273,7 +276,7 @@ $r = $last->fetch();
 
 			<script>
 				window.onload = () => {
-					var teks_surat_rekomendasi = <?php echo $redaksi; ?>"\n Rekomendasi ini berlaku untuk satu kali pengiriman sampai tanggal "
+					var teks_surat_rekomendasi =" <?php echo $redaksi; ?>\n Rekomendasi ini berlaku untuk satu kali pengiriman sampai tanggal "
 					
 					var select_masa_berlaku_rekomendasi = document.querySelector("#masa_berlaku_rekomendasi")
 					var teks_masa_berlaku_rekomendasi = select_masa_berlaku_rekomendasi.value
@@ -318,7 +321,7 @@ $r = $last->fetch();
 				<label class="control-label col-md-2">Redaksi<br>Surat Rekomendasi</label>
 				<div class="col-md-8">
 					<textarea name="redaksi_rek" rows="5" class="form-control editor">
-
+					
 					</textarea>
 				</div>
 			</div>

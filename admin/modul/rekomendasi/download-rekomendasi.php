@@ -1,4 +1,9 @@
 <?php
+
+use App\Models\Letter;
+use Mpdf\HTMLParserMode;
+use Mpdf\Mpdf;
+
 include ("../../engine/render.php");
 $kdsurat=($_GET['rek']);
 if(!ctype_digit($kdsurat)){
@@ -9,7 +14,7 @@ if($_GET['token']!=md5($kdsurat.U_ID.'dwsurat_rekomendasi')){
 	exit();
 }
 
-$location		= c_BASE."berkas/img/";
+$location= c_BASE_UTAMA."berkas/img/";
 //require_once(c_THEMES."conf.php");
 
 $rek=$sql->run("SELECT tr.*, tp.tgl_pengajuan, tp.tujuan, tp.jenis_angkutan, tu.nama_lengkap, tb.no_surat nobap, tb.tgl_surat tglbap, op.nm_lengkap penandatgn, op.jabatan, op.ttd,ou.lvl 
@@ -25,28 +30,6 @@ $html = '
 <head>
 <style>
 
-.table { border-collapse: collapse !important;}
-.table td, .table th {background-color: #fff !important;}
-.table-bordered th, .table-bordered td {border: 1px solid #000 !important;}
-.table-hasil td { padding: 0.2em; }
-h1{font-size: 34px;}
-h2{font-size: 28px;}
-h3{font-size: 22px;}
-h4{font-size: 16px;}
-h5{font-size: 12px;}
-h6{font-size: 10px;}
-p {margin: 0 0 10px; line-height: 120%;}
-.barcode {
-	padding: 1.5mm;
-	margin: 0;
-	vertical-align: top;
-	color: #000000;
-}
-.barcodecell {
-	text-align: right;
-	vertical-align: middle;
-	padding: 0;
-}
 </style>
 </head>
 <body>
@@ -60,7 +43,7 @@ if($rek->rowCount()>0){
 			<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
 			<h4><strong>LOKA PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
 			SERANG</strong></h4>
-			<small> JALAN RAYA CARITA KM 4.5, DESA CARINGIN KEC. LABUAN KAB. PANDEGLANG PROV. BANTEN </small> <br/>
+			<small> JALAN RAYA CARITA KM 4.5, DESA CARINGIN KEC. LABUAN KAB. PANDEGLANG PROV. BANTEN<br/>
                         TELEPON (0253) 802626, FAKSIMILI (0253) 802616</small></td>
 		</tr>
 		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
@@ -96,31 +79,67 @@ if($rek->rowCount()>0){
 			</td>
 		</tr>
 	</table>';
-	$html.='<table style="width:100%" class="table table-bordered table-hasil" >
-		<tr>
-			<td width="5%">No</td>
-			<td>Jenis Ikan</td>
-			<td width="12%">Kemasan</td>
-			<td width="12%">No.Segel</td>
-			<td width="12%">Berat Ikan(Kg)</td>
-			<td>Keterangan</td>
-		</tr>';
-		$dt=$sql->run("SELECT thp.*, rjs.jenis_sampel,rdi.nama_latin FROM tb_rek_hsl_periksa thp JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
+	$html.='<table style="width:100%" class="table table-bordered">
+    <thead style="background: rgba(0, 0, 0, 0.1)">
+        <tr>
+            <td style="text-align:center" width="5%">No</td>
+            <td style="text-align:center"> Nama Ikan / Barang </td>
+            <td style="text-align:center" width="12%"> Jenis Produk </td>
+            <td style="text-align:center" width="12%"> Berat (kg) </td>
+            <td style="text-align:center" width="12%"> Jumlah Kemasan </td>
+            <td style="text-align:center"> No. Segel </td>
+            <td style="text-align:center"> Keterangan </td>
+        </tr>
+    </thead>';
+		$dt=$sql->run("SELECT 
+		thp.*, 
+		rjs.jenis_sampel,
+		rdi.nama_latin,
+		satuan_barang.nama AS nama_satuan_barang
+
+		FROM tb_rek_hsl_periksa 
+		thp LEFT JOIN ref_jns_sampel rjs ON (rjs.id_ref=thp.ref_jns) 
+		LEFT JOIN ref_data_ikan rdi ON(rdi.id_ikan=thp.ref_idikan) 
+		LEFT JOIN satuan_barang ON (thp.id_satuan_barang = satuan_barang.id)
+		
+		WHERE thp.ref_idrek='".$row['idrek']."' ORDER BY thp.ref_jns ASC");
+		
+		$total_berat = 0;
+		
 		if($dt->rowCount()>0){
 			$no=0;
+			$jlh_berat=0;
 			foreach($dt->fetchAll() as $dtrow){
 				$no++;
+
+				$total_berat += ($berat = ($dtrow['berat'] ?: 0));
+				
 				$html.='
 				<tr>
-					<td width="5%">'.$no.'</td>
-					<td><em>'.$dtrow['nama_latin'].'</em></td>
-					<td>'.$dtrow['kemasan'].' '.$dtrow['satuan'].'</td>
-					<td>'.$dtrow['no_segel'].'</td>
-					<td>'.$dtrow['berat'].'</td>
-					<td>'.$dtrow['keterangan'].'</td>
+					<td style="text-align: center"  width="5%">'.$no.'</td>
+					<td style="text-align: center"><em>'.$dtrow['nama_latin'].'</em></td>
+					<td style="text-align: center"> '.$dtrow['produk'].' '.$dtrow['jenis_produk'].' '.$dtrow['kondisi_produk'].'</td>
+					<td style="text-align: center">'. $berat .'</td>
+					<td style="text-align: center">'.$dtrow['kemasan'].' '.$dtrow['nama_satuan_barang'].'</td>
+					<td style="text-align: center">'.$dtrow['no_segel'].'-'.$dtrow['no_segel_akhir'].'</td>
+					<td style="text-align: center">'.$dtrow['keterangan'].'</td>
 				</tr>';
 			}
+			
 		}
+		$html.='
+			<tr>
+				<td style="text-align: center; font-weight: bold" colspan="3">
+					Total Berat:
+				</td>
+				<td style="text-align: center">
+					'. $total_berat .'
+				</td>
+				<td> </td>
+				<td> </td>
+				<td> </td>
+			</tr>';
+		
 	$html.='</table>';
 	$html.='<table style="width:100%">
 		<tr>
@@ -156,38 +175,8 @@ if($rek->rowCount()>0){
 
 $html.='</body>
 </html>';
-// echo $html;
 
-
-// include("../../../assets/mpdf60/mpdf.php");
-
-// $mpdf=new mPDF('','','10','Arial',15,10,15,10,10,10); 
-// $mpdf->WriteHTML($html);
-// $mpdf->Output("rekomendasi-".$row['kode_surat'].".pdf",'I'); 
-
-// exit;
-
-
-// $defaultConfig = (new \Mpdf\Config\ConfigVariables())->getDefaults();
-// $fontDirs = $defaultConfig['fontDir'];
-
-// $defaultFontConfig = (new \Mpdf\Config\FontVariables())->getDefaults();
-// $fontData = $defaultFontConfig['fontdata'];
-
-// $mpdf = new \Mpdf\Mpdf([
-// 	'fontDir' => array_merge($fontDirs, [
-// 		__DIR__ . '/assets/fonts',
-// 	]),
-// 	'fontdata' => $fontData + [
-// 		'Arial' => [
-// 			'R' => 'arial.ttf',
-// 		]
-// 	],
-// 	'default_font' => 'Arial',
-
-// 	'tempDir' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mpdf',
-// ]);
-
-// $mpdf->WriteHTML(file_get_contents(__DIR__ . "/assets/mpdf.css"), HTMLParserMode::HEADER_CSS);
-// $mpdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
-// $mpdf->Output("rekomendasi-{$row['kode_surat']}.pdf", 'I');
+$mpdf = container(Mpdf::class);
+$mpdf->WriteHTML(file_get_contents(container("mpdf_css_path")), HTMLParserMode::HEADER_CSS);
+$mpdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
+$mpdf->Output("rekomendasi-{$row['kode_surat']}.pdf", 'I');

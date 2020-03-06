@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Letter;
 use Mpdf\HTMLParserMode;
 use Mpdf\Mpdf;
 
@@ -43,8 +44,8 @@ if($rek->rowCount()>0){
 			<h5>DIREKTORAT JENDERAL PENGELOLAAN RUANG LAUT<h5>
 			<h4><strong>LOKA PENGELOLAAN SUMBER DAYA PESISIR DAN LAUT<br/>
 			SERANG</strong></h4>
-			<small> JALAN RAYA CARITA KM 4.5, DESA CARINGIN KEC. LABUAN KAB. PANDEGLANG PROV. BANTEN </small> <br/>
-                        TELEPON (0253) 802626, FAKSIMILI (0253) 802616</td>
+			<small> JALAN RAYA CARITA KM 4.5, DESA CARINGIN KEC. LABUAN KAB. PANDEGLANG PROV. BANTEN<br/>
+                        TELEPON (0253) 802626, FAKSIMILI (0253) 802616</small></td>
 		</tr>
 		<tr><td colspan="2"><hr style="margin:0;border:#000"></td></tr>
 	</table>
@@ -77,8 +78,10 @@ if($rek->rowCount()>0){
 			<td style="text-align:justify;"><br>
 			<p>Menindaklanjuti Surat Saudara tanggal '.tanggalIndo($row['tgl_pengajuan'],'j F Y').' perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke '.$row['tujuan'].' melalui jalur '.ucwords($row['jenis_angkutan']).', dengan ini disampaikan bahwa Petugas Loka Pengelolaan Sumberdaya Pesisir dan Laut Serang telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : '.$row['nobap'].' tanggal '.tanggalIndo($row['tglbap'],'j F Y').' dengan hasil:</p>
 			</td>
+			
 		</tr>
 	</table>';
+	
 	$html.='<table style="width:100%" class="table table-bordered">
     <thead style="background: rgba(0, 0, 0, 0.1)">
         <tr>

@@ -82,18 +82,26 @@ $row=$rek->fetch();
 							<br>Kepada
 							<br>Yth. <?php echo $row['nama_lengkap'];?>
 							<br>di -
-							<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tempat</td>
-							<td style="text-align:right"></td>
-						</tr>
-					</table>
-					<table style="width:100%">
-						<tr>
-							<td><br>
-							<p>Menindaklanjuti Surat Saudara tanggal <?php echo tanggalIndo($row['tgl_pengajuan'],'j F Y');?> perihal permohonan rekomendasi untuk lalu lintas hiu/pari ke <?php echo $row['tujuan'];?> melalui jalur <?php echo ucwords($row['jenis_angkutan']);?>, dengan ini disampaikan bahwa Petugas Balai Pengelolaan Sumberdaya Pesisir dan Laut Pontianak telah melakukan identifikasi yang tertuang dalam Berita Acara Nomor : <?php echo $row['nobap'];?> tanggal <?php echo tanggalIndo($row['tglbap'],'j F Y');?> dengan hasil:</p>
+							<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tempat
+							<br>
+							<br>
 							</td>
+							<td style="text-align:right"></td>
+							
 						</tr>
 					</table>
-						<?php
+
+							<?=
+							
+								$opening_text = container(Letter::class)
+								->getOpeningText(
+									tanggalIndo($row['tgl_pengajuan'], 'j F Y'),
+									$row['tujuan'],
+									$row['jenis_angkutan'],
+									$row['nobap'],
+									tanggalIndo($row['tglbap'], 'j F Y')
+								);
+							
 								$dt = $sql->run("SELECT 
 								thp.*, 
 								

@@ -8,7 +8,7 @@ class DataIkan extends Model
 {
     const STATUS_DILINDUNGI = 1;
     const STATUS_TIDAK_DILINDUNGI = 2;
-    const STATUS_APPENDIKS_2_CITES = 3;
+    const STATUS_APPENDIKS_2_CITES = 1;
 
     const STATUSES = [
         self::STATUS_DILINDUNGI => "Dilindungi",

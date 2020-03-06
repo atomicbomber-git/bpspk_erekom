@@ -658,7 +658,9 @@ if ($sql->num_rows > 0) {
 									<br>Kepada
 									<br>Yth. <?php echo $row['nama_lengkap']; ?>
 									<br>di -
-									<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tempat</td>
+									<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tempat
+									<br>
+									<br></td>
 								<td style="text-align:right"></td>
 							</tr>
 						</table>
@@ -704,6 +706,8 @@ if ($sql->num_rows > 0) {
 						<?= container(Template::class)->render("letter/table", [
 							"records" => $dt->fetchAll(),
 							"rekomendasi" => Rekomendasi::find($row['idrek']) ?? new Rekomendasi(),	
+							"tujuan" => $row["tujuan"] ?? null,
+                            "jenis_angkutan" => $row["jenis_angkutan"] ?? null
 						]) ?>
 
 						<table style="width:100%">
@@ -714,7 +718,7 @@ if ($sql->num_rows > 0) {
 							</tr>
 							<tr>
 								<td>
-									<p>Demikian disampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p>
+									<p>Demikian kami sampaikan, atas perhatian dan kerjasamanya diucapkan terima kasih.</p>
 								</td>
 							</tr>
 						</table>

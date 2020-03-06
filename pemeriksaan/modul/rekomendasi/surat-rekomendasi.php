@@ -95,11 +95,13 @@ $row = $rek->fetch();
                                     <br>
                                     di -
                                     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tempat
+                                    <br>
+                                    <br>
                                 </td>
                                 <td style="text-align:right"></td>
                             </tr>
                         </table>
-                        <table style="width:100%">
+                        <!-- <table style="width:100%">
                             <tr>
                                 <td>
                                     <br>
@@ -115,9 +117,20 @@ $row = $rek->fetch();
                                     </p>
                                 </td>
                             </tr>
-                        </table>
+                        </table> -->
 
-                        <?php
+                        <?=
+
+                            $opening_text = container(Letter::class)
+                            ->getOpeningText(
+                                tanggalIndo($row['tgl_pengajuan'], 'j F Y'),
+                                $row['tujuan'],
+                                $row['jenis_angkutan'],
+                                $row['nobap'],
+                                tanggalIndo($row['tglbap'], 'j F Y')
+                            );
+
+
                         $dt = $sql->run("SELECT 
 							thp.*, 
 							
@@ -140,7 +153,8 @@ $row = $rek->fetch();
                                 "tujuan" => $row["tujuan"] ?? null,
                                 "jenis_angkutan" => $row["jenis_angkutan"] ?? null
                             ]
-                        ) ?>
+                        ) 
+                        ?>
                         <table style="width:100%">
                             <tr>
                                 <td>
