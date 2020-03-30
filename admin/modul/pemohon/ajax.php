@@ -219,6 +219,8 @@ if($_POST){
 				$alamat_rmh=$_POST['alamat_rmh'];
 				$npwp=$_POST['npwp'];
 				$nm_perusahaan=$_POST['nm_perusahaan'];
+				$nib=$_POST['nib'];
+				$sipji=$_POST['sipji'];
 				$siup=$_POST['siup'];
 				$izin_lainnya=$_POST['izin_lainnya'];
 				$date_=date('Y-m-d H:i:s');
@@ -317,6 +319,7 @@ if($_POST){
 
 					$sql->insert('tb_berkas',$arr_insert);
 				}
+
 
 				//nib
 				if (isset($nib['name']) and is_uploaded_file($nib['tmp_name'])) {

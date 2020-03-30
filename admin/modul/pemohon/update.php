@@ -290,7 +290,7 @@ $(document).ready(function(){
 							<div class="form-group">
 								<label class="control-label col-md-3">Berkas NIB*</label>
 								<div class="col-md-5">
-									<input type="file" accept="image/*" name="file_nib" class="form-control" value="">
+									<input type="file" accept="image/*" name="nib" class="form-control" value="">
 									<p class="text-alert alert-info">Upload Hasil Scan NIB Anda. (Hanya Gambar:png,jpg,jpeg)</p>
 								</div>
 								<div class="col-md-4">
