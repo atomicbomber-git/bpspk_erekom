@@ -3,7 +3,7 @@ include ("../../engine/render.php");
 
 if($_POST){
 	include ("function.php");
-	$allowed_admin=array('1','8');
+	$allowed_admin=array('45','28');
 	switch(trim(strip_tags($_POST['a']))){
 		case 'up':
 			$namalengkap=$_POST['nama_lengkap'];
